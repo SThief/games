@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Alphabet Alley</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235fd68a'/%3E%3Ctext x='16' y='24' font-size='22' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='white'%3Eb%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_kid/kit.css">
+<style>
+#chip{display:flex;align-items:center;gap:10px;padding:2px 22px;border-radius:999px;background:rgba(255,255,255,.95);color:#3a2a63;box-shadow:0 6px 0 rgba(0,0,0,.18);cursor:pointer}
+#pic{font-size:46px;line-height:1}
+#chip .sp{font-size:40px;animation:beat 1s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.15)}}
+#slots{display:flex;gap:8px}
+#slots span{min-width:44px;height:48px;border-radius:12px;background:#efeaff;border:3px dashed #b9aee0;display:grid;place-items:center;font-weight:800;font-size:32px;color:#3a2a63}
+#slots span.on{background:var(--gold);border:3px solid #fff}
+#dots{position:fixed;top:82px;left:0;right:0;display:flex;gap:6px;justify-content:center;pointer-events:none}
+#dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.6)}
+#dots i.ok{background:var(--gold);border-color:#fff;transform:scale(1.25)}
+#dots i.no{background:#9a8fbf;border-color:#7a6fa0}
+#label{position:fixed;left:0;right:0;top:20%;display:flex;justify-content:center;align-items:baseline;gap:18px;pointer-events:none;font-weight:800;color:#fff;text-shadow:0 5px 0 rgba(0,0,0,.25);animation:pop .4s ease-out}
+#label .l{font-size:clamp(80px,16vw,150px);line-height:1}
+#label .k{font-size:clamp(34px,6vw,60px)}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+.kdoor .letters{font-size:30px;font-weight:800;letter-spacing:6px;line-height:1.2}
+#end .stars{font-size:clamp(56px,12vw,100px);color:var(--gold);letter-spacing:8px;text-shadow:0 4px 0 #b9741a}
+#end .row{display:flex;gap:14px}
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+} }
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="ktop">
+  <button class="kround" id="home" title="Menu">🏠</button>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div id="chip" class="hide"><span class="sp">🔊</span><span id="pic"></span><div id="slots" class="hide"></div></div></div>
+  <div style="display:flex;gap:8px"><button class="kround" id="mute" title="Sound">🔊</button></div>
+</div>
+<div id="dots"></div>
+<div id="label" class="hide"></div>
+<div id="menu" class="kov">
+  <h1 class="ktitle">Alphabet Alley</h1>
+  <div class="ksub">Listen. Knock it down!</div>
+  <div class="kdoors" id="doors"></div>
+</div>
+<div id="end" class="kov hide"><div class="stars" id="stars"></div><div class="ksub" id="score"></div><div class="row"><button class="kbig" id="again">Again</button><button class="kbig" id="nextlv">Next</button></div></div>
+
+<script type="module">
+import * as THREE from 'three';
+import * as CANNON from 'cannon-es';
+import * as kit from '../_kid/kit.js';
+import { mat, geo, box, cyl, sph, cone, prewarm } from '../_kid/shapes.js';
+import { GROUPS, KEY, WORDS, letterPool } from './lines.js';
+
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const ROUNDS = 8, LETTER_ROUNDS = 6;
+const START = { x: 0, z: 6 }, R = 10.5, BS = 1.7;                   // ball start, arc radius, block size
+const ANG = [-50, -30, -10, 10, 30, 50].map(a => a * Math.PI / 180);
+const SLOT_COL = [0xff6b8a, 0xffb03a, 0x5fd68a, 0x4dc3ff, 0xb48cff, 0xffd93d];
+
+/* ============ scene ============ */
+const canvas = $('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+let dpr = Math.min(+new URLSearchParams(location.search).get('dpr') || devicePixelRatio || 1, 1.5); renderer.setPixelRatio(dpr);
+const scene = new THREE.Scene();
+(function sky() { const c = document.createElement('canvas'); c.width = 4; c.height = 256; const g = c.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 256); gr.addColorStop(0, '#5fb8ff'); gr.addColorStop(.6, '#bfe6ff'); gr.addColorStop(1, '#fff1c9'); g.fillStyle = gr; g.fillRect(0, 0, 4, 256); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; scene.background = t; })();
+scene.fog = new THREE.Fog(0xcfeaff, 30, 70);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb08a5a, 1.2));
+const sun = new THREE.DirectionalLight(0xfff0cc, 1.6); sun.position.set(-6, 14, 8); scene.add(sun);
+const camera = new THREE.PerspectiveCamera(48, 1, .1, 120);
+function fit() {
+  const w = innerWidth || 1280, h = innerHeight || 720; renderer.setSize(w, h, false); camera.aspect = w / h;
+  const portrait = w / h < 1.05; camera.fov = portrait ? 72 : 48; camera.position.set(0, portrait ? 6.4 : 3.9, portrait ? 13.5 : 11.4); camera.lookAt(0, portrait ? 1.2 : 1.7, portrait ? -.5 : -2); camera.updateProjectionMatrix();
+}
+addEventListener('resize', fit); fit();
+
+const balloons = [];
+(function arena() {
+  const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+  const cols = ['#e3ad6a', '#f0c887', '#e3ad6a', '#f0c887', '#e3ad6a', '#f0c887', '#e3ad6a'];   // wide soft rings only: thin lines shimmer
+  for (let i = cols.length - 1; i >= 0; i--) { g.fillStyle = cols[i]; g.beginPath(); g.arc(256, 256, 256 * (i + 1) / cols.length, 0, Math.PI * 2); g.fill(); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  const top = new THREE.Mesh(new THREE.CircleGeometry(19, 64), new THREE.MeshStandardMaterial({ map: t, roughness: .8 })); top.rotation.x = -Math.PI / 2; top.position.set(0, 0, 0); scene.add(top);
+  scene.add(cyl(19, 19.3, .6, 0xb98850, 0, -.3, 0, 48));
+  // a ring of coloured posts and balloons far behind the blocks
+  for (let i = 0; i < 26; i++) { const a = Math.PI * 1.02 + i / 25 * Math.PI * .96 + Math.PI * 0, x = Math.cos(a) * 18, z = Math.sin(a) * 18 + 4; if (z > 9) continue; const col = SLOT_COL[i % 6]; scene.add(cyl(.12, .12, 3, 0xffffff, x, 1.5, z, 8), sph(.45, col, x, 3.2, z)); }
+  for (let i = 0; i < 10; i++) { const b = new THREE.Group(), col = SLOT_COL[i % 6]; b.add(sph(.8, col, 0, 0, 0), cyl(.02, .02, 2, 0xffffff, 0, -1.5, 0, 4)); b.position.set(-16 + i * 3.6, rnd(6, 11), -rnd(14, 22)); b.userData.ph = Math.random() * 6; scene.add(b); balloons.push(b); }
+})();
+
+/* ============ physics ============ */
+const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -22, 0) }); world.allowSleep = true;
+const mGround = new CANNON.Material('ground'), mBall = new CANNON.Material('ball'), mBlock = new CANNON.Material('block');
+world.addContactMaterial(new CANNON.ContactMaterial(mGround, mBlock, { friction: .5, restitution: .08 }));
+world.addContactMaterial(new CANNON.ContactMaterial(mGround, mBall, { friction: .04, restitution: .2 }));
+world.addContactMaterial(new CANNON.ContactMaterial(mBall, mBlock, { friction: .15, restitution: .35 }));
+world.addContactMaterial(new CANNON.ContactMaterial(mBlock, mBlock, { friction: .4, restitution: .2 }));
+const ground = new CANNON.Body({ mass: 0, shape: new CANNON.Plane(), material: mGround }); ground.quaternion.setFromEuler(-Math.PI / 2, 0, 0); world.addBody(ground);
+
+/* ============ letter textures (a block shows one lower-case letter on all four sides) ============ */
+const TEX = new Map();
+function letterTex(letter, colorIdx) {
+  const k = letter + colorIdx; if (TEX.has(k)) return TEX.get(k);
+  const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), col = '#' + SLOT_COL[colorIdx].toString(16).padStart(6, '0');
+  g.fillStyle = col; g.fillRect(0, 0, 128, 128); g.fillStyle = 'rgba(255,255,255,.32)'; g.fillRect(8, 8, 112, 112);
+  g.font = '800 104px "Baloo 2", system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 10; g.strokeStyle = 'rgba(0,0,0,.28)'; g.strokeText(letter, 64, 74); g.fillStyle = '#fff'; g.fillText(letter, 64, 70);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; TEX.set(k, t); return t;
+}
+
+/* ============ blocks and ball ============ */
+const blocks = [];
+SLOT_COL.forEach((col, i) => {
+  const side = new THREE.MeshStandardMaterial({ map: letterTex('a', i), roughness: .55, emissive: 0xffc857, emissiveIntensity: 0 });
+  const cap = new THREE.MeshStandardMaterial({ color: col, roughness: .55 });
+  const mesh = new THREE.Mesh(geo('block', () => new THREE.BoxGeometry(BS, BS, BS)), [side, side, cap, cap, side, side]);
+  scene.add(mesh);
+  const body = new CANNON.Body({ mass: 1.1, shape: new CANNON.Box(new CANNON.Vec3(BS / 2, BS / 2, BS / 2)), material: mBlock, sleepSpeedLimit: .2, sleepTimeLimit: .5 });
+  world.addBody(body);
+  const b = { i, mesh, body, side, letter: 'a', pos: { x: START.x + R * Math.sin(ANG[i]), z: START.z - R * Math.cos(ANG[i]) }, yaw: -ANG[i], knocked: false, pop: 1, resetAt: 0, glow: false };
+  body.userData = { block: b }; blocks.push(b);
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(.95, 16), new THREE.MeshBasicMaterial({ color: 0, transparent: true, opacity: .18 })); shadow.rotation.x = -Math.PI / 2; shadow.position.set(b.pos.x, .02, b.pos.z); scene.add(shadow); b.shadow = shadow;
+});
+const ball = (() => {
+  const c = document.createElement('canvas'); c.width = 128; c.height = 64; const g = c.getContext('2d'); for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? '#ffffff' : '#3a7bff'; g.fillRect(i * 16, 0, 16, 64); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  const mesh = new THREE.Mesh(new THREE.SphereGeometry(.55, 24, 16), new THREE.MeshStandardMaterial({ map: t, roughness: .3 })); scene.add(mesh);
+  const body = new CANNON.Body({ mass: 6, shape: new CANNON.Sphere(.55), material: mBall, linearDamping: .02, angularDamping: .1 }); world.addBody(body);
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(.6, 16), new THREE.MeshBasicMaterial({ color: 0, transparent: true, opacity: .22 })); shadow.rotation.x = -Math.PI / 2; scene.add(shadow);
+  return { mesh, body, shadow, rolling: false, pop: 1 };
+})();
+function ballHome() { const b = ball.body; b.position.set(START.x, .55, START.z); b.velocity.set(0, 0, 0); b.angularVelocity.set(0, 0, 0); b.quaternion.set(0, 0, 0, 1); b.sleepState = 0; ball.rolling = false; ball.pop = 0; }
+ballHome(); ball.pop = 1;
+function placeBlock(b, popIn = true) {
+  const q = new CANNON.Quaternion(); q.setFromEuler(0, b.yaw, 0);
+  b.body.position.set(b.pos.x, BS / 2 + .01, b.pos.z); b.body.quaternion.copy(q); b.body.velocity.set(0, 0, 0); b.body.angularVelocity.set(0, 0, 0); b.body.sleepState = 0; b.knocked = false; b.pop = popIn ? 0 : 1;
+}
+function setLetter(b, letter) { b.letter = letter; b.side.map = letterTex(letter, b.i); }
+
+/* ============ emoji rewards ============ */
+const emojiTex = new Map();
+function emojiSprite(ch) {
+  if (!emojiTex.has(ch)) { const c = document.createElement('canvas'); c.width = c.height = 160; const g = c.getContext('2d'); g.font = '120px "Apple Color Emoji","Segoe UI Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ch, 80, 88); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; emojiTex.set(ch, t); }
+  return new THREE.Sprite(new THREE.SpriteMaterial({ map: emojiTex.get(ch), transparent: true }));
+}
+const rewards = [];
+function reward(ch, x, z, big) { x = Math.max(-4.2, Math.min(4.2, x)); const s = emojiSprite(ch); s.scale.setScalar(big ? 3.4 : 2.4); s.position.set(x, 1.2, z); scene.add(s); rewards.push({ s, t: 0, x, z, big }); }
+const parts = []; for (let i = 0; i < 40; i++) { const m = new THREE.Mesh(geo('oct', () => new THREE.OctahedronGeometry(.13)), new THREE.MeshBasicMaterial({ color: 0xffe14d })); m.visible = false; scene.add(m); parts.push({ m, life: 0, v: new THREE.Vector3() }); }
+function burst(x, y, z, n = 16, color = 0xffe14d) { let k = 0; for (const p of parts) { if (p.life > 0) continue; p.m.material.color.setHex(color); p.m.position.set(x, y, z); p.v.set(rnd(-4, 4), rnd(3, 7), rnd(-3, 3)); p.life = .9; p.m.visible = true; if (++k >= n) break; } }
+
+/* ============ the game ============ */
+const S = { mode: 'menu', group: 0, ri: 0, round: null, results: [], busy: false, pending: null, t: 0, timers: [], shake: 0, endResult: null };
+const after = (sec, fn) => S.timers.push({ at: S.t + sec, fn });
+let quiet = false;
+const sndKeys = seq => seq.map(l => 'snd:' + l);
+const say = k => kit.say(k), chain = (ks, gap = 140) => kit.sayChain(ks, gap);
+
+function startSession(group) {
+  Object.assign(S, { mode: 'play', group, ri: 0, results: [], busy: false, pending: null, round: null, timers: [] });
+  $('menu').classList.add('hide'); $('end').classList.add('hide'); $('chip').classList.remove('hide'); $('dots').innerHTML = '<i></i>'.repeat(ROUNDS);
+  kit.preload(['al:find', 'al:asin', 'al:oops', 'al:yes', 'al:sound', 'al:what', 'done', ...letterPool(group).flatMap(l => ['snd:' + l]), ...GROUPS[group].map(l => 'kw:' + l), ...WORDS.filter(w => w.g <= group + 1).map(w => 'w:' + w.w)]);
+  newRound();
+}
+function pickWord() {
+  const cands = WORDS.filter(w => w.g <= S.group + 1), fresh = cands.filter(w => w.g === S.group + 1), pool = (fresh.length && Math.random() < .6 ? fresh : cands).map(w => w.w);
+  const chosen = kit.mastery.pick('alley', pool.map(x => 'w:' + x), S.round && S.round.word ? 'w:' + S.round.word : undefined).slice(2);   // once: a pick inside find() would re-roll for every word
+  return WORDS.find(w => w.w === chosen);
+}
+function newRound() {
+  if (S.ri >= ROUNDS) return endSession();
+  const isWord = S.ri >= LETTER_ROUNDS, prev = S.round;
+  let R_;
+  if (!isWord) {
+    const target = kit.mastery.pick('alley', GROUPS[S.group].map(l => 'snd:' + l), prev && prev.type === 'letter' ? 'snd:' + prev.target : undefined).slice(4);
+    R_ = { type: 'letter', target, letters: shuffle(GROUPS[S.group]), miss: false, wrong: 0, done: false, intro: kit.mastery.isNew('alley', 'snd:' + target) };
+  } else {
+    const w = pickWord(), seq = [...w.w], fillers = shuffle(letterPool(S.group).filter(l => !seq.includes(l))).slice(0, 6 - seq.length);
+    R_ = { type: 'word', word: w.w, emoji: w.e, seq, idx: 0, letters: shuffle([...seq, ...fillers]), miss: false, wrong: 0, done: false, stepMiss: false };
+  }
+  S.round = R_; S.busy = false; S.pending = null;
+  blocks.forEach((b, i) => { setLetter(b, R_.letters[i]); placeBlock(b, true); b.glow = R_.type === 'letter' && R_.intro && R_.letters[i] === R_.target; });
+  ballHome(); $('label').classList.add('hide');
+  $('pic').textContent = R_.type === 'letter' ? KEY[R_.target][1] : '';
+  const slots = $('slots'); slots.classList.toggle('hide', R_.type !== 'word');
+  if (R_.type === 'word') slots.innerHTML = R_.seq.map(() => '<span></span>').join('');
+  [...$('dots').children].forEach((d, i) => { d.className = i < S.results.length ? (S.results[i] ? 'ok' : 'no') : ''; });
+  after(.9, sayRound);
+}
+function sayRound() {
+  const R_ = S.round; if (!R_ || S.mode !== 'play') return;
+  if (R_.type === 'letter') chain(['al:find', 'snd:' + R_.target, 'al:asin', 'kw:' + R_.target]);
+  else chain(['al:sound', ...sndKeys(R_.seq), 'al:what'], 380);
+}
+
+/* ---------- tapping a block: the ball rolls straight at it ---------- */
+const ray = new THREE.Raycaster();
+canvas.addEventListener('pointerdown', e => {
+  kit.audio(); if (S.mode !== 'play' || S.busy) return;
+  const r = canvas.getBoundingClientRect(); ray.setFromCamera({ x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -((e.clientY - r.top) / r.height) * 2 + 1 }, camera);
+  const h = ray.intersectObjects(blocks.filter(b => !b.knocked).map(b => b.mesh), false)[0];
+  if (h) tapBlock(blocks.find(b => b.mesh === h.object));
+});
+function tapBlock(b) {
+  if (S.mode !== 'play' || S.busy || b.knocked) return;
+  S.busy = true; S.pending = { b, t: S.t }; kit.stopSpeech(); kit.sfx.whoosh();
+  const dx = b.pos.x - START.x, dz = b.pos.z - START.z, d = Math.hypot(dx, dz), sp = 17;
+  const bb = ball.body; bb.position.set(START.x, .55, START.z); bb.velocity.set(dx / d * sp, 0, dz / d * sp); bb.angularVelocity.set(dz / d * sp / .55, 0, -dx / d * sp / .55); bb.sleepState = 0; ball.rolling = true;
+  bb.addEventListener('collide', onCollide);
+}
+function onCollide(e) {
+  if (!S.pending || !e.body.userData || !e.body.userData.block) return;
+  ball.body.removeEventListener('collide', onCollide);
+  const b = S.pending.b; S.pending = null; S.shake = .35; kit.sfx.thud(); kit.noise(.2, .1, 900);
+  // a cube would only slide: kick it up and back, off-centre, so it tumbles
+  const v = ball.body.velocity, sp = Math.hypot(v.x, v.z) || 1;
+  b.body.sleepState = 0; b.body.applyImpulse(new CANNON.Vec3(v.x / sp * 7, 6.5, v.z / sp * 7), new CANNON.Vec3(rnd(-.2, .2), .55, 0));
+  burst(b.pos.x, 1, b.pos.z, 10, 0xffffff); resolve(b);
+}
+function resolve(b) {
+  const R_ = S.round; if (!R_ || R_.done) { S.busy = false; return; }
+  const L = b.letter;
+  if (R_.type === 'letter') {
+    if (L === R_.target) {
+      R_.done = true; const first = !R_.miss;
+      if (R_.intro) kit.mastery.seen('alley', 'snd:' + L); else kit.mastery.record('alley', 'snd:' + L, first);
+      S.results.push(R_.intro ? true : first); markDot();
+      const [word, emoji] = KEY[L]; reward(emoji, b.pos.x, b.pos.z, false); burst(b.pos.x, 2, b.pos.z, 18); kit.sfx.cheer();
+      $('label').innerHTML = `<span class="l">${L}</span><span class="k">${word}</span>`; $('label').classList.remove('hide');
+      chain(['al:yes', 'snd:' + L, 'kw:' + L], 100);
+      b.glow = false; after(3.6, () => { S.ri++; newRound(); });
+    } else {
+      R_.miss = true; R_.wrong++; kit.sfx.boing();
+      chain(['al:oops', 'snd:' + L, 'al:find', 'snd:' + R_.target, 'al:asin', 'kw:' + R_.target], 140);
+      if (R_.wrong >= 2) blocks.forEach(x => { x.glow = x.letter === R_.target; });
+      after(1.4, () => { placeBlock(b, true); ballHome(); S.busy = false; });
+    }
+  } else {
+    const want = R_.seq[R_.idx];
+    if (L === want) {
+      kit.mastery.record('alley', 'snd:' + L, !R_.stepMiss); R_.stepMiss = false;
+      R_.idx++; const sl = $('slots').children[R_.idx - 1]; if (sl) { sl.textContent = L; sl.classList.add('on'); }
+      kit.sfx.star(R_.idx);
+      if (R_.idx >= R_.seq.length) {
+        R_.done = true; const first = !R_.miss; kit.mastery.record('alley', 'w:' + R_.word, first); S.results.push(first); markDot();
+        reward(R_.emoji, 0, 0, true); burst(0, 2.5, 0, 24); kit.sfx.big(); kit.confetti(40);
+        $('label').innerHTML = `<span class="l">${R_.word}</span>`; $('label').classList.remove('hide');
+        chain(['al:yes', 'w:' + R_.word], 100); after(4.2, () => { S.ri++; newRound(); });
+      } else { say('snd:' + L); after(1.2, () => { placeBlock(b, true); ballHome(); S.busy = false; }); }
+    } else {
+      R_.miss = true; R_.stepMiss = true; R_.wrong++; kit.sfx.boing();
+      chain(['al:oops', 'snd:' + L, 'al:find', 'snd:' + want], 140);
+      if (R_.wrong >= 2) blocks.forEach(x => { x.glow = x.letter === want; });
+      after(1.4, () => { placeBlock(b, true); ballHome(); S.busy = false; });
+    }
+  }
+}
+function markDot() { const i = S.results.length - 1; const d = $('dots').children[i]; if (d) d.className = S.results[i] ? 'ok' : 'no'; }
+function endSession() {
+  S.mode = 'end'; const n = S.results.filter(Boolean).length, stars = n >= 7 ? 3 : n >= 5 ? 2 : 1, unlock = n >= 5;
+  kit.progress.finish('alley', S.group + 1, stars, unlock); kit.sfx.big(); kit.confetti(70); kit.say('done'); S.endResult = { n, stars };
+  $('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars); $('score').textContent = n + ' / ' + ROUNDS;
+  $('nextlv').classList.toggle('hide', !(unlock && S.group < GROUPS.length - 1)); $('chip').classList.add('hide'); $('label').classList.add('hide'); $('end').classList.remove('hide');
+}
+
+/* ---------- screens ---------- */
+function buildMenu() {
+  const p = kit.progress.get('alley');
+  $('doors').innerHTML = GROUPS.map((g, i) => { const lock = i + 1 > p.unlocked, st = p.stars[i + 1] || 0;
+    return `<button class="kdoor ${lock ? 'lock' : ''}" data-l="${i}"><div class="letters">${g.join(' ')}</div><div class="st">${lock ? '🔒' : '★'.repeat(st) + '☆'.repeat(3 - st)}</div></button>`; }).join('');
+  $('doors').querySelectorAll('.kdoor:not(.lock)').forEach(b => b.addEventListener('click', () => { kit.audio(); startSession(+b.dataset.l); }));
+}
+function toMenu() { kit.stopSpeech(); S.mode = 'menu'; S.timers = []; S.busy = false; S.round = null; $('chip').classList.add('hide'); $('end').classList.add('hide'); $('label').classList.add('hide'); $('dots').innerHTML = ''; blocks.forEach((b, i) => { setLetter(b, GROUPS[0][i]); placeBlock(b, false); b.glow = false; }); ballHome(); buildMenu(); $('menu').classList.remove('hide'); }
+$('home').onclick = toMenu; $('chip').onclick = () => { if (S.mode === 'play' && !S.busy) sayRound(); };
+$('again').onclick = () => startSession(S.group); $('nextlv').onclick = () => startSession(Math.min(GROUPS.length - 1, S.group + 1));
+$('mute').onclick = () => { kit.setMuted(!kit.isMuted()); $('mute').textContent = kit.isMuted() ? '🔇' : '🔊'; kit.audio(); };
+
+/* ---------- loop ---------- */
+function update(dt) {
+  S.t += dt; world.step(1 / 60, dt, 3);
+  for (let i = S.timers.length - 1; i >= 0; i--) if (S.t >= S.timers[i].at) { const t = S.timers.splice(i, 1)[0]; t.fn(); }
+  for (const b of blocks) {
+    const p = b.body.position, q = b.body.quaternion; b.mesh.position.set(p.x, p.y, p.z); b.mesh.quaternion.set(q.x, q.y, q.z, q.w);
+    const wu = q.vmult(new CANNON.Vec3(0, 1, 0)); b.knocked = wu.y < .8 || p.y < .3 || Math.hypot(p.x - b.pos.x, p.z - b.pos.z) > .5;
+    if (b.pop < 1) { b.pop = Math.min(1, b.pop + dt * 3.5); b.mesh.scale.setScalar(Math.sin(b.pop * Math.PI * .5) * 1.08 + (b.pop >= 1 ? -.08 : 0)); } else b.mesh.scale.setScalar(1);
+    b.side.emissiveIntensity = b.glow ? .35 + .3 * Math.sin(S.t * 6) : 0;
+    b.shadow.visible = !b.knocked; b.shadow.position.x = p.x; b.shadow.position.z = p.z;
+  }
+  const bp = ball.body.position, bq = ball.body.quaternion; ball.mesh.position.set(bp.x, bp.y, bp.z); ball.mesh.quaternion.set(bq.x, bq.y, bq.z, bq.w); ball.shadow.position.set(bp.x, .02, bp.z);
+  if (ball.pop < 1) { ball.pop = Math.min(1, ball.pop + dt * 4); ball.mesh.scale.setScalar(Math.sin(ball.pop * Math.PI * .5)); } else ball.mesh.scale.setScalar(1);
+  // ball never hit anything (or is too slow): answer anyway so the game cannot stall
+  if (S.pending && (S.t - S.pending.t > 2.4 || (S.t - S.pending.t > .4 && ball.body.velocity.length() < .6))) { const b = S.pending.b; S.pending = null; ball.body.removeEventListener('collide', onCollide); resolve(b); }
+  for (let i = rewards.length - 1; i >= 0; i--) { const r = rewards[i]; r.t += dt; const k = Math.min(1, r.t / .7); r.s.position.y = 1.2 + (r.big ? 3.2 : 2.6) * (1 - Math.pow(1 - k, 3)) + Math.abs(Math.sin(r.t * 5)) * .25 * Math.min(1, r.t); r.s.material.opacity = r.t > 3.2 ? Math.max(0, 1 - (r.t - 3.2) / .5) : 1; if (r.t > 3.8) { scene.remove(r.s); rewards.splice(i, 1); } }
+  for (const p of parts) if (p.life > 0) { p.life -= dt; p.m.position.addScaledVector(p.v, dt); p.v.y -= 12 * dt; if (p.life <= 0) p.m.visible = false; }
+  balloons.forEach(b => { b.position.y += Math.sin(S.t * .8 + b.userData.ph) * .004; b.rotation.z = Math.sin(S.t * .6 + b.userData.ph) * .08; });
+  if (S.shake > 0) { S.shake -= dt; camera.position.x = (Math.random() - .5) * S.shake * .8; } else camera.position.x = 0;
+}
+let last = performance.now(), slow = 0, frozen = false, dirty = true;
+function frame(now) {
+  requestAnimationFrame(frame); const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (!frozen) update(dt); if (!frozen || dirty) { renderer.render(scene, camera); dirty = false; }
+  if (dt > .026 && dpr > 1) { if (++slow > 40) { dpr = 1; renderer.setPixelRatio(1); slow = 0; } } else slow = Math.max(0, slow - 1);
+}
+try { await document.fonts.load('800 100px "Baloo 2"'); } catch (e) { /* fallback font */ }
+await kit.loadVoice();
+toMenu(); { const w = emojiSprite('⭐'); scene.add(w); prewarm(renderer, scene, camera); scene.remove(w); } requestAnimationFrame(frame);
+
+window.alley = {
+  S, blocks, ball, kit, GROUPS, KEY, WORDS, startSession, update, toMenu, tapBlock, TEX,
+  quiet(v) { quiet = v; kit.setQuiet(v); }, freeze(v) { frozen = v; dirty = true; }, draw() { dirty = true; },
+  info() { const i = renderer.info; return { drawCalls: i.render.calls, triangles: i.render.triangles, geometries: i.memory.geometries, textures: i.memory.textures, pixelRatio: renderer.getPixelRatio(), canvas: renderer.domElement.width + 'x' + renderer.domElement.height }; },
+  block: letter => blocks.find(b => b.letter === letter),
+  run(maxSec = 30) { let n = 0; while ((S.busy || S.pending) && n++ < maxSec * 60) update(1 / 60); return n / 60; },
+  idle(maxSec = 30) { let n = 0; const ri = S.ri; while (S.ri === ri && S.mode === 'play' && n++ < maxSec * 60) update(1 / 60); return n / 60; }
+};
+</script>
+</body>
+</html>

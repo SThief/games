@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Word Drop Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #fff7ea;
+    --ink-soft: #d9cdb8;
+    --glass: rgba(24, 30, 48, .72);
+    --line: rgba(255, 240, 210, .18);
+    --mic: #ff8a3d;
+    --mic-hot: #ff4d5a;
+    --good: #7fdc8a;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #141a2b; color: var(--ink);
+    font-family: "Baloo 2", system-ui, sans-serif; }
+  canvas#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+  #bubble { position: fixed; top: max(16px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+    width: min(560px, calc(100% - 32px)); text-align: center; padding: 12px 20px 14px;
+    background: var(--glass); border: 1px solid var(--line); border-radius: 22px; backdrop-filter: blur(8px);
+    pointer-events: none; transition: transform .25s; }
+  #bubble.pop { transform: translateX(-50%) scale(1.05); }
+  #heardLabel { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); min-height: 18px; }
+  #heardLabel b { color: var(--ink); text-transform: none; letter-spacing: 0; font-weight: 700; }
+  #say { font-size: clamp(24px, 5vw, 36px); font-weight: 800; line-height: 1.15; }
+  #say.miss { color: #ffc6a8; }
+
+  #tools { position: fixed; top: max(16px, env(safe-area-inset-top)); right: 16px; display: flex; gap: 8px; }
+  .round { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: var(--glass);
+    color: var(--ink); font-size: 22px; cursor: pointer; display: grid; place-items: center; }
+
+  #dock { position: fixed; left: 0; right: 0; bottom: 0; padding: 0 0 max(14px, env(safe-area-inset-bottom));
+    display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; }
+  #micWrap { position: relative; pointer-events: auto; }
+  #mic { position: relative; z-index: 2; width: 92px; height: 92px; border-radius: 50%; border: 4px solid #fff3dd;
+    background: radial-gradient(circle at 35% 30%, #ffb27a, var(--mic)); box-shadow: 0 10px 30px rgba(0,0,0,.45);
+    cursor: pointer; display: grid; place-items: center; transition: transform .15s, background .2s; }
+  #mic:active { transform: scale(.94); }
+  #mic svg { width: 40px; height: 40px; fill: #fff; }
+  #mic.listening { background: radial-gradient(circle at 35% 30%, #ff8d94, var(--mic-hot)); }
+  .ring { position: absolute; inset: 0; border-radius: 50%; border: 3px solid var(--mic-hot); opacity: 0; z-index: 1; }
+  #mic.listening ~ .ring { animation: ring 1.4s ease-out infinite; }
+  #mic.listening ~ .ring.r2 { animation-delay: .7s; }
+  @keyframes ring { from { transform: scale(1); opacity: .8; } to { transform: scale(1.9); opacity: 0; } }
+  #hint { font-size: 15px; color: var(--ink-soft); background: var(--glass); padding: 2px 14px; border-radius: 999px; }
+
+  #typeRow { display: none; gap: 8px; pointer-events: auto; }
+  #typeRow.show { display: flex; }
+  #typeRow input { font: inherit; font-size: 17px; padding: 8px 14px; border-radius: 14px; border: 1px solid var(--line);
+    background: #fff7ea; color: #1d2336; width: min(280px, 60vw); }
+  #typeRow button { font: inherit; font-weight: 700; font-size: 16px; padding: 8px 16px; border-radius: 14px; border: 0;
+    background: var(--mic); color: #fff; cursor: pointer; }
+
+  #shelf { display: flex; gap: 8px; overflow-x: auto; max-width: 100%; padding: 4px 16px 2px; pointer-events: auto;
+    scrollbar-width: none; }
+  #shelf::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; min-width: 64px; padding: 6px 8px 4px;
+    border-radius: 16px; background: var(--glass); border: 1px solid var(--line); color: var(--ink); cursor: pointer;
+    font: inherit; font-size: 14px; font-weight: 700; line-height: 1.1; }
+  .chip span { font-size: 26px; line-height: 1.2; }
+  .chip.hot { border-color: var(--good); box-shadow: 0 0 0 2px var(--good) inset; }
+  .wiggle { animation: wiggle .5s; }
+  @keyframes wiggle { 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+  "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+} }
+</script>
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<div id="bubble">
+  <div id="heardLabel">Word Drop Room</div>
+  <div id="say">Say a word, and it drops in!</div>
+</div>
+
+<div id="tools">
+  <button class="round" id="clear" title="Clean up">🧹</button>
+</div>
+
+<div id="dock">
+  <div id="typeRow">
+    <input id="typeBox" placeholder="type what was said…" autocomplete="off">
+    <button id="typeGo">Drop</button>
+  </div>
+  <div id="micWrap">
+    <button id="mic" aria-label="Talk">
+      <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
+    </button>
+    <div class="ring"></div><div class="ring r2"></div>
+  </div>
+  <div id="hint">Tap the mic and say: “two red balls”</div>
+  <div id="shelf"></div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import * as CANNON from 'cannon-es';
+
+// ---------- words ----------
+const COLORS = {
+  red: 0xe84a4a, blue: 0x3d7be0, green: 0x4cbb5a, yellow: 0xf7d23e, pink: 0xf59ac0,
+  purple: 0x9a6ae0, orange: 0xf59a3a, white: 0xf4f1ea, black: 0x2b2b33, brown: 0x8a5a3b,
+};
+const NUMBERS = { a: 1, an: 1, one: 1, two: 2, three: 3, four: 4, five: 5, to: null, too: null,
+  '1': 1, '2': 2, '3': 3, '4': 4, '5': 5 };
+const NUM_WORD = ['', 'one', 'two', 'three', 'four', 'five'];
+
+// ---------- scene ----------
+const canvas = document.getElementById('scene');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.3;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x141a2b);
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 60);
+
+function frameCamera() {
+  const w = innerWidth, h = innerHeight, portrait = h > w;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.fov = portrait ? 52 : 40;
+  if (portrait) camera.position.set(3.0, 3.9, 7.4); else camera.position.set(3.9, 3.1, 5.8);
+  camera.lookAt(0, portrait ? 0.9 : 0.6, -0.2);
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', frameCamera);
+frameCamera();
+
+scene.add(new THREE.HemisphereLight(0xdfe8ff, 0x6a4a36, 1.25));
+const sun = new THREE.DirectionalLight(0xfff0dc, 1.7);
+sun.position.set(3, 7, 5);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -4.5, right: 4.5, top: 4.5, bottom: -4.5, near: 1, far: 20 });
+sun.shadow.camera.updateProjectionMatrix();
+sun.shadow.bias = -0.0004;
+scene.add(sun);
+const lamp = new THREE.PointLight(0xffb566, 14, 7, 1.6);
+lamp.position.set(-2.55, 2.35, -1.2);
+scene.add(lamp);
+
+function canvasTex(w, h, draw, repeat) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...repeat); }
+  return t;
+}
+
+const floorTex = canvasTex(512, 512, (g, w, h) => {
+  const rows = 8;
+  for (let r = 0; r < rows; r++) {
+    const y = r * h / rows, off = (r % 2) * w * 0.37;
+    for (let k = -1; k < 3; k++) {
+      const x = off + k * w * 0.62;
+      const l = 38 + Math.random() * 10;
+      g.fillStyle = `hsl(26, 42%, ${l}%)`;
+      g.fillRect(x, y, w * 0.62, h / rows);
+      g.strokeStyle = 'rgba(40,20,10,.45)'; g.lineWidth = 3;
+      g.strokeRect(x, y, w * 0.62, h / rows);
+      g.strokeStyle = 'rgba(255,220,180,.07)'; g.lineWidth = 1;
+      for (let s = 0; s < 5; s++) { g.beginPath(); g.moveTo(x, y + 8 + s * 11); g.lineTo(x + w * 0.62, y + 6 + s * 11 + Math.random() * 4); g.stroke(); }
+    }
+  }
+}, [2, 1.4]);
+
+const wallTex = canvasTex(256, 256, (g, w, h) => {
+  g.fillStyle = '#35466a'; g.fillRect(0, 0, w, h);
+  g.fillStyle = 'rgba(255,255,255,.035)';
+  for (let x = 0; x < w; x += 32) g.fillRect(x, 0, 14, h);
+  g.fillStyle = 'rgba(255,230,180,.08)';
+  for (let y = 16; y < h; y += 64) for (let x = 16; x < w; x += 64) { g.beginPath(); g.arc(x + (y % 128 ? 32 : 0), y, 3, 0, 7); g.fill(); }
+}, [6, 3]);
+
+const ROOM = { x: 3, z: 2, h: 3.2 };
+const std = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: 0.6, ...o });
+
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(ROOM.x * 2, ROOM.z * 2), std(0xffffff, { map: floorTex, roughness: 0.7 }));
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+
+const back = new THREE.Mesh(new THREE.PlaneGeometry(ROOM.x * 2, ROOM.h), std(0xffffff, { map: wallTex, roughness: 0.9 }));
+back.position.set(0, ROOM.h / 2, -ROOM.z); back.receiveShadow = true; scene.add(back);
+const leftTex = wallTex.clone(); leftTex.repeat.set(4, 3); leftTex.needsUpdate = true;
+const left = new THREE.Mesh(new THREE.PlaneGeometry(ROOM.z * 2, ROOM.h), std(0xffffff, { map: leftTex, roughness: 0.9 }));
+left.rotation.y = Math.PI / 2; left.position.set(-ROOM.x, ROOM.h / 2, 0); left.receiveShadow = true; scene.add(left);
+
+const trim = std(0xf1e4cc);
+const b1 = new THREE.Mesh(new THREE.BoxGeometry(ROOM.x * 2, 0.14, 0.04), trim); b1.position.set(0, 0.07, -ROOM.z + 0.02); scene.add(b1);
+const b2 = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.14, ROOM.z * 2), trim); b2.position.set(-ROOM.x + 0.02, 0.07, 0); scene.add(b2);
+
+// window with night sky and moon
+const skyTex = canvasTex(256, 256, (g, w, h) => {
+  const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#0d1433'); gr.addColorStop(1, '#2f3f78');
+  g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 70; i++) { g.fillStyle = `rgba(255,255,230,${0.3 + Math.random() * 0.7})`; g.fillRect(Math.random() * w, Math.random() * h * 0.8, 2, 2); }
+  g.fillStyle = '#fff4c4'; g.beginPath(); g.arc(w * 0.7, h * 0.3, 26, 0, 7); g.fill();
+  g.fillStyle = '#16204a'; g.beginPath(); g.arc(w * 0.7 + 12, h * 0.3 - 6, 22, 0, 7); g.fill();
+});
+const win = new THREE.Group();
+win.add(new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.1), new THREE.MeshBasicMaterial({ map: skyTex })));
+const frameMat = std(0xf1e4cc);
+for (const [w, h, x, y] of [[1.64, .08, 0, .59], [1.64, .08, 0, -.59], [.08, 1.26, -.79, 0], [.08, 1.26, .79, 0], [.05, 1.1, 0, 0], [1.5, .05, 0, 0]]) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, .06), frameMat); m.position.set(x, y, .02); win.add(m);
+}
+const sill = new THREE.Mesh(new THREE.BoxGeometry(1.8, .06, .18), frameMat); sill.position.set(0, -.64, .08); win.add(sill);
+win.position.set(0.7, 1.9, -ROOM.z + 0.005); scene.add(win);
+
+// wall lamp
+const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.24, 0.26, 24, 1, true),
+  std(0xffd79a, { emissive: 0xffa94d, emissiveIntensity: 0.9, side: THREE.DoubleSide }));
+shade.position.set(-2.8, 2.35, -1.2); scene.add(shade);
+const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.22), std(0x3a2a20));
+arm.rotation.z = Math.PI / 2; arm.position.set(-2.9, 2.3, -1.2); scene.add(arm);
+
+// rug
+const rugTex = canvasTex(512, 512, (g, w, h) => {
+  const cols = ['#c65b4e', '#f0c46a', '#5f9e8f', '#f4e6cf', '#c65b4e', '#f0c46a'];
+  for (let i = 0; i < cols.length; i++) { g.fillStyle = cols[i]; g.beginPath(); g.arc(w / 2, h / 2, w / 2 - i * 38, 0, 7); g.fill(); }
+});
+const rug = new THREE.Mesh(new THREE.CircleGeometry(1.35, 64), std(0xffffff, { map: rugTex, roughness: 1 }));
+rug.rotation.x = -Math.PI / 2; rug.position.set(0.3, 0.004, 0.2); rug.receiveShadow = true; scene.add(rug);
+
+// ---------- physics ----------
+const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -9.82, 0) });
+world.broadphase = new CANNON.SAPBroadphase(world);
+world.allowSleep = true;
+const matDefault = new CANNON.Material('default');
+const matBouncy = new CANNON.Material('bouncy');
+const matFloor = new CANNON.Material('floor');
+world.addContactMaterial(new CANNON.ContactMaterial(matDefault, matFloor, { friction: 0.45, restitution: 0.28 }));
+world.addContactMaterial(new CANNON.ContactMaterial(matBouncy, matFloor, { friction: 0.3, restitution: 0.78 }));
+world.addContactMaterial(new CANNON.ContactMaterial(matBouncy, matDefault, { friction: 0.3, restitution: 0.6 }));
+world.addContactMaterial(new CANNON.ContactMaterial(matDefault, matDefault, { friction: 0.5, restitution: 0.2 }));
+
+function plane(pos, euler) {
+  const b = new CANNON.Body({ mass: 0, material: matFloor, shape: new CANNON.Plane() });
+  b.position.set(...pos); b.quaternion.setFromEuler(...euler); world.addBody(b);
+}
+plane([0, 0, 0], [-Math.PI / 2, 0, 0]);
+plane([0, 0, -ROOM.z], [0, 0, 0]);
+plane([-ROOM.x, 0, 0], [0, Math.PI / 2, 0]);
+plane([ROOM.x, 0, 0], [0, -Math.PI / 2, 0]);
+plane([0, 0, ROOM.z], [0, Math.PI, 0]);
+
+// ---------- models ----------
+function part(geo, mat, x = 0, y = 0, z = 0) {
+  const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; return m;
+}
+const sc = (m, x, y, z) => { m.scale.set(x, y, z); return m; };
+const rx = (m, a) => { m.rotation.x = a; return m; };
+const darkEye = std(0x16161c, { roughness: 0.3 });
+const S = {
+  sphere: r => ({ shape: new CANNON.Sphere(r) }),
+  box: (x, y, z) => ({ shape: new CANNON.Box(new CANNON.Vec3(x, y, z)) }),
+  cyl: (rt, rb, h) => ({ shape: new CANNON.Cylinder(rt, rb, h, 12) }),
+};
+const at = (s, x = 0, y = 0, z = 0) => ({ ...s, offset: new CANNON.Vec3(x, y, z) });
+
+function starShape(outer, inner, n = 5) {
+  const s = new THREE.Shape();
+  for (let i = 0; i < n * 2; i++) {
+    const r = i % 2 ? inner : outer, a = Math.PI / 2 + i * Math.PI / n;
+    i ? s.lineTo(Math.cos(a) * r, Math.sin(a) * r) : s.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+  }
+  return s;
+}
+function heartShape() {
+  const s = new THREE.Shape();
+  s.moveTo(0, -0.22);
+  s.bezierCurveTo(-0.08, -0.14, -0.26, -0.04, -0.26, 0.08);
+  s.bezierCurveTo(-0.26, 0.2, -0.12, 0.26, 0, 0.14);
+  s.bezierCurveTo(0.12, 0.26, 0.26, 0.2, 0.26, 0.08);
+  s.bezierCurveTo(0.26, -0.04, 0.08, -0.14, 0, -0.22);
+  return s;
+}
+function extrude(shape, depth) {
+  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: 0.025, bevelSize: 0.02, bevelSegments: 3 });
+  g.center(); return g;
+}
+
+const MODELS = {
+  apple: { emoji: '🍎', color: 'red', build: c => [
+      sc(part(new THREE.SphereGeometry(0.28, 32, 24), std(c, { roughness: 0.35 })), 1, 0.92, 1),
+      part(new THREE.CylinderGeometry(0.018, 0.026, 0.14), std(0x5a3a22), 0, 0.3, 0),
+      sc(part(new THREE.SphereGeometry(0.07, 16, 12), std(0x4cbb5a), 0.08, 0.31, 0), 1.7, 0.3, 0.8),
+    ], shapes: [S.sphere(0.27)] },
+
+  ball: { emoji: '⚽', color: 'blue', bouncy: true, build: c => {
+      const band = std(0xffffff, { roughness: 0.4 });
+      const t1 = part(new THREE.TorusGeometry(0.3, 0.035, 12, 48), band); t1.rotation.x = Math.PI / 2;
+      const t2 = part(new THREE.TorusGeometry(0.3, 0.035, 12, 48), std(0xf7d23e));
+      return [part(new THREE.SphereGeometry(0.3, 32, 24), std(c, { roughness: 0.35 })), t1, t2];
+    }, shapes: [S.sphere(0.3)] },
+
+  banana: { emoji: '🍌', color: 'yellow', build: c => {
+      const curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(-0.36, 0.1, 0), new THREE.Vector3(0, -0.16, 0), new THREE.Vector3(0.36, 0.1, 0));
+      const tip = std(0x5a3a22);
+      return [part(new THREE.TubeGeometry(curve, 24, 0.075, 12), std(c, { roughness: 0.5 })),
+        part(new THREE.SphereGeometry(0.075, 12, 10), std(c), -0.36, 0.1, 0),
+        part(new THREE.SphereGeometry(0.04, 10, 8), tip, -0.42, 0.13, 0),
+        part(new THREE.SphereGeometry(0.075, 12, 10), std(c), 0.36, 0.1, 0),
+        part(new THREE.CylinderGeometry(0.025, 0.03, 0.08), tip, 0.4, 0.15, 0)];
+    }, shapes: [at(S.sphere(0.09), -0.3, 0.07), at(S.sphere(0.09), 0, -0.03), at(S.sphere(0.09), 0.3, 0.07)] },
+
+  duck: { emoji: '🦆', color: 'yellow', build: c => {
+      const body = std(c, { roughness: 0.4 }), orange = std(0xf59a3a);
+      const beak = part(new THREE.ConeGeometry(0.06, 0.15, 16), orange, 0.37, 0.22, 0); beak.rotation.z = -Math.PI / 2; beak.scale.z = 0.6;
+      const tail = part(new THREE.ConeGeometry(0.08, 0.16, 12), body, -0.31, 0.1, 0); tail.rotation.z = Math.PI / 2 - 0.7;
+      return [sc(part(new THREE.SphereGeometry(0.25, 28, 20), body), 1.25, 0.85, 1),
+        part(new THREE.SphereGeometry(0.15, 24, 18), body, 0.2, 0.25, 0), beak, tail,
+        part(new THREE.SphereGeometry(0.025, 10, 8), darkEye, 0.3, 0.3, 0.085), part(new THREE.SphereGeometry(0.025, 10, 8), darkEye, 0.3, 0.3, -0.085)];
+    }, shapes: [S.sphere(0.24), at(S.sphere(0.15), 0.2, 0.25)] },
+
+  car: { emoji: '🚗', color: 'red', build: c => {
+      const paint = std(c, { roughness: 0.3, metalness: 0.1 }), glass = std(0x9fc6e8, { roughness: 0.1 });
+      const parts = [part(new RoundedBoxGeometry(0.72, 0.2, 0.38, 3, 0.06), paint, 0, 0.1, 0),
+        part(new RoundedBoxGeometry(0.38, 0.19, 0.33, 3, 0.06), paint, -0.04, 0.28, 0),
+        part(new THREE.BoxGeometry(0.3, 0.12, 0.335), glass, -0.04, 0.29, 0),
+        part(new THREE.BoxGeometry(0.02, 0.05, 0.08), std(0xfff2a8, { emissive: 0xffe066, emissiveIntensity: 0.6 }), 0.36, 0.12, 0.12),
+        part(new THREE.BoxGeometry(0.02, 0.05, 0.08), std(0xfff2a8, { emissive: 0xffe066, emissiveIntensity: 0.6 }), 0.36, 0.12, -0.12)];
+      for (const x of [-0.22, 0.22]) for (const z of [-0.19, 0.19]) {
+        const w = part(new THREE.CylinderGeometry(0.095, 0.095, 0.07, 20), std(0x22222a, { roughness: 0.8 }), x, 0.0, z); w.rotation.x = Math.PI / 2; parts.push(w);
+        const hub = part(new THREE.CylinderGeometry(0.04, 0.04, 0.075, 12), std(0xd8d8e0, { metalness: 0.6, roughness: 0.3 }), x, 0.0, z); hub.rotation.x = Math.PI / 2; parts.push(hub);
+      }
+      return parts;
+    }, shapes: [at(S.box(0.36, 0.145, 0.22), 0, 0.055), at(S.box(0.19, 0.095, 0.165), -0.04, 0.28)] },
+
+  fish: { emoji: '🐟', color: 'orange', build: c => {
+      const skin = std(c, { roughness: 0.3 });
+      const tail = part(new THREE.ConeGeometry(0.15, 0.22, 4), skin, -0.42, 0, 0); tail.rotation.z = -Math.PI / 2; tail.scale.z = 0.25;
+      const fin = part(new THREE.ConeGeometry(0.07, 0.14, 4), skin, -0.02, 0.2, 0); fin.scale.z = 0.25; fin.rotation.z = 0.5;
+      const eyeW = std(0xffffff, { roughness: 0.3 });
+      return [sc(part(new THREE.SphereGeometry(0.22, 28, 20), skin), 1.5, 0.9, 0.55), tail, fin,
+        part(new THREE.SphereGeometry(0.04, 12, 10), eyeW, 0.2, 0.05, 0.1), part(new THREE.SphereGeometry(0.022, 10, 8), darkEye, 0.215, 0.055, 0.13),
+        part(new THREE.SphereGeometry(0.04, 12, 10), eyeW, 0.2, 0.05, -0.1), part(new THREE.SphereGeometry(0.022, 10, 8), darkEye, 0.215, 0.055, -0.13)];
+    }, shapes: [at(S.box(0.42, 0.19, 0.12), -0.08, 0)] },
+
+  star: { emoji: '⭐', color: 'yellow', build: c => [
+      part(extrude(starShape(0.32, 0.14), 0.1), std(c, { roughness: 0.25, metalness: 0.2, emissive: c, emissiveIntensity: 0.25 }))],
+    shapes: [S.box(0.27, 0.27, 0.075)] },
+
+  cake: { emoji: '🎂', color: 'pink', build: c => {
+      const cream = std(0xfff4e6, { roughness: 0.5 });
+      const parts = [part(new THREE.CylinderGeometry(0.3, 0.3, 0.18, 32), std(c, { roughness: 0.55 }), 0, 0.09, 0),
+        part(new THREE.CylinderGeometry(0.22, 0.22, 0.14, 32), cream, 0, 0.25, 0),
+        rx(part(new THREE.TorusGeometry(0.29, 0.025, 10, 40), cream, 0, 0.18, 0), Math.PI / 2),
+        part(new THREE.CylinderGeometry(0.022, 0.022, 0.16, 12), std(0x3d7be0), 0, 0.4, 0),
+        sc(part(new THREE.SphereGeometry(0.035, 12, 10), new THREE.MeshBasicMaterial({ color: 0xffb13b }), 0, 0.51, 0), 1, 1.6, 1)];
+      for (let i = 0; i < 5; i++) { const a = i / 5 * Math.PI * 2; parts.push(part(new THREE.SphereGeometry(0.03, 10, 8), std(0xd6283a, { roughness: 0.2 }), Math.cos(a) * 0.15, 0.335, Math.sin(a) * 0.15)); }
+      return parts;
+    }, shapes: [at(S.cyl(0.3, 0.3, 0.18), 0, 0.09), at(S.cyl(0.22, 0.22, 0.14), 0, 0.25)] },
+
+  egg: { emoji: '🥚', color: 'white', build: c => {
+      const pts = []; for (let i = 0; i <= 20; i++) { const t = i / 20 * Math.PI; pts.push(new THREE.Vector2(Math.sin(t) * 0.17 * (1 - 0.18 * Math.cos(t)), -Math.cos(t) * 0.23)); }
+      return [part(new THREE.LatheGeometry(pts, 32), std(c, { roughness: 0.45 }))];
+    }, shapes: [at(S.sphere(0.17), 0, -0.04), at(S.sphere(0.13), 0, 0.08)] },
+
+  hat: { emoji: '🎩', color: 'black', build: c => [
+      part(new THREE.CylinderGeometry(0.34, 0.34, 0.03, 36), std(c, { roughness: 0.7 }), 0, 0, 0),
+      part(new THREE.CylinderGeometry(0.2, 0.22, 0.34, 32), std(c, { roughness: 0.7 }), 0, 0.185, 0),
+      part(new THREE.CylinderGeometry(0.226, 0.226, 0.06, 32), std(0xe84a4a), 0, 0.06, 0)],
+    shapes: [S.cyl(0.34, 0.34, 0.04), at(S.cyl(0.2, 0.22, 0.34), 0, 0.185)] },
+
+  cup: { emoji: '☕', color: 'white', build: c => {
+      const pts = [[0, -0.15], [0.15, -0.15], [0.175, 0.15], [0.155, 0.15], [0.135, -0.13], [0, -0.13]].map(([x, y]) => new THREE.Vector2(x, y));
+      const mat = std(c, { roughness: 0.3, side: THREE.DoubleSide });
+      const handle = part(new THREE.TorusGeometry(0.075, 0.022, 10, 24, Math.PI), mat, 0.17, 0, 0); handle.rotation.z = -Math.PI / 2;
+      return [part(new THREE.LatheGeometry(pts, 32), mat), handle, part(new THREE.CylinderGeometry(0.15, 0.15, 0.01, 24), std(0x6b3f24), 0, 0.09, 0)];
+    }, shapes: [S.cyl(0.175, 0.15, 0.3)] },
+
+  book: { emoji: '📘', color: 'blue', build: c => {
+      const cover = std(c, { roughness: 0.6 }), pages = std(0xfbf6ea, { roughness: 0.9 });
+      return [part(new RoundedBoxGeometry(0.46, 0.014, 0.33, 2, 0.006), cover, 0, 0.036, 0),
+        part(new RoundedBoxGeometry(0.46, 0.014, 0.33, 2, 0.006), cover, 0, -0.036, 0),
+        part(new RoundedBoxGeometry(0.02, 0.086, 0.33, 2, 0.008), cover, -0.22, 0, 0),
+        part(new THREE.BoxGeometry(0.43, 0.058, 0.31), pages, 0.005, 0, 0)];
+    }, shapes: [S.box(0.23, 0.043, 0.165)] },
+
+  tree: { emoji: '🌳', color: 'green', build: c => {
+      const leaf = std(c, { roughness: 0.7 });
+      return [part(new THREE.CylinderGeometry(0.06, 0.08, 0.26, 12), std(0x7a4b2a), 0, -0.26, 0),
+        part(new THREE.ConeGeometry(0.3, 0.36, 18), leaf, 0, -0.02, 0),
+        part(new THREE.ConeGeometry(0.23, 0.3, 18), leaf, 0, 0.16, 0),
+        part(new THREE.ConeGeometry(0.15, 0.24, 18), leaf, 0, 0.32, 0)];
+    }, shapes: [at(S.cyl(0.08, 0.08, 0.26), 0, -0.26), at(S.cyl(0.08, 0.3, 0.6), 0, 0.12)] },
+
+  carrot: { emoji: '🥕', color: 'orange', build: c => {
+      const body = part(new THREE.ConeGeometry(0.1, 0.46, 18), std(c, { roughness: 0.6 }), 0, 0, 0); body.rotation.z = Math.PI;
+      const g = std(0x4cbb5a);
+      const leaves = [-0.4, 0, 0.4].map(a => { const l = part(new THREE.ConeGeometry(0.025, 0.2, 8), g, Math.sin(a) * 0.05, 0.32, 0); l.rotation.z = -a; return l; });
+      return [body, ...leaves];
+    }, shapes: [S.cyl(0.1, 0.03, 0.46)] },
+
+  flower: { emoji: '🌸', color: 'pink', build: c => {
+      const petal = std(c, { roughness: 0.5 });
+      const parts = [part(new THREE.CylinderGeometry(0.015, 0.015, 0.4, 8), std(0x3f9a4a), 0, -0.2, 0),
+        part(new THREE.SphereGeometry(0.065, 16, 12), std(0xf7d23e), 0, 0.02, 0.02)];
+      for (let i = 0; i < 6; i++) {
+        const a = i / 6 * Math.PI * 2;
+        const p = part(new THREE.SphereGeometry(0.07, 14, 10), petal, Math.cos(a) * 0.1, 0.02 + Math.sin(a) * 0.1, 0);
+        p.scale.set(1.3, 0.8, 0.35); p.rotation.z = a; parts.push(p);
+      }
+      const lf = part(new THREE.SphereGeometry(0.06, 12, 8), std(0x3f9a4a), 0.05, -0.22, 0); lf.scale.set(1.6, 0.5, 0.4); lf.rotation.z = 0.6; parts.push(lf);
+      return parts;
+    }, shapes: [at(S.cyl(0.03, 0.03, 0.4), 0, -0.2), at(S.sphere(0.15), 0, 0.02)] },
+
+  boat: { emoji: '⛵', color: 'red', build: c => {
+      const hull = new THREE.Shape(); hull.moveTo(-0.34, 0.08); hull.lineTo(0.38, 0.08); hull.lineTo(0.26, -0.08); hull.lineTo(-0.26, -0.08); hull.closePath();
+      const hg = new THREE.ExtrudeGeometry(hull, { depth: 0.26, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 }); hg.translate(0, 0, -0.13);
+      const sail = new THREE.Shape(); sail.moveTo(0, 0); sail.lineTo(0, 0.38); sail.lineTo(0.28, 0); sail.closePath();
+      const sm = part(new THREE.ShapeGeometry(sail), std(0xfbf6ea, { side: THREE.DoubleSide }), 0.02, 0.13, 0);
+      return [part(hg, std(c, { roughness: 0.5 })), part(new THREE.BoxGeometry(0.66, 0.03, 0.3), std(0xfbf6ea), 0.02, 0.09, 0),
+        part(new THREE.CylinderGeometry(0.012, 0.012, 0.48, 8), std(0x7a4b2a), 0, 0.33, 0), sm];
+    }, shapes: [at(S.box(0.34, 0.1, 0.15), 0.02, 0), at(S.box(0.15, 0.2, 0.02), 0.12, 0.33)] },
+
+  heart: { emoji: '❤️', color: 'red', build: c => [
+      part(extrude(heartShape(), 0.1), std(c, { roughness: 0.3, emissive: c, emissiveIntensity: 0.12 }))],
+    shapes: [S.box(0.27, 0.22, 0.075)] },
+
+  cat: { emoji: '🐱', color: 'orange', build: c => {
+      const fur = std(c, { roughness: 0.8 });
+      const tailCurve = new THREE.CatmullRomCurve3([new THREE.Vector3(-0.25, 0.02, 0), new THREE.Vector3(-0.38, 0.1, 0), new THREE.Vector3(-0.4, 0.3, 0)]);
+      const parts = [sc(part(new THREE.SphereGeometry(0.2, 24, 18), fur), 1.4, 0.85, 0.9),
+        part(new THREE.SphereGeometry(0.15, 24, 18), fur, 0.26, 0.17, 0),
+        part(new THREE.TubeGeometry(tailCurve, 16, 0.03, 8), fur),
+        part(new THREE.SphereGeometry(0.022, 10, 8), darkEye, 0.39, 0.2, 0.055), part(new THREE.SphereGeometry(0.022, 10, 8), darkEye, 0.39, 0.2, -0.055),
+        part(new THREE.SphereGeometry(0.018, 8, 6), std(0xf59ac0), 0.405, 0.15, 0)];
+      for (const z of [-0.07, 0.07]) { const e = part(new THREE.ConeGeometry(0.05, 0.1, 4), fur, 0.26, 0.31, z); e.rotation.y = Math.PI / 4; parts.push(e); }
+      for (const x of [-0.14, 0.14]) for (const z of [-0.08, 0.08]) parts.push(part(new THREE.CylinderGeometry(0.035, 0.035, 0.12, 8), fur, x, -0.17, z));
+      return parts;
+    }, shapes: [at(S.sphere(0.2), 0, -0.02), at(S.sphere(0.15), 0.26, 0.17)] },
+};
+
+const FORMS = {};
+for (const w of Object.keys(MODELS)) { FORMS[w] = { word: w, plural: false }; FORMS[w + 's'] = { word: w, plural: true }; }
+FORMS.fishes = { word: 'fish', plural: true };
+const pluralOf = w => (w === 'fish' ? 'fish' : w + 's');
+
+// ---------- items ----------
+const items = [];
+const MAX_ITEMS = 45;
+let lastThud = 0;
+
+function spawn(word, colorName, delayIndex = 0) {
+  const def = MODELS[word];
+  const color = COLORS[colorName || def.color];
+  const group = new THREE.Group();
+  for (const m of def.build(color)) group.add(m);
+  group.userData.word = word;
+  group.userData.colorName = colorName || null;
+  scene.add(group);
+
+  const body = new CANNON.Body({ mass: 1, material: def.bouncy ? matBouncy : matDefault,
+    linearDamping: 0.05, angularDamping: 0.12, sleepSpeedLimit: 0.15, sleepTimeLimit: 1 });
+  for (const s of def.shapes) body.addShape(s.shape, s.offset);
+  body.position.set((Math.random() - 0.5) * 3.6, 3.8 + delayIndex * 0.55, (Math.random() - 0.5) * 2.2);
+  body.quaternion.setFromEuler(Math.random() * 6, Math.random() * 6, Math.random() * 6);
+  body.angularVelocity.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6);
+  body.addEventListener('collide', e => {
+    const v = Math.abs(e.contact.getImpactVelocityAlongNormal());
+    const now = performance.now();
+    if (v > 1.6 && now - lastThud > 60) { lastThud = now; thud(Math.min(v / 7, 1), def.bouncy); }
+  });
+  world.addBody(body);
+  group.userData.body = body;
+  group.scale.setScalar(0.01);
+  items.push({ group, body, word, born: performance.now() });
+
+  while (items.length > MAX_ITEMS) removeItem(items[0]);
+  pop(520 + Math.random() * 200);
+}
+
+function removeItem(it) {
+  world.removeBody(it.body);
+  scene.remove(it.group);
+  it.group.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+  items.splice(items.indexOf(it), 1);
+}
+
+// ---------- parsing: what was heard → what drops ----------
+function parse(text) {
+  const toks = text.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+  const out = [];
+  let count = null, color = null;
+  for (const t of toks) {
+    if (t in NUMBERS && NUMBERS[t]) { count = NUMBERS[t]; continue; }
+    if (t in COLORS) { color = t; continue; }
+    const f = FORMS[t];
+    if (f) {
+      out.push({ word: f.word, color, count: Math.min(count ?? (f.plural ? 3 : 1), 5) });
+      count = null; color = null;
+    }
+  }
+  return out;
+}
+
+function phrase(list) {
+  return list.map(({ word, color, count }) => {
+    const noun = count > 1 ? pluralOf(word) : word;
+    const next = color || noun;
+    const lead = count > 1 ? NUM_WORD[count] : (/^[aeiou]/.test(next) ? 'an' : 'a');
+    return `${lead} ${color ? color + ' ' : ''}${noun}`;
+  }).join(' and ');
+}
+const cap = s => s[0].toUpperCase() + s.slice(1);
+
+const $say = document.getElementById('say'), $label = document.getElementById('heardLabel'), $bubble = document.getElementById('bubble');
+function show(label, text, miss = false) {
+  $label.innerHTML = label; $say.textContent = text; $say.classList.toggle('miss', miss);
+  $bubble.classList.remove('pop'); void $bubble.offsetWidth; $bubble.classList.add('pop');
+  setTimeout(() => $bubble.classList.remove('pop'), 260);
+}
+const esc = s => s.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+
+// alternatives: the recogniser's top guesses, best first
+function handleHeard(alts) {
+  for (const alt of alts.slice(0, 3)) {
+    const list = parse(alt);
+    if (list.length) {
+      const said = cap(phrase(list)) + '!';
+      show(`I heard <b>“${esc(alt.trim())}”</b>`, said);
+      speak(said);
+      let n = 0;
+      for (const it of list) for (let i = 0; i < it.count; i++) { const k = n++; setTimeout(() => spawn(it.word, it.color, k % 3), k * 170); }
+      markChips(list.map(l => l.word));
+      return { heard: alt, list };
+    }
+  }
+  const top = (alts[0] || '').trim();
+  show(top ? `I heard <b>“${esc(top)}”</b>` : 'Hmm', "I don't have that one yet. Try a word below!", true);
+  speak(top ? "Hmm, I don't have that one yet." : "I didn't hear a word.");
+  document.getElementById('shelf').classList.add('wiggle');
+  setTimeout(() => document.getElementById('shelf').classList.remove('wiggle'), 500);
+  return { heard: top, list: [] };
+}
+
+// ---------- voice out ----------
+let voice = null;
+function pickVoice() {
+  const vs = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang));
+  voice = vs.find(v => /Samantha|Karen|Moira|Google US English|Jenny|Aria/i.test(v.name)) || vs[0] || null;
+}
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  if (voice) u.voice = voice;
+  u.lang = 'en-US'; u.rate = 0.9; u.pitch = 1.1;
+  speechSynthesis.speak(u);
+}
+
+// ---------- little sounds ----------
+let actx = null;
+function audio() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); return actx; }
+function pop(freq) {
+  if (!actx) return;
+  const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain();
+  o.type = 'sine'; o.frequency.setValueAtTime(freq, t); o.frequency.exponentialRampToValueAtTime(freq * 1.8, t + 0.09);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.18, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.15);
+}
+function thud(level, bouncy) {
+  if (!actx) return;
+  const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain();
+  o.type = bouncy ? 'triangle' : 'sine';
+  const f = bouncy ? 260 : 110 + Math.random() * 40;
+  o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 0.5, t + 0.12);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25 * level, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+  o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.17);
+}
+
+// ---------- word shelf ----------
+const shelf = document.getElementById('shelf');
+for (const [w, d] of Object.entries(MODELS)) {
+  const b = document.createElement('button');
+  b.className = 'chip'; b.dataset.word = w;
+  b.innerHTML = `<span>${d.emoji}</span>${w}`;
+  b.onclick = () => { audio(); speak(w); show('Listen', `Now you say “${w}”!`); markChips([w]); };
+  shelf.appendChild(b);
+}
+function markChips(words) {
+  for (const c of shelf.children) c.classList.toggle('hot', words.includes(c.dataset.word));
+  const first = [...shelf.children].find(c => words.includes(c.dataset.word));
+  if (first) first.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+}
+
+// ---------- listening ----------
+const params = new URLSearchParams(location.search);
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const $mic = document.getElementById('mic'), $hint = document.getElementById('hint'), $typeRow = document.getElementById('typeRow');
+let rec = null, listening = false;
+
+function report(payload) {
+  if (params.has('report')) fetch('/__heard?' + new URLSearchParams({ q: JSON.stringify(payload) })).catch(() => {});
+}
+function showTyping(reason) {
+  $typeRow.classList.add('show');
+  if (reason) $hint.textContent = reason;
+}
+
+function listen() {
+  audio();
+  if (!SR) { showTyping('Talking needs Chrome, Edge or Safari. You can type instead.'); return; }
+  if (listening) { rec.stop(); return; }
+  speechSynthesis.cancel();
+  rec = new SR();
+  rec.lang = 'en-US'; rec.interimResults = true; rec.maxAlternatives = 3; rec.continuous = false;
+  rec.onstart = () => { listening = true; $mic.classList.add('listening'); $hint.textContent = 'Listening… say a word!'; show('Listening', '…'); };
+  rec.onresult = e => {
+    const r = e.results[e.results.length - 1];
+    if (!r.isFinal) { show('Listening', r[0].transcript + '…'); return; }
+    const alts = Array.from(r, a => a.transcript);
+    const res = handleHeard(alts);
+    report({ alts, dropped: res.list });
+  };
+  rec.onerror = e => {
+    const msg = { 'no-speech': "I didn't hear anything. Tap and try again!",
+      'not-allowed': 'Please allow the microphone, then tap again.',
+      'service-not-allowed': 'This browser blocks talking. Try Chrome, or type below.',
+      network: 'Talking needs internet in this browser. Try Chrome, or type below.' }[e.error] || `Mic problem: ${e.error}`;
+    $hint.textContent = msg;
+    if (e.error !== 'no-speech') showTyping();
+    report({ error: e.error });
+  };
+  rec.onend = () => { listening = false; $mic.classList.remove('listening'); if ($hint.textContent.startsWith('Listening')) $hint.textContent = 'Tap the mic and say a word'; };
+  try { rec.start(); } catch (err) { $hint.textContent = 'Mic busy, tap again.'; }
+}
+$mic.onclick = listen;
+
+const $typeBox = document.getElementById('typeBox');
+const typed = () => { audio(); if ($typeBox.value.trim()) handleHeard([$typeBox.value]); $typeBox.value = ''; };
+document.getElementById('typeGo').onclick = typed;
+$typeBox.onkeydown = e => { if (e.key === 'Enter') typed(); };
+if (params.has('type') || !SR) showTyping(SR ? null : 'Talking needs Chrome, Edge or Safari. You can type instead.');
+
+document.getElementById('clear').onclick = () => { audio(); while (items.length) removeItem(items[0]); show('All clean!', 'Say a word, and it drops in!'); markChips([]); };
+
+// tap a toy: it hops and says its name
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+canvas.addEventListener('pointerdown', e => {
+  audio();
+  ptr.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const hit = ray.intersectObjects(items.map(i => i.group), true)[0];
+  if (!hit) return;
+  let g = hit.object; while (g.parent && !g.userData.body) g = g.parent;
+  const b = g.userData.body;
+  b.wakeUp();
+  b.velocity.set((Math.random() - 0.5) * 2, 5.5, (Math.random() - 0.5) * 2);
+  b.angularVelocity.set((Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8);
+  const said = cap(phrase([{ word: g.userData.word, color: g.userData.colorName, count: 1 }])) + '!';
+  show('Boing!', said); speak(said); markChips([g.userData.word]); pop(700);
+});
+
+// ---------- loop ----------
+const clock = new THREE.Clock();
+function tick() {
+  const dt = Math.min(clock.getDelta(), 1 / 30);
+  world.step(1 / 60, dt, 3);
+  const now = performance.now();
+  for (const it of items) {
+    it.group.position.copy(it.body.position);
+    it.group.quaternion.copy(it.body.quaternion);
+    const s = Math.min(1, (now - it.born) / 220);
+    it.group.scale.setScalar(0.01 + 0.99 * (1 - Math.pow(1 - s, 3)));
+  }
+  renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+tick();
+
+window.wordDrop = {
+  say: text => handleHeard([text]),
+  parse,
+  count: () => items.length,
+  words: () => items.map(i => i.word),
+  resting: () => items.filter(i => i.body.sleepState === CANNON.Body.SLEEPING || i.body.velocity.length() < 0.05).length,
+  inside: () => items.every(i => Math.abs(i.body.position.x) < ROOM.x + 0.1 && Math.abs(i.body.position.z) < ROOM.z + 0.1 && i.body.position.y > -0.1),
+  speechSupported: !!SR,
+};
+if (params.has('autolisten')) setTimeout(listen, 800);
+</script>
+</body>
+</html>

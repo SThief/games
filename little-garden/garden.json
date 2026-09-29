@@ -1,0 +1,43 @@
+{
+  "narrator": { "voice": "af_heart", "speed": 0.9 },
+  "goal": [8, 10, 10, 12],
+  "plants": [
+    { "id": "carrot", "one": "carrot", "many": "carrots", "sheet": "crops_carrot.png" },
+    { "id": "pumpkin", "one": "pumpkin", "many": "pumpkins", "sheet": "crops_pumpkin.png" },
+    { "id": "sunflower", "one": "sunflower", "many": "sunflowers", "sheet": "crops_sunflower.png" },
+    { "id": "tulip", "one": "tulip", "many": "tulips", "sheet": "crops_tulip.png" },
+    { "id": "potato", "one": "potato", "many": "potatoes", "sheet": "crops_potato.png" },
+    { "id": "watermelon", "one": "watermelon", "many": "watermelons", "sheet": "crops_melon.png" },
+    { "id": "strawberry", "one": "strawberry", "many": "strawberries", "sheet": "crops_berry.png" }
+  ],
+  "animals": [
+    { "id": "sheep", "one": "sheep", "sheet": "animals.png", "piece": 3, "of": 5, "visitor": true, "voice": "af_bella", "speed": 0.85, "sound": "Baa!" },
+    { "id": "chicken", "one": "chicken", "sheet": "animals.png", "piece": 1, "of": 5, "visitor": true, "voice": "af_sky", "speed": 1.0, "sound": "Cluck, cluck!" },
+    { "id": "cat", "one": "cat", "sheet": "animals.png", "piece": 4, "of": 5, "visitor": true, "voice": "af_nicole", "speed": 0.9, "sound": "Meow!" },
+    { "id": "chick", "one": "chick", "sheet": "animals.png", "piece": 2, "of": 5, "visitor": true, "voice": "af_nova", "speed": 1.05, "sound": "Peep, peep!" },
+    { "id": "butterfly", "one": "butterfly", "sheet": "animals.png", "piece": 5, "of": 5, "flies": true }
+  ],
+  "lines": {
+    "morning": "Good morning, garden!",
+    "wake": "The sun is sleeping. Tap the sun!",
+    "grew": "Look! Everything grew!",
+    "hi": "Hi!",
+    "plant": "Plant {many}!",
+    "water": "Water the {many}!",
+    "pickHint": "Pick the {many}!",
+    "grow": "Grow, {many}, grow!",
+    "ripe": "They're ready to pick!",
+    "rain": "It's raining!",
+    "trouble": "Oh no! The {animal} wants the {many}!",
+    "shoo": "Shoo, {animal}!",
+    "ate": "Oh! It ate one.",
+    "mystery": "A mystery seed! What will it be?",
+    "giant": "Wow! A giant {one}!",
+    "wish": ["Can you pick one {one}?", "Can you pick two {many}?", "Can you pick three {many}?"],
+    "thanks": "Thank you! Yummy!",
+    "count": ["One!", "Two!", "Three!", "Four!", "Five!", "Six!", "Seven!", "Eight!", "Nine!", "Ten!", "Eleven!", "Twelve!"],
+    "word": "{One}!",
+    "words": "{Many}!",
+    "night": "What a day! Good night, garden!"
+  }
+}

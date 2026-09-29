@@ -1,0 +1,1217 @@
+[
+ {
+  "key": "cmd:jump",
+  "say": "Jump!",
+  "speed": 0.95
+ },
+ {
+  "key": "cmd:duck",
+  "say": "Duck!",
+  "speed": 0.95
+ },
+ {
+  "key": "cmd:left",
+  "say": "Left!",
+  "speed": 0.95
+ },
+ {
+  "key": "cmd:right",
+  "say": "Right!",
+  "speed": 0.95
+ },
+ {
+  "key": "cmd:stop",
+  "say": "Stop!",
+  "speed": 0.95
+ },
+ {
+  "key": "cmd:spin",
+  "say": "Spin!",
+  "speed": 0.95
+ },
+ {
+  "key": "cheer:0",
+  "say": "Yes!"
+ },
+ {
+  "key": "cheer:1",
+  "say": "Great!"
+ },
+ {
+  "key": "cheer:2",
+  "say": "Wow!"
+ },
+ {
+  "key": "cheer:3",
+  "say": "Super!"
+ },
+ {
+  "key": "oops",
+  "say": "Oops!"
+ },
+ {
+  "key": "go",
+  "say": "Ready? Go!"
+ },
+ {
+  "key": "done",
+  "say": "Well done!"
+ },
+ {
+  "key": "toy:cat",
+  "say": "Cat."
+ },
+ {
+  "key": "that:cat",
+  "say": "That is the cat."
+ },
+ {
+  "key": "is:cat:floor",
+  "say": "The cat is on the floor."
+ },
+ {
+  "key": "task:cat:on:bed",
+  "say": "Put the cat on the bed."
+ },
+ {
+  "key": "is:cat:on:bed",
+  "say": "The cat is on the bed."
+ },
+ {
+  "key": "task:cat:under:bed",
+  "say": "Put the cat under the bed."
+ },
+ {
+  "key": "is:cat:under:bed",
+  "say": "The cat is under the bed."
+ },
+ {
+  "key": "task:cat:next:bed",
+  "say": "Put the cat next to the bed."
+ },
+ {
+  "key": "is:cat:next:bed",
+  "say": "The cat is next to the bed."
+ },
+ {
+  "key": "task:cat:on:table",
+  "say": "Put the cat on the table."
+ },
+ {
+  "key": "is:cat:on:table",
+  "say": "The cat is on the table."
+ },
+ {
+  "key": "task:cat:under:table",
+  "say": "Put the cat under the table."
+ },
+ {
+  "key": "is:cat:under:table",
+  "say": "The cat is under the table."
+ },
+ {
+  "key": "task:cat:next:table",
+  "say": "Put the cat next to the table."
+ },
+ {
+  "key": "is:cat:next:table",
+  "say": "The cat is next to the table."
+ },
+ {
+  "key": "task:cat:on:chair",
+  "say": "Put the cat on the chair."
+ },
+ {
+  "key": "is:cat:on:chair",
+  "say": "The cat is on the chair."
+ },
+ {
+  "key": "task:cat:next:chair",
+  "say": "Put the cat next to the chair."
+ },
+ {
+  "key": "is:cat:next:chair",
+  "say": "The cat is next to the chair."
+ },
+ {
+  "key": "task:cat:in:box",
+  "say": "Put the cat in the box."
+ },
+ {
+  "key": "is:cat:in:box",
+  "say": "The cat is in the box."
+ },
+ {
+  "key": "task:cat:next:box",
+  "say": "Put the cat next to the box."
+ },
+ {
+  "key": "is:cat:next:box",
+  "say": "The cat is next to the box."
+ },
+ {
+  "key": "toy:ball",
+  "say": "Ball."
+ },
+ {
+  "key": "that:ball",
+  "say": "That is the ball."
+ },
+ {
+  "key": "is:ball:floor",
+  "say": "The ball is on the floor."
+ },
+ {
+  "key": "task:ball:on:bed",
+  "say": "Put the ball on the bed."
+ },
+ {
+  "key": "is:ball:on:bed",
+  "say": "The ball is on the bed."
+ },
+ {
+  "key": "task:ball:under:bed",
+  "say": "Put the ball under the bed."
+ },
+ {
+  "key": "is:ball:under:bed",
+  "say": "The ball is under the bed."
+ },
+ {
+  "key": "task:ball:next:bed",
+  "say": "Put the ball next to the bed."
+ },
+ {
+  "key": "is:ball:next:bed",
+  "say": "The ball is next to the bed."
+ },
+ {
+  "key": "task:ball:on:table",
+  "say": "Put the ball on the table."
+ },
+ {
+  "key": "is:ball:on:table",
+  "say": "The ball is on the table."
+ },
+ {
+  "key": "task:ball:under:table",
+  "say": "Put the ball under the table."
+ },
+ {
+  "key": "is:ball:under:table",
+  "say": "The ball is under the table."
+ },
+ {
+  "key": "task:ball:next:table",
+  "say": "Put the ball next to the table."
+ },
+ {
+  "key": "is:ball:next:table",
+  "say": "The ball is next to the table."
+ },
+ {
+  "key": "task:ball:on:chair",
+  "say": "Put the ball on the chair."
+ },
+ {
+  "key": "is:ball:on:chair",
+  "say": "The ball is on the chair."
+ },
+ {
+  "key": "task:ball:next:chair",
+  "say": "Put the ball next to the chair."
+ },
+ {
+  "key": "is:ball:next:chair",
+  "say": "The ball is next to the chair."
+ },
+ {
+  "key": "task:ball:in:box",
+  "say": "Put the ball in the box."
+ },
+ {
+  "key": "is:ball:in:box",
+  "say": "The ball is in the box."
+ },
+ {
+  "key": "task:ball:next:box",
+  "say": "Put the ball next to the box."
+ },
+ {
+  "key": "is:ball:next:box",
+  "say": "The ball is next to the box."
+ },
+ {
+  "key": "toy:teddy",
+  "say": "Teddy."
+ },
+ {
+  "key": "that:teddy",
+  "say": "That is the teddy."
+ },
+ {
+  "key": "is:teddy:floor",
+  "say": "The teddy is on the floor."
+ },
+ {
+  "key": "task:teddy:on:bed",
+  "say": "Put the teddy on the bed."
+ },
+ {
+  "key": "is:teddy:on:bed",
+  "say": "The teddy is on the bed."
+ },
+ {
+  "key": "task:teddy:under:bed",
+  "say": "Put the teddy under the bed."
+ },
+ {
+  "key": "is:teddy:under:bed",
+  "say": "The teddy is under the bed."
+ },
+ {
+  "key": "task:teddy:next:bed",
+  "say": "Put the teddy next to the bed."
+ },
+ {
+  "key": "is:teddy:next:bed",
+  "say": "The teddy is next to the bed."
+ },
+ {
+  "key": "task:teddy:on:table",
+  "say": "Put the teddy on the table."
+ },
+ {
+  "key": "is:teddy:on:table",
+  "say": "The teddy is on the table."
+ },
+ {
+  "key": "task:teddy:under:table",
+  "say": "Put the teddy under the table."
+ },
+ {
+  "key": "is:teddy:under:table",
+  "say": "The teddy is under the table."
+ },
+ {
+  "key": "task:teddy:next:table",
+  "say": "Put the teddy next to the table."
+ },
+ {
+  "key": "is:teddy:next:table",
+  "say": "The teddy is next to the table."
+ },
+ {
+  "key": "task:teddy:on:chair",
+  "say": "Put the teddy on the chair."
+ },
+ {
+  "key": "is:teddy:on:chair",
+  "say": "The teddy is on the chair."
+ },
+ {
+  "key": "task:teddy:next:chair",
+  "say": "Put the teddy next to the chair."
+ },
+ {
+  "key": "is:teddy:next:chair",
+  "say": "The teddy is next to the chair."
+ },
+ {
+  "key": "task:teddy:in:box",
+  "say": "Put the teddy in the box."
+ },
+ {
+  "key": "is:teddy:in:box",
+  "say": "The teddy is in the box."
+ },
+ {
+  "key": "task:teddy:next:box",
+  "say": "Put the teddy next to the box."
+ },
+ {
+  "key": "is:teddy:next:box",
+  "say": "The teddy is next to the box."
+ },
+ {
+  "key": "toy:duck",
+  "say": "Duck."
+ },
+ {
+  "key": "that:duck",
+  "say": "That is the duck."
+ },
+ {
+  "key": "is:duck:floor",
+  "say": "The duck is on the floor."
+ },
+ {
+  "key": "task:duck:on:bed",
+  "say": "Put the duck on the bed."
+ },
+ {
+  "key": "is:duck:on:bed",
+  "say": "The duck is on the bed."
+ },
+ {
+  "key": "task:duck:under:bed",
+  "say": "Put the duck under the bed."
+ },
+ {
+  "key": "is:duck:under:bed",
+  "say": "The duck is under the bed."
+ },
+ {
+  "key": "task:duck:next:bed",
+  "say": "Put the duck next to the bed."
+ },
+ {
+  "key": "is:duck:next:bed",
+  "say": "The duck is next to the bed."
+ },
+ {
+  "key": "task:duck:on:table",
+  "say": "Put the duck on the table."
+ },
+ {
+  "key": "is:duck:on:table",
+  "say": "The duck is on the table."
+ },
+ {
+  "key": "task:duck:under:table",
+  "say": "Put the duck under the table."
+ },
+ {
+  "key": "is:duck:under:table",
+  "say": "The duck is under the table."
+ },
+ {
+  "key": "task:duck:next:table",
+  "say": "Put the duck next to the table."
+ },
+ {
+  "key": "is:duck:next:table",
+  "say": "The duck is next to the table."
+ },
+ {
+  "key": "task:duck:on:chair",
+  "say": "Put the duck on the chair."
+ },
+ {
+  "key": "is:duck:on:chair",
+  "say": "The duck is on the chair."
+ },
+ {
+  "key": "task:duck:next:chair",
+  "say": "Put the duck next to the chair."
+ },
+ {
+  "key": "is:duck:next:chair",
+  "say": "The duck is next to the chair."
+ },
+ {
+  "key": "task:duck:in:box",
+  "say": "Put the duck in the box."
+ },
+ {
+  "key": "is:duck:in:box",
+  "say": "The duck is in the box."
+ },
+ {
+  "key": "task:duck:next:box",
+  "say": "Put the duck next to the box."
+ },
+ {
+  "key": "is:duck:next:box",
+  "say": "The duck is next to the box."
+ },
+ {
+  "key": "toy:cup",
+  "say": "Cup."
+ },
+ {
+  "key": "that:cup",
+  "say": "That is the cup."
+ },
+ {
+  "key": "is:cup:floor",
+  "say": "The cup is on the floor."
+ },
+ {
+  "key": "task:cup:on:bed",
+  "say": "Put the cup on the bed."
+ },
+ {
+  "key": "is:cup:on:bed",
+  "say": "The cup is on the bed."
+ },
+ {
+  "key": "task:cup:under:bed",
+  "say": "Put the cup under the bed."
+ },
+ {
+  "key": "is:cup:under:bed",
+  "say": "The cup is under the bed."
+ },
+ {
+  "key": "task:cup:next:bed",
+  "say": "Put the cup next to the bed."
+ },
+ {
+  "key": "is:cup:next:bed",
+  "say": "The cup is next to the bed."
+ },
+ {
+  "key": "task:cup:on:table",
+  "say": "Put the cup on the table."
+ },
+ {
+  "key": "is:cup:on:table",
+  "say": "The cup is on the table."
+ },
+ {
+  "key": "task:cup:under:table",
+  "say": "Put the cup under the table."
+ },
+ {
+  "key": "is:cup:under:table",
+  "say": "The cup is under the table."
+ },
+ {
+  "key": "task:cup:next:table",
+  "say": "Put the cup next to the table."
+ },
+ {
+  "key": "is:cup:next:table",
+  "say": "The cup is next to the table."
+ },
+ {
+  "key": "task:cup:on:chair",
+  "say": "Put the cup on the chair."
+ },
+ {
+  "key": "is:cup:on:chair",
+  "say": "The cup is on the chair."
+ },
+ {
+  "key": "task:cup:next:chair",
+  "say": "Put the cup next to the chair."
+ },
+ {
+  "key": "is:cup:next:chair",
+  "say": "The cup is next to the chair."
+ },
+ {
+  "key": "task:cup:in:box",
+  "say": "Put the cup in the box."
+ },
+ {
+  "key": "is:cup:in:box",
+  "say": "The cup is in the box."
+ },
+ {
+  "key": "task:cup:next:box",
+  "say": "Put the cup next to the box."
+ },
+ {
+  "key": "is:cup:next:box",
+  "say": "The cup is next to the box."
+ },
+ {
+  "key": "toy:book",
+  "say": "Book."
+ },
+ {
+  "key": "that:book",
+  "say": "That is the book."
+ },
+ {
+  "key": "is:book:floor",
+  "say": "The book is on the floor."
+ },
+ {
+  "key": "task:book:on:bed",
+  "say": "Put the book on the bed."
+ },
+ {
+  "key": "is:book:on:bed",
+  "say": "The book is on the bed."
+ },
+ {
+  "key": "task:book:under:bed",
+  "say": "Put the book under the bed."
+ },
+ {
+  "key": "is:book:under:bed",
+  "say": "The book is under the bed."
+ },
+ {
+  "key": "task:book:next:bed",
+  "say": "Put the book next to the bed."
+ },
+ {
+  "key": "is:book:next:bed",
+  "say": "The book is next to the bed."
+ },
+ {
+  "key": "task:book:on:table",
+  "say": "Put the book on the table."
+ },
+ {
+  "key": "is:book:on:table",
+  "say": "The book is on the table."
+ },
+ {
+  "key": "task:book:under:table",
+  "say": "Put the book under the table."
+ },
+ {
+  "key": "is:book:under:table",
+  "say": "The book is under the table."
+ },
+ {
+  "key": "task:book:next:table",
+  "say": "Put the book next to the table."
+ },
+ {
+  "key": "is:book:next:table",
+  "say": "The book is next to the table."
+ },
+ {
+  "key": "task:book:on:chair",
+  "say": "Put the book on the chair."
+ },
+ {
+  "key": "is:book:on:chair",
+  "say": "The book is on the chair."
+ },
+ {
+  "key": "task:book:next:chair",
+  "say": "Put the book next to the chair."
+ },
+ {
+  "key": "is:book:next:chair",
+  "say": "The book is next to the chair."
+ },
+ {
+  "key": "task:book:in:box",
+  "say": "Put the book in the box."
+ },
+ {
+  "key": "is:book:in:box",
+  "say": "The book is in the box."
+ },
+ {
+  "key": "task:book:next:box",
+  "say": "Put the book next to the box."
+ },
+ {
+  "key": "is:book:next:box",
+  "say": "The book is next to the box."
+ },
+ {
+  "key": "toy:hat",
+  "say": "Hat."
+ },
+ {
+  "key": "that:hat",
+  "say": "That is the hat."
+ },
+ {
+  "key": "is:hat:floor",
+  "say": "The hat is on the floor."
+ },
+ {
+  "key": "task:hat:on:bed",
+  "say": "Put the hat on the bed."
+ },
+ {
+  "key": "is:hat:on:bed",
+  "say": "The hat is on the bed."
+ },
+ {
+  "key": "task:hat:under:bed",
+  "say": "Put the hat under the bed."
+ },
+ {
+  "key": "is:hat:under:bed",
+  "say": "The hat is under the bed."
+ },
+ {
+  "key": "task:hat:next:bed",
+  "say": "Put the hat next to the bed."
+ },
+ {
+  "key": "is:hat:next:bed",
+  "say": "The hat is next to the bed."
+ },
+ {
+  "key": "task:hat:on:table",
+  "say": "Put the hat on the table."
+ },
+ {
+  "key": "is:hat:on:table",
+  "say": "The hat is on the table."
+ },
+ {
+  "key": "task:hat:under:table",
+  "say": "Put the hat under the table."
+ },
+ {
+  "key": "is:hat:under:table",
+  "say": "The hat is under the table."
+ },
+ {
+  "key": "task:hat:next:table",
+  "say": "Put the hat next to the table."
+ },
+ {
+  "key": "is:hat:next:table",
+  "say": "The hat is next to the table."
+ },
+ {
+  "key": "task:hat:on:chair",
+  "say": "Put the hat on the chair."
+ },
+ {
+  "key": "is:hat:on:chair",
+  "say": "The hat is on the chair."
+ },
+ {
+  "key": "task:hat:next:chair",
+  "say": "Put the hat next to the chair."
+ },
+ {
+  "key": "is:hat:next:chair",
+  "say": "The hat is next to the chair."
+ },
+ {
+  "key": "task:hat:in:box",
+  "say": "Put the hat in the box."
+ },
+ {
+  "key": "is:hat:in:box",
+  "say": "The hat is in the box."
+ },
+ {
+  "key": "task:hat:next:box",
+  "say": "Put the hat next to the box."
+ },
+ {
+  "key": "is:hat:next:box",
+  "say": "The hat is next to the box."
+ },
+ {
+  "key": "toy:apple",
+  "say": "Apple."
+ },
+ {
+  "key": "that:apple",
+  "say": "That is the apple."
+ },
+ {
+  "key": "is:apple:floor",
+  "say": "The apple is on the floor."
+ },
+ {
+  "key": "task:apple:on:bed",
+  "say": "Put the apple on the bed."
+ },
+ {
+  "key": "is:apple:on:bed",
+  "say": "The apple is on the bed."
+ },
+ {
+  "key": "task:apple:under:bed",
+  "say": "Put the apple under the bed."
+ },
+ {
+  "key": "is:apple:under:bed",
+  "say": "The apple is under the bed."
+ },
+ {
+  "key": "task:apple:next:bed",
+  "say": "Put the apple next to the bed."
+ },
+ {
+  "key": "is:apple:next:bed",
+  "say": "The apple is next to the bed."
+ },
+ {
+  "key": "task:apple:on:table",
+  "say": "Put the apple on the table."
+ },
+ {
+  "key": "is:apple:on:table",
+  "say": "The apple is on the table."
+ },
+ {
+  "key": "task:apple:under:table",
+  "say": "Put the apple under the table."
+ },
+ {
+  "key": "is:apple:under:table",
+  "say": "The apple is under the table."
+ },
+ {
+  "key": "task:apple:next:table",
+  "say": "Put the apple next to the table."
+ },
+ {
+  "key": "is:apple:next:table",
+  "say": "The apple is next to the table."
+ },
+ {
+  "key": "task:apple:on:chair",
+  "say": "Put the apple on the chair."
+ },
+ {
+  "key": "is:apple:on:chair",
+  "say": "The apple is on the chair."
+ },
+ {
+  "key": "task:apple:next:chair",
+  "say": "Put the apple next to the chair."
+ },
+ {
+  "key": "is:apple:next:chair",
+  "say": "The apple is next to the chair."
+ },
+ {
+  "key": "task:apple:in:box",
+  "say": "Put the apple in the box."
+ },
+ {
+  "key": "is:apple:in:box",
+  "say": "The apple is in the box."
+ },
+ {
+  "key": "task:apple:next:box",
+  "say": "Put the apple next to the box."
+ },
+ {
+  "key": "is:apple:next:box",
+  "say": "The apple is next to the box."
+ },
+ {
+  "key": "furn:bed",
+  "say": "Bed."
+ },
+ {
+  "key": "furn:table",
+  "say": "Table."
+ },
+ {
+  "key": "furn:chair",
+  "say": "Chair."
+ },
+ {
+  "key": "furn:box",
+  "say": "Box."
+ },
+ {
+  "key": "yes",
+  "say": "Yes!"
+ },
+ {
+  "key": "al:find",
+  "say": "Find the letter that says"
+ },
+ {
+  "key": "al:asin",
+  "say": "as in"
+ },
+ {
+  "key": "al:oops",
+  "say": "Oops. That letter says"
+ },
+ {
+  "key": "al:yes",
+  "say": "Yes!"
+ },
+ {
+  "key": "al:sound",
+  "say": "Sound it out."
+ },
+ {
+  "key": "al:what",
+  "say": "What is the word?"
+ },
+ {
+  "key": "snd:s",
+  "ipa": [
+   "sss"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:a",
+  "ipa": [
+   "æ",
+   "æ"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:t",
+  "ipa": [
+   "tə",
+   "tə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:i",
+  "ipa": [
+   "ɪ",
+   "ɪ"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:p",
+  "ipa": [
+   "pə",
+   "pə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:n",
+  "ipa": [
+   "nnn"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:c",
+  "ipa": [
+   "kə",
+   "kə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:e",
+  "ipa": [
+   "ɛ",
+   "ɛ"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:h",
+  "ipa": [
+   "hə",
+   "hə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:r",
+  "ipa": [
+   "ɹɹ",
+   "ɹɹ"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:m",
+  "ipa": [
+   "mmm"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:d",
+  "ipa": [
+   "də",
+   "də"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:g",
+  "ipa": [
+   "ɡə",
+   "ɡə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:o",
+  "ipa": [
+   "ɑ",
+   "ɑ"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:u",
+  "ipa": [
+   "ʌ",
+   "ʌ"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:l",
+  "ipa": [
+   "lll"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:f",
+  "ipa": [
+   "fff"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:b",
+  "ipa": [
+   "bə",
+   "bə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:k",
+  "ipa": [
+   "kə",
+   "kə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:j",
+  "ipa": [
+   "ʤə",
+   "ʤə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:v",
+  "ipa": [
+   "vvv"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:w",
+  "ipa": [
+   "wə",
+   "wə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:y",
+  "ipa": [
+   "jə",
+   "jə"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "snd:z",
+  "ipa": [
+   "zzz"
+  ],
+  "speed": 0.85
+ },
+ {
+  "key": "kw:s",
+  "say": "sun."
+ },
+ {
+  "key": "kw:a",
+  "say": "apple."
+ },
+ {
+  "key": "kw:t",
+  "say": "tiger."
+ },
+ {
+  "key": "kw:i",
+  "say": "insect."
+ },
+ {
+  "key": "kw:p",
+  "say": "pig."
+ },
+ {
+  "key": "kw:n",
+  "say": "nose."
+ },
+ {
+  "key": "kw:c",
+  "say": "cat."
+ },
+ {
+  "key": "kw:e",
+  "say": "egg."
+ },
+ {
+  "key": "kw:h",
+  "say": "hat."
+ },
+ {
+  "key": "kw:r",
+  "say": "rabbit."
+ },
+ {
+  "key": "kw:m",
+  "say": "moon."
+ },
+ {
+  "key": "kw:d",
+  "say": "dog."
+ },
+ {
+  "key": "kw:g",
+  "say": "goat."
+ },
+ {
+  "key": "kw:o",
+  "say": "octopus."
+ },
+ {
+  "key": "kw:u",
+  "say": "umbrella."
+ },
+ {
+  "key": "kw:l",
+  "say": "lion."
+ },
+ {
+  "key": "kw:f",
+  "say": "fish."
+ },
+ {
+  "key": "kw:b",
+  "say": "ball."
+ },
+ {
+  "key": "kw:k",
+  "say": "key."
+ },
+ {
+  "key": "kw:j",
+  "say": "jet."
+ },
+ {
+  "key": "kw:v",
+  "say": "van."
+ },
+ {
+  "key": "kw:w",
+  "say": "watch."
+ },
+ {
+  "key": "kw:y",
+  "say": "yo yo."
+ },
+ {
+  "key": "kw:z",
+  "say": "zebra."
+ },
+ {
+  "key": "w:pin",
+  "say": "pin."
+ },
+ {
+  "key": "w:pan",
+  "say": "pan."
+ },
+ {
+  "key": "w:tin",
+  "say": "tin."
+ },
+ {
+  "key": "w:nap",
+  "say": "nap."
+ },
+ {
+  "key": "w:tap",
+  "say": "tap."
+ },
+ {
+  "key": "w:cat",
+  "say": "cat."
+ },
+ {
+  "key": "w:hat",
+  "say": "hat."
+ },
+ {
+  "key": "w:hen",
+  "say": "hen."
+ },
+ {
+  "key": "w:rat",
+  "say": "rat."
+ },
+ {
+  "key": "w:map",
+  "say": "map."
+ },
+ {
+  "key": "w:pen",
+  "say": "pen."
+ },
+ {
+  "key": "w:ham",
+  "say": "ham."
+ },
+ {
+  "key": "w:dog",
+  "say": "dog."
+ },
+ {
+  "key": "w:pig",
+  "say": "pig."
+ },
+ {
+  "key": "w:bus",
+  "say": "bus."
+ },
+ {
+  "key": "w:sun",
+  "say": "sun."
+ },
+ {
+  "key": "w:log",
+  "say": "log."
+ },
+ {
+  "key": "w:bug",
+  "say": "bug."
+ },
+ {
+  "key": "w:bed",
+  "say": "bed."
+ },
+ {
+  "key": "w:cup",
+  "say": "cup."
+ },
+ {
+  "key": "w:van",
+  "say": "van."
+ },
+ {
+  "key": "w:web",
+  "say": "web."
+ },
+ {
+  "key": "w:jet",
+  "say": "jet."
+ },
+ {
+  "key": "w:kid",
+  "say": "kid."
+ }
+]

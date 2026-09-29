@@ -1,0 +1,474 @@
+{
+"cmd:jump": {
+"sec": 0.69,
+"centroid_hz": 2945
+},
+"cmd:duck": {
+"sec": 0.67,
+"centroid_hz": 2914
+},
+"cmd:left": {
+"sec": 0.67,
+"centroid_hz": 2850
+},
+"cmd:right": {
+"sec": 0.66,
+"centroid_hz": 3503
+},
+"cmd:stop": {
+"sec": 0.72,
+"centroid_hz": 3806
+},
+"cmd:spin": {
+"sec": 0.74,
+"centroid_hz": 4354
+},
+"cheer:0": {
+"sec": 0.71,
+"centroid_hz": 3445
+},
+"cheer:1": {
+"sec": 0.78,
+"centroid_hz": 3442
+},
+"cheer:2": {
+"sec": 0.65,
+"centroid_hz": 2004
+},
+"cheer:3": {
+"sec": 0.77,
+"centroid_hz": 4096
+},
+"oops": {
+"sec": 0.75,
+"centroid_hz": 3723
+},
+"go": {
+"sec": 1.22,
+"centroid_hz": 2367
+},
+"done": {
+"sec": 0.86,
+"centroid_hz": 3723
+},
+"that:apple": {
+"sec": 1.15,
+"centroid_hz": 4457
+},
+"is:apple:floor": {
+"sec": 1.53,
+"centroid_hz": 3795
+},
+"task:apple:on:bed": {
+"sec": 1.43,
+"centroid_hz": 2597
+},
+"is:apple:on:bed": {
+"sec": 1.42,
+"centroid_hz": 3953
+},
+"task:apple:under:bed": {
+"sec": 1.52,
+"centroid_hz": 2574
+},
+"is:apple:under:bed": {
+"sec": 1.6,
+"centroid_hz": 4031
+},
+"task:apple:next:bed": {
+"sec": 1.62,
+"centroid_hz": 3254
+},
+"is:apple:next:bed": {
+"sec": 1.68,
+"centroid_hz": 3463
+},
+"task:apple:on:table": {
+"sec": 1.5,
+"centroid_hz": 3192
+},
+"is:apple:on:table": {
+"sec": 1.67,
+"centroid_hz": 4006
+},
+"task:apple:under:table": {
+"sec": 1.54,
+"centroid_hz": 3294
+},
+"is:apple:under:table": {
+"sec": 1.75,
+"centroid_hz": 4094
+},
+"task:apple:next:table": {
+"sec": 1.7,
+"centroid_hz": 3206
+},
+"is:apple:next:table": {
+"sec": 1.85,
+"centroid_hz": 3439
+},
+"task:apple:on:chair": {
+"sec": 1.45,
+"centroid_hz": 2983
+},
+"is:apple:on:chair": {
+"sec": 1.49,
+"centroid_hz": 3847
+},
+"task:apple:next:chair": {
+"sec": 1.65,
+"centroid_hz": 3116
+},
+"is:apple:next:chair": {
+"sec": 1.7,
+"centroid_hz": 3339
+},
+"task:apple:in:box": {
+"sec": 1.47,
+"centroid_hz": 3464
+},
+"is:apple:in:box": {
+"sec": 1.51,
+"centroid_hz": 3529
+},
+"task:apple:next:box": {
+"sec": 1.74,
+"centroid_hz": 3328
+},
+"is:apple:next:box": {
+"sec": 1.77,
+"centroid_hz": 3323
+},
+"furn:bed": {
+"sec": 0.69,
+"centroid_hz": 2178
+},
+"furn:table": {
+"sec": 0.73,
+"centroid_hz": 3745
+},
+"furn:chair": {
+"sec": 0.69,
+"centroid_hz": 3423
+},
+"furn:box": {
+"sec": 0.81,
+"centroid_hz": 3735
+},
+"yes": {
+"sec": 0.71,
+"centroid_hz": 3445
+},
+"al:find": {
+"sec": 1.45,
+"centroid_hz": 3359
+},
+"al:asin": {
+"sec": 0.73,
+"centroid_hz": 4263
+},
+"al:oops": {
+"sec": 1.41,
+"centroid_hz": 3258
+},
+"al:yes": {
+"sec": 0.71,
+"centroid_hz": 3445
+},
+"al:sound": {
+"sec": 0.97,
+"centroid_hz": 3964
+},
+"al:what": {
+"sec": 1.09,
+"centroid_hz": 4389
+},
+"snd:s": {
+"sec": 0.48,
+"centroid_hz": 3192
+},
+"snd:a": {
+"sec": 1.05,
+"centroid_hz": 2217
+},
+"snd:t": {
+"sec": 1.52,
+"centroid_hz": 4116
+},
+"snd:i": {
+"sec": 1.16,
+"centroid_hz": 2662
+},
+"snd:p": {
+"sec": 1.5,
+"centroid_hz": 2140
+},
+"snd:n": {
+"sec": 0.68,
+"centroid_hz": 2279
+},
+"snd:c": {
+"sec": 1.35,
+"centroid_hz": 2448
+},
+"snd:e": {
+"sec": 1.1,
+"centroid_hz": 2281
+},
+"snd:h": {
+"sec": 1.18,
+"centroid_hz": 2380
+},
+"snd:r": {
+"sec": 0.89,
+"centroid_hz": 2183
+},
+"snd:m": {
+"sec": 0.6,
+"centroid_hz": 2001
+},
+"snd:d": {
+"sec": 1.47,
+"centroid_hz": 3305
+},
+"snd:g": {
+"sec": 1.47,
+"centroid_hz": 2442
+},
+"snd:o": {
+"sec": 1.14,
+"centroid_hz": 2265
+},
+"snd:u": {
+"sec": 1.17,
+"centroid_hz": 2273
+},
+"snd:l": {
+"sec": 0.65,
+"centroid_hz": 1894
+},
+"snd:f": {
+"sec": 0.43,
+"centroid_hz": 2139
+},
+"snd:b": {
+"sec": 1.3,
+"centroid_hz": 2327
+},
+"snd:k": {
+"sec": 1.35,
+"centroid_hz": 2448
+},
+"snd:j": {
+"sec": 1.26,
+"centroid_hz": 3236
+},
+"snd:v": {
+"sec": 0.63,
+"centroid_hz": 2696
+},
+"snd:w": {
+"sec": 1.42,
+"centroid_hz": 2009
+},
+"snd:y": {
+"sec": 1.52,
+"centroid_hz": 2242
+},
+"snd:z": {
+"sec": 0.65,
+"centroid_hz": 3546
+},
+"kw:s": {
+"sec": 0.69,
+"centroid_hz": 3949
+},
+"kw:a": {
+"sec": 0.73,
+"centroid_hz": 2065
+},
+"kw:t": {
+"sec": 0.77,
+"centroid_hz": 3660
+},
+"kw:i": {
+"sec": 0.83,
+"centroid_hz": 4069
+},
+"kw:p": {
+"sec": 0.67,
+"centroid_hz": 2426
+},
+"kw:n": {
+"sec": 0.78,
+"centroid_hz": 3795
+},
+"kw:c": {
+"sec": 0.68,
+"centroid_hz": 3107
+},
+"kw:e": {
+"sec": 0.63,
+"centroid_hz": 2069
+},
+"kw:h": {
+"sec": 0.66,
+"centroid_hz": 3600
+},
+"kw:r": {
+"sec": 0.79,
+"centroid_hz": 3370
+},
+"kw:m": {
+"sec": 0.71,
+"centroid_hz": 2311
+},
+"kw:d": {
+"sec": 0.76,
+"centroid_hz": 3171
+},
+"kw:g": {
+"sec": 0.7,
+"centroid_hz": 3256
+},
+"kw:o": {
+"sec": 0.95,
+"centroid_hz": 3508
+},
+"kw:u": {
+"sec": 0.84,
+"centroid_hz": 1996
+},
+"kw:l": {
+"sec": 0.73,
+"centroid_hz": 2124
+},
+"kw:f": {
+"sec": 0.71,
+"centroid_hz": 2874
+},
+"kw:b": {
+"sec": 0.72,
+"centroid_hz": 1902
+},
+"kw:k": {
+"sec": 0.66,
+"centroid_hz": 3091
+},
+"kw:j": {
+"sec": 0.73,
+"centroid_hz": 2891
+},
+"kw:v": {
+"sec": 0.69,
+"centroid_hz": 2611
+},
+"kw:w": {
+"sec": 0.74,
+"centroid_hz": 2978
+},
+"kw:y": {
+"sec": 0.83,
+"centroid_hz": 2489
+},
+"kw:z": {
+"sec": 0.8,
+"centroid_hz": 4033
+},
+"w:pin": {
+"sec": 0.65,
+"centroid_hz": 2656
+},
+"w:pan": {
+"sec": 0.66,
+"centroid_hz": 2702
+},
+"w:tin": {
+"sec": 0.65,
+"centroid_hz": 3245
+},
+"w:nap": {
+"sec": 0.69,
+"centroid_hz": 2255
+},
+"w:tap": {
+"sec": 0.67,
+"centroid_hz": 3381
+},
+"w:cat": {
+"sec": 0.68,
+"centroid_hz": 3107
+},
+"w:hat": {
+"sec": 0.66,
+"centroid_hz": 3600
+},
+"w:hen": {
+"sec": 0.65,
+"centroid_hz": 2325
+},
+"w:rat": {
+"sec": 0.7,
+"centroid_hz": 3452
+},
+"w:map": {
+"sec": 0.69,
+"centroid_hz": 2236
+},
+"w:pen": {
+"sec": 0.65,
+"centroid_hz": 2623
+},
+"w:ham": {
+"sec": 0.67,
+"centroid_hz": 2392
+},
+"w:dog": {
+"sec": 0.76,
+"centroid_hz": 3171
+},
+"w:pig": {
+"sec": 0.67,
+"centroid_hz": 2426
+},
+"w:bus": {
+"sec": 0.7,
+"centroid_hz": 3675
+},
+"w:sun": {
+"sec": 0.69,
+"centroid_hz": 3949
+},
+"w:log": {
+"sec": 0.69,
+"centroid_hz": 2087
+},
+"w:bug": {
+"sec": 0.69,
+"centroid_hz": 1996
+},
+"w:bed": {
+"sec": 0.69,
+"centroid_hz": 2178
+},
+"w:cup": {
+"sec": 0.67,
+"centroid_hz": 2532
+},
+"w:van": {
+"sec": 0.69,
+"centroid_hz": 2611
+},
+"w:web": {
+"sec": 0.66,
+"centroid_hz": 2066
+},
+"w:jet": {
+"sec": 0.73,
+"centroid_hz": 2891
+},
+"w:kid": {
+"sec": 0.67,
+"centroid_hz": 2906
+}
+}

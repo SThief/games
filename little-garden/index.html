@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Little Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Fredoka:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="turn"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 18.5h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Turn me sideways!</div>
+<div id="stage">
+  <div id="scene"></div>
+  <div id="seedbox"></div>
+
+  <svg id="can" viewBox="0 0 130 96" aria-label="Watering can">
+    <path d="M52 30q20-30 44 0" fill="none" stroke="#1f5a94" stroke-width="8" stroke-linecap="round"/>
+    <path d="M44 34h60a8 8 0 0 1 8 8v36a10 10 0 0 1-10 10H46a10 10 0 0 1-10-10V42a8 8 0 0 1 8-8z" fill="#3f8fd8" stroke="#1f5a94" stroke-width="4"/>
+    <path d="M50 44h8v34h-8z" fill="#8cc4f2" opacity=".6"/>
+    <path d="M38 56L10 30" stroke="#1f5a94" stroke-width="10" stroke-linecap="round"/>
+    <path d="M38 56L10 30" stroke="#3f8fd8" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="9" cy="28" rx="10" ry="6" transform="rotate(-42 9 28)" fill="#2d73b8" stroke="#1f5a94" stroke-width="3"/>
+  </svg>
+
+  <button id="cloud" aria-label="Rain cloud">
+    <svg viewBox="0 0 140 84"><path d="M34 74h74a26 26 0 0 0 4-51.7A32 32 0 0 0 52 18 24 24 0 0 0 34 74z" fill="#fff" stroke="#9fb8c9" stroke-width="4" stroke-linejoin="round"/>
+      <g class="face"><circle cx="58" cy="50" r="3.6" fill="#3b4a5a"/><circle cx="86" cy="50" r="3.6" fill="#3b4a5a"/><path d="M64 59q8 6 16 0" fill="none" stroke="#3b4a5a" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="58" r="4" fill="#f7b3c2" opacity=".7"/><circle cx="94" cy="58" r="4" fill="#f7b3c2" opacity=".7"/></g></svg>
+  </button>
+
+  <div id="hud-left">
+    <button id="home" class="round" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M3.5 11.5L12 4l8.5 7.5M6 10v9.5h4.5v-5h3v5H18V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button id="music" class="round" aria-label="Music on or off"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.8" fill="currentColor"/><circle cx="17.5" cy="16" r="2.8" fill="currentColor"/><path class="off" d="M3 3l18 18" stroke="#c9492f" stroke-width="2.6" stroke-linecap="round"/></svg></button>
+  </div>
+  <div id="hud"><span id="day-chip">Day 1</span></div>
+
+  <div id="night"><div class="sky-stars"></div>
+    <svg id="moon" viewBox="0 0 60 60"><path d="M40 6a26 26 0 1 0 14 38A22 22 0 0 1 40 6z" fill="#fff4c2" stroke="#e8d27a" stroke-width="2"/></svg>
+  </div>
+
+  <button id="sun" class="asleep" aria-label="Wake up the sun">
+    <svg viewBox="0 0 120 120">
+      <g class="rays" stroke="#ffc93c" stroke-width="7" stroke-linecap="round">
+        <path d="M60 6v12M60 102v12M6 60h12M102 60h12M22 22l8 8M90 90l8 8M98 22l-8 8M30 90l-8 8"/>
+      </g>
+      <circle cx="60" cy="60" r="34" fill="#ffd84d" stroke="#f0a82a" stroke-width="4"/>
+      <g class="closed" fill="none" stroke="#6b3f10" stroke-width="3.4" stroke-linecap="round"><path d="M42 58q6 5 12 0M66 58q6 5 12 0"/></g>
+      <g class="open" fill="#6b3f10"><circle cx="48" cy="56" r="4.2"/><circle cx="72" cy="56" r="4.2"/></g>
+      <path d="M50 70q10 8 20 0" fill="none" stroke="#6b3f10" stroke-width="3.4" stroke-linecap="round"/>
+      <circle cx="40" cy="68" r="5" fill="#ff9d7a" opacity=".6"/><circle cx="80" cy="68" r="5" fill="#ff9d7a" opacity=".6"/>
+    </svg>
+  </button>
+  <div id="title"><h1>Little Garden</h1></div>
+
+  <div id="sleep-panel" hidden>
+    <div class="card">
+      <div class="today" id="today"></div>
+      <button id="sleep" aria-label="Sleep"><svg viewBox="0 0 60 60"><path d="M40 6a26 26 0 1 0 14 38A22 22 0 0 1 40 6z" fill="#fff4c2" stroke="#e8d27a" stroke-width="2"/></svg><b>z z z</b></button>
+    </div>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-spk" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#3b2a17"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="#3b2a17" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="#f5b93a" stroke="#b9821c" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 64 72"><path d="M24 4c3.3 0 6 2.7 6 6v20l2.5-.8c3.4-1 6.5 1.2 6.9 4.3l2.2-.6c3.4-.8 6.4 1.4 6.8 4.6l1.8-.4c3.3-.6 6.3 1.8 6.3 5.2V52c0 9.4-7.6 17-17 17h-7c-5.6 0-10.4-2.8-13.4-7.4L7.5 46.2c-1.9-2.9-1-6.8 2-8.4 2.6-1.4 5.9-.6 7.6 1.8L18 41V10c0-3.3 2.7-6 6-6z" fill="#fff" stroke="#3b2a17" stroke-width="3.2" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+<script src="game.js"></script>
+</body>
+</html>

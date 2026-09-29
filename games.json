@@ -1,0 +1,133 @@
+[
+  {
+    "folder": "ice-cream-truck",
+    "url": "https://sthief.github.io/ice-cream-truck/",
+    "title": "Ice Cream Truck",
+    "blurb": "Drive the truck from the drawing, stop for the kids, and sell ice cream. Count the money and fill the jar.",
+    "tags": [
+      "English",
+      "kids 4-8",
+      "money",
+      "3D"
+    ],
+    "made": "2026-09-23",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
+    "folder": "grammar-bridge",
+    "title": "Grammar Bridge",
+    "blurb": "Put the words in order to build a bridge. Wrong words break and the car falls in.",
+    "tags": [
+      "English",
+      "grammar",
+      "3D",
+      "physics"
+    ],
+    "made": "2026-09-24"
+  },
+  {
+    "folder": "word-drop-room",
+    "title": "Word Drop Room",
+    "blurb": "Say an English word and the toy drops into the room. Try “three red apples”.",
+    "tags": [
+      "English",
+      "speaking",
+      "3D",
+      "physics"
+    ],
+    "made": "2026-09-24",
+    "note": "Talking needs Chrome. Allow the microphone when it asks."
+  },
+  {
+    "folder": "little-garden",
+    "title": "Little Garden",
+    "blurb": "Hear it, do it, watch it grow. Plant seeds, water the right bed, pick and count, and meet the animals.",
+    "tags": [
+      "English",
+      "kids 4-8",
+      "listening",
+      "2D"
+    ],
+    "made": "2026-09-24",
+    "note": "Best on an iPad. Say it! needs a browser with speech recognition."
+  },
+  {
+    "folder": "swarm",
+    "title": "Swarm",
+    "blurb": "Hundreds of shapes chase you. Move, dodge, pick a power-up at each level. Survive 6 minutes.",
+    "tags": [
+      "action",
+      "survivor",
+      "2D",
+      "keyboard or touch"
+    ],
+    "made": "2026-09-29",
+    "note": "WASD, arrows, or drag. Press M for sound off."
+  },
+  {
+    "folder": "prism",
+    "title": "Prism",
+    "blurb": "Turn the mirrors so every beam finds its crystal. Endless levels, each one solved by machine first.",
+    "tags": [
+      "puzzle",
+      "logic",
+      "2D",
+      "endless"
+    ],
+    "made": "2026-09-29",
+    "note": "Tap a mirror. 💡 shows one to turn."
+  },
+  {
+    "folder": "gravity-golf",
+    "title": "Gravity Golf",
+    "blurb": "Pull back and let go. Planets bend your shot. Follow the stars to the portal.",
+    "tags": [
+      "skill",
+      "physics",
+      "2D",
+      "endless"
+    ],
+    "made": "2026-09-29",
+    "note": "Hold the screen while it flies to fast-forward."
+  },
+  {
+    "folder": "alphabet-alley",
+    "title": "Alphabet Alley",
+    "blurb": "Hear a sound, find the letter, knock it down. Then sound out short words.",
+    "tags": [
+      "English",
+      "kids 4-8",
+      "letter sounds",
+      "3D",
+      "physics"
+    ],
+    "made": "2026-09-29",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
+    "folder": "toy-room",
+    "title": "Toy Room",
+    "blurb": "Put the cat on the bed. Drag toys around a dollhouse room: in, on, under, next to.",
+    "tags": [
+      "English",
+      "kids 4-8",
+      "in / on / under",
+      "3D"
+    ],
+    "made": "2026-09-29",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
+    "folder": "hero-run",
+    "title": "Hero Run",
+    "blurb": "Listen, then tap: jump, duck, left, right, stop, spin. Run a 3D track with the hero.",
+    "tags": [
+      "English",
+      "kids 4-8",
+      "action words",
+      "3D"
+    ],
+    "made": "2026-09-29",
+    "note": "Turn the sound on. It speaks."
+  }
+]

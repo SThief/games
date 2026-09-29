@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #10162a; --card: #19213a; --line: rgba(255, 240, 210, .14); --ink: #fff7ea; --soft: #cfc4b0; --accent: #ff8a3d; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(1200px 600px at 50% -10%, #22305a, var(--bg)); color: var(--ink);
+    font-family: "Baloo 2", system-ui, sans-serif; }
+  header { max-width: 1100px; margin: 0 auto; padding: 48px 16px 8px; }
+  h1 { margin: 0; font-size: clamp(38px, 7vw, 60px); line-height: 1; }
+  header p { margin: 8px 0 0; color: var(--soft); font-size: 18px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; display: grid; gap: 22px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  a.card { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--card);
+    border: 1px solid var(--line); border-radius: 22px; overflow: hidden; transition: transform .15s, box-shadow .15s; }
+  a.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0, 0, 0, .45); }
+  .thumb { aspect-ratio: 16 / 9; background: #0c1122 center / cover no-repeat; display: grid; place-items: center; font-size: 48px; }
+  .body { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  h2 { margin: 0; font-size: 26px; line-height: 1.1; }
+  .blurb { color: var(--soft); font-size: 16px; line-height: 1.35; }
+  .note { color: #ffd59e; font-size: 14px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 8px; }
+  .tags span { font-size: 13px; padding: 1px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--soft); }
+  .play { align-self: flex-start; margin-top: 10px; background: var(--accent); color: #fff; font-weight: 800; padding: 4px 18px;
+    border-radius: 999px; font-size: 17px; }
+  .empty { color: var(--soft); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Game Library</h1>
+  <p>Little games we built. Add one: put its folder here and add a line to <code>games.json</code>.</p>
+</header>
+<main id="shelf"><p class="empty">Loading…</p></main>
+<footer style="max-width:1100px;margin:0 auto;padding:0 16px 40px;color:var(--soft)">For grown-ups: <a style="color:var(--accent)" href="_kid/grownups.html">what the kids have learned</a></footer>
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+fetch('games.json', { cache: 'no-store' }).then(r => r.json()).then(games => {
+  const shelf = document.getElementById('shelf');
+  shelf.innerHTML = games.map(g => `
+    <a class="card" href="${esc(g.url || g.folder + '/')}">
+      <div class="thumb" style="background-image:url('thumbs/${esc(g.folder)}.png')"></div>
+      <div class="body">
+        <h2>${esc(g.title)}</h2>
+        <div class="blurb">${esc(g.blurb)}</div>
+        ${g.note ? `<div class="note">${esc(g.note)}</div>` : ''}
+        <span class="play">Play ▶</span>
+        <div class="tags">${(g.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}${g.made ? `<span>${esc(g.made)}</span>` : ''}</div>
+      </div>
+    </a>`).join('') || '<p class="empty">No games yet.</p>';
+}).catch(() => { document.getElementById('shelf').innerHTML = '<p class="empty">Could not read games.json. Open this page through the server, not as a file.</p>'; });
+</script>
+</body>
+</html>
