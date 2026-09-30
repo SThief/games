@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Weather Wardrobe</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234db0ff'/%3E%3Ccircle cx='12' cy='12' r='6' fill='%23ffd23f'/%3E%3Cellipse cx='19' cy='20' rx='9' ry='6' fill='white'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_kid/kit.css">
+<style>
+.sky{position:fixed;inset:0;transition:opacity 1.2s;opacity:0}
+.sky.sunny{background:linear-gradient(#3fb4ff,#9fdcff 55%,#dff4ff)}
+.sky.rainy{background:linear-gradient(#5d6b86,#8e9bb3 55%,#b9c3d4)}
+.sky.snowy{background:linear-gradient(#9fb7d6,#d4e2f2 55%,#f2f7fc)}
+.sky.on{opacity:1}
+#scene{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#scene .w{transition:opacity 1.2s}
+#sunrays{animation:spin 24s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cloud{animation:drift 30s linear infinite}
+@keyframes drift{from{transform:translateX(-140px)}to{transform:translateX(140px)}}
+.cloud.b{animation-duration:42s;animation-direction:alternate}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;z-index:1}
+#bwrap{flex:1;min-height:0;width:100%;display:flex;align-items:flex-end;justify-content:center;padding:92px 8px 0}
+#bear{height:100%;width:100%;max-width:760px;overflow:visible}
+#tray{flex:none;width:100%;display:flex;flex-wrap:wrap;gap:clamp(8px,1.8vw,16px);align-items:center;justify-content:center;padding:8px 10px 14px;position:relative;z-index:3;min-height:clamp(118px,20vh,160px)}
+.pb{position:relative;width:clamp(76px,15vw,120px);aspect-ratio:1/1.05;border:0;border-radius:24px;background:#fff;box-shadow:0 7px 0 #b9cfe6,0 14px 26px rgba(20,50,90,.25);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;font:inherit;color:#1f3d5c;animation:rise .35s cubic-bezier(.3,1.5,.5,1) both}
+.pb:active{transform:translateY(4px);box-shadow:0 3px 0 #b9cfe6}
+#tray.six{max-width:430px;margin:0 auto}
+#tray.six .pb{width:clamp(76px,26vw,120px)}
+.pb .e{font-size:clamp(38px,7.5vw,62px);line-height:1.05}
+.pb b{font-size:clamp(14px,2.4vw,20px);line-height:1}
+.pb i{position:absolute;top:-8px;right:-8px;width:30px;height:30px;border-radius:50%;font-style:normal;font-weight:800;font-size:24px;line-height:28px;color:#fff;background:#3fcf6b;box-shadow:0 3px 0 #238a45}
+.pb i.off{background:#ff8a3d;box-shadow:0 3px 0 #b9531a}
+.pb.glow{animation:glow 1s ease-in-out infinite}
+.pb.shake{animation:shake .45s}
+.pb.used{opacity:.3;pointer-events:none}
+@keyframes rise{from{transform:translateY(60px) scale(.6);opacity:0}}
+@keyframes glow{50%{box-shadow:0 7px 0 #f0b53a,0 0 0 8px rgba(255,210,70,.8),0 0 40px rgba(255,210,70,.9)}}
+@keyframes shake{20%{transform:translateX(-10px) rotate(-5deg)}40%{transform:translateX(9px) rotate(4deg)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+#chip{display:flex;align-items:center;gap:10px;padding:2px 22px;min-height:62px;border-radius:999px;background:rgba(255,255,255,.95);color:#1f3d5c;box-shadow:0 6px 0 rgba(0,0,0,.18);cursor:pointer}
+#chip .sp{font-size:34px;animation:beat 1s ease-in-out infinite}
+#chip #pic{font-size:44px;line-height:1}
+#chip #cnt{font-size:30px;font-weight:800;letter-spacing:2px}
+@keyframes beat{50%{transform:scale(1.15)}}
+#dots{position:fixed;top:84px;left:0;right:0;display:flex;gap:6px;justify-content:center;pointer-events:none;z-index:4}
+#dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.8)}
+#dots i.ok{background:var(--gold);border-color:#fff;transform:scale(1.25)}
+#dots i.no{background:#8fa3bf;border-color:#6f83a0}
+.ktop{z-index:4}
+#menu,#end{z-index:6}
+.kdoor .big{font-size:44px}
+.kdoor .nm{font-size:22px;font-weight:800;margin-top:2px}
+#end{background:transparent;justify-content:flex-end;padding-bottom:22px;pointer-events:none}
+#end>*{pointer-events:auto}
+#end .card{background:rgba(20,40,80,.8);border-radius:28px;padding:10px 22px 12px;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 18px}
+@media (max-width:620px){#end .card{flex-direction:column}}
+#end .stars{font-size:clamp(46px,9vw,80px);color:var(--gold);letter-spacing:8px;text-shadow:0 4px 0 #b9741a;line-height:1}
+#end .row{display:flex;gap:14px}
+.flyer{position:fixed;left:0;top:0;z-index:20;pointer-events:none;line-height:1}
+.spark{position:fixed;z-index:40;pointer-events:none;font-size:28px;left:0;top:0}
+/* bear */
+#bear .cl{cursor:pointer}
+.pop{animation:pop .5s cubic-bezier(.3,1.7,.5,1) both}
+@keyframes pop{from{transform:scale(0)}}
+.breathe{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.02,.985)}}
+#bear.happy .breathe{animation:dance .8s ease-in-out infinite}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-26px) rotate(-6deg)}50%{transform:scale(1.04,.96)}75%{transform:translateY(-26px) rotate(6deg)}}
+#bear.cold .breathe{animation:shiver .09s linear infinite}
+@keyframes shiver{50%{transform:translateX(3px)}}
+#bear .fxg{opacity:0;transition:opacity .3s}
+#bear.hot #sweat,#bear.cold #brr,#bear.wet #drip{opacity:1}
+#bear.cold #tint{opacity:.35}
+#sweat circle,#drip path{animation:dropdown 1s ease-in infinite}
+@keyframes dropdown{from{transform:translateY(-6px)}to{transform:translateY(16px);opacity:0}}
+#bear .eyeo{transition:opacity .2s}
+#bear.happy .eyeo{opacity:0}
+#bear .eyec{opacity:0}
+#bear.happy .eyec{opacity:1}
+.blink{animation:blink 4s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.glowcl{animation:glowcl 1s ease-in-out infinite}
+@keyframes glowcl{50%{filter:drop-shadow(0 0 12px #fff28a) drop-shadow(0 0 22px #ffd23f)}}
+</style>
+</head>
+<body>
+<div class="sky sunny on"></div><div class="sky rainy"></div><div class="sky snowy"></div>
+<svg id="scene" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMax slice">
+  <g class="w" id="w-sun">
+    <g transform="translate(790,185)"><g id="sunrays"></g><circle r="52" fill="#ffd23f" stroke="#ffb020" stroke-width="5"/><circle cx="-17" cy="-6" r="5" fill="#8a5a00"/><circle cx="17" cy="-6" r="5" fill="#8a5a00"/><path d="M-18,14 Q0,30 18,14" stroke="#8a5a00" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="-30" cy="10" r="7" fill="#ff9a3c" opacity=".6"/><circle cx="30" cy="10" r="7" fill="#ff9a3c" opacity=".6"/></g>
+  </g>
+  <g id="clouds"></g>
+  <path d="M0,470 Q180,400 380,450 T760,430 T1000,450 L1000,700 L0,700Z" fill="#8fd46a"/>
+  <g transform="translate(120,330)"><rect x="-12" y="40" width="24" height="120" fill="#8a5a3a"/><circle cx="0" cy="20" r="62" fill="#4fae4a"/><circle cx="-38" cy="50" r="40" fill="#5cc052"/><circle cx="36" cy="46" r="44" fill="#48a444"/><g class="w" id="w-treesnow"><path d="M-58,4 Q-30,-46 6,-42 Q48,-40 60,6 Q30,-16 0,-12 Q-30,-14 -58,4Z" fill="#fff"/></g></g>
+  <g transform="translate(870,390)"><rect x="-60" y="0" width="120" height="96" fill="#ffcf8a" stroke="#c98a4a" stroke-width="5"/><path d="M-78,4 L0,-66 L78,4Z" fill="#e85d4a" stroke="#a83a2a" stroke-width="5" stroke-linejoin="round"/><rect x="-18" y="40" width="36" height="56" fill="#8a5a3a"/><rect x="24" y="18" width="26" height="24" fill="#9fdcff" stroke="#c98a4a" stroke-width="4"/><g class="w" id="w-roofsnow"><path d="M-80,6 L0,-68 L80,6 Q60,-8 40,-4 Q20,-18 0,-10 Q-24,-20 -44,-4 Q-64,-10 -80,6Z" fill="#fff"/></g></g>
+  <path d="M0,540 Q250,500 500,530 T1000,520 L1000,700 L0,700Z" fill="#6cc04a"/>
+  <g class="w" id="w-flowers"></g>
+  <g class="w" id="w-snow"><path d="M0,474 Q180,404 380,454 T760,434 T1000,454 L1000,700 L0,700Z" fill="#f4f8ff"/><path d="M0,544 Q250,504 500,534 T1000,524 L1000,700 L0,700Z" fill="#fff"/></g>
+  <g class="w" id="w-puddles"><ellipse cx="270" cy="620" rx="90" ry="16" fill="#7fb0d8" opacity=".8"/><ellipse cx="730" cy="640" rx="110" ry="18" fill="#7fb0d8" opacity=".8"/><ellipse cx="520" cy="680" rx="70" ry="12" fill="#7fb0d8" opacity=".8"/></g>
+</svg>
+<canvas id="fx"></canvas>
+<div id="stage">
+  <div id="bwrap"><svg id="bear" viewBox="-190 -262 380 440"></svg></div>
+  <div id="tray"></div>
+</div>
+<div class="ktop">
+  <button class="kround" id="home" title="Menu">🏠</button>
+  <div id="chip" class="hide"><span class="sp">🔊</span><span id="pic"></span><span id="cnt"></span></div>
+  <button class="kround" id="mute" title="Sound">🔊</button>
+</div>
+<div id="dots"></div>
+<div id="menu" class="kov">
+  <h1 class="ktitle">Weather Wardrobe</h1>
+  <div class="ksub">Sun, rain or snow? Dress Bobo the bear!</div>
+  <div class="kdoors" id="doors"></div>
+</div>
+<div id="end" class="kov hide"><div class="card"><div class="stars" id="stars"></div><div class="ksub" id="score"></div><div class="row"><button class="kbig" id="again">Again</button><button class="kbig" id="nextlv">Next</button></div></div></div>
+
+<script type="module">
+import * as kit from '../_kid/kit.js';
+import { ITEMS, WEATHER, LEVELS } from './lines.js';
+
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[(Math.random() * a.length) | 0];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const GAME = 'wear';
+const WARM = ['coat', 'scarf', 'gloves', 'boots'], SUMMER = ['tshirt', 'sunglasses', 'shorts', 'cap', 'hat', 'shoes'];
+
+/* ============ scenery ============ */
+(function scenery() {
+  let r = ''; for (let i = 0; i < 12; i++) r += `<rect x="-5" y="-92" width="10" height="26" rx="5" fill="#ffd23f" transform="rotate(${i * 30})"/>`;
+  $('sunrays').outerHTML = `<g id="sunrays">${r}</g>`;
+  let f = ''; for (let i = 0; i < 14; i++) { const x = rnd(20, 980) | 0, y = rnd(560, 690) | 0, c = pick(['#ff6b8a', '#ffd23f', '#fff', '#b48cff']); f += `<g transform="translate(${x},${y})"><circle cx="-6" r="6" fill="${c}"/><circle cx="6" r="6" fill="${c}"/><circle cy="-6" r="6" fill="${c}"/><circle cy="6" r="6" fill="${c}"/><circle r="4.5" fill="#ffb020"/></g>`; }
+  $('w-flowers').innerHTML = f;
+})();
+function cloudSvg(x, y, s, col, b) { return `<g class="cloud ${b ? 'b' : ''}" style="animation-delay:${-rnd(0, 30)}s"><g transform="translate(${x},${y}) scale(${s})" fill="${col}"><ellipse cx="0" cy="0" rx="70" ry="34"/><circle cx="-34" cy="-14" r="32"/><circle cx="10" cy="-30" r="40"/><circle cx="46" cy="-8" r="30"/></g></g>`; }
+const W = { now: 'sunny' };
+function setWeather(w, instant) {
+  W.now = w;
+  document.querySelectorAll('.sky').forEach(el => el.classList.toggle('on', el.classList.contains(w)));
+  const vis = { 'w-sun': w === 'sunny', 'w-flowers': w === 'sunny', 'w-snow': w === 'snowy', 'w-treesnow': w === 'snowy', 'w-roofsnow': w === 'snowy', 'w-puddles': w === 'rainy' };
+  for (const [id, on] of Object.entries(vis)) { const el = $(id); el.style.opacity = on ? 1 : 0; }
+  const col = w === 'sunny' ? '#fff' : w === 'rainy' ? '#7a869c' : '#e9eef6', n = w === 'sunny' ? 3 : 6, sun = w === 'sunny';
+  $('clouds').innerHTML = Array.from({ length: n }, (_, i) => cloudSvg(sun ? [140, 470, 640][i] + rnd(-40, 40) : 120 + i * (820 / n) + rnd(-40, 40), sun ? rnd(90, 150) : rnd(60, 150), sun ? rnd(.6, .9) : rnd(1.1, 1.7), col, i % 2)).join('');
+  if (instant) document.querySelectorAll('.sky,#scene .w').forEach(el => { el.style.transition = 'none'; void el.offsetWidth; el.style.transition = ''; });
+}
+
+/* ---------- rain and snow ---------- */
+const cv = $('fx'), cx = cv.getContext('2d'); let parts = [], dens = 0;
+function fitCanvas() { const d = Math.min(devicePixelRatio || 1, 1.5); cv.width = innerWidth * d; cv.height = innerHeight * d; cx.setTransform(d, 0, 0, d, 0, 0); }
+addEventListener('resize', fitCanvas); fitCanvas();
+function tickFx(dt) {
+  const w = W.now, want = w === 'rainy' ? 150 : w === 'snowy' ? 120 : 0, Wd = innerWidth, H = innerHeight;
+  dens += (want - dens) * Math.min(1, dt * 1.5);
+  while (parts.length < dens) parts.push({ x: rnd(0, Wd), y: rnd(-H, 0), v: rnd(.7, 1.3), s: rnd(.6, 1.4), kind: w, ph: rnd(0, 6) });
+  if (parts.length > dens + 5) parts.length = Math.max(0, Math.floor(dens));
+  cx.clearRect(0, 0, Wd, H);
+  const umb = S.worn.has('umbrella') ? umbrellaRect() : null;
+  cx.lineCap = 'round';
+  for (const p of parts) {
+    if (p.kind === 'rainy') { p.y += 900 * p.v * dt; p.x -= 120 * dt; } else { p.y += 90 * p.v * dt; p.x += Math.sin(p.y / 40 + p.ph) * 30 * dt; }
+    if (umb && p.kind === 'rainy' && p.x > umb.left && p.x < umb.right && p.y > umb.top) { p.y = rnd(-80, -10); p.x = rnd(0, Wd + 100); }
+    if (p.y > H + 10 || p.x < -20) { p.y = rnd(-60, -10); p.x = rnd(0, Wd + 100); p.kind = w === 'sunny' ? p.kind : w; }
+    if (p.kind === 'rainy') { cx.strokeStyle = 'rgba(220,235,255,.75)'; cx.lineWidth = 2.2 * p.s; cx.beginPath(); cx.moveTo(p.x, p.y); cx.lineTo(p.x + 3, p.y - 18 * p.s); cx.stroke(); }
+    else { cx.fillStyle = 'rgba(255,255,255,.95)'; cx.beginPath(); cx.arc(p.x, p.y, 3.2 * p.s, 0, 7); cx.fill(); }
+  }
+}
+let umbCache = null, umbT = 0;
+function umbrellaRect() { const now = performance.now(); if (!umbCache || now - umbT > 300) { const el = bear.querySelector('[data-k="umbrella"] text'); umbCache = el ? el.getBoundingClientRect() : null; umbT = now; } return umbCache; }
+
+/* ============ the bear ============ */
+const FUR = '#b87a4b', DARK = '#6e4122', LIGHT = '#ecc79e', PINK = '#f2a7a0';
+const BEAR = `
+<ellipse cx="0" cy="172" rx="120" ry="14" fill="#1d3a20" opacity=".22"/>
+<g transform="translate(0,168)"><g class="breathe"><g transform="translate(0,-168)">
+ <g id="bb">
+  <rect x="-54" y="64" width="42" height="92" rx="19" fill="${FUR}" stroke="${DARK}" stroke-width="5"/><rect x="12" y="64" width="42" height="92" rx="19" fill="${FUR}" stroke="${DARK}" stroke-width="5"/>
+  <ellipse cx="-36" cy="154" rx="32" ry="17" fill="${FUR}" stroke="${DARK}" stroke-width="5"/><ellipse cx="36" cy="154" rx="32" ry="17" fill="${FUR}" stroke="${DARK}" stroke-width="5"/>
+  <ellipse cx="-36" cy="156" rx="16" ry="8" fill="${LIGHT}"/><ellipse cx="36" cy="156" rx="16" ry="8" fill="${LIGHT}"/>
+  <path d="M-52,-36 Q-92,2 -86,54" stroke="${DARK}" stroke-width="36" stroke-linecap="round" fill="none"/><path d="M-52,-36 Q-92,2 -86,54" stroke="${FUR}" stroke-width="26" stroke-linecap="round" fill="none"/>
+  <path d="M52,-36 Q92,2 86,54" stroke="${DARK}" stroke-width="36" stroke-linecap="round" fill="none"/><path d="M52,-36 Q92,2 86,54" stroke="${FUR}" stroke-width="26" stroke-linecap="round" fill="none"/>
+  <ellipse cx="0" cy="12" rx="66" ry="82" fill="${FUR}" stroke="${DARK}" stroke-width="5"/>
+  <ellipse cx="0" cy="26" rx="42" ry="52" fill="${LIGHT}"/>
+  <circle cx="-86" cy="58" r="20" fill="${FUR}" stroke="${DARK}" stroke-width="5"/><circle cx="86" cy="58" r="20" fill="${FUR}" stroke="${DARK}" stroke-width="5"/>
+  <circle cx="-50" cy="-176" r="25" fill="${FUR}" stroke="${DARK}" stroke-width="5"/><circle cx="50" cy="-176" r="25" fill="${FUR}" stroke="${DARK}" stroke-width="5"/>
+  <circle cx="-50" cy="-176" r="12" fill="${PINK}"/><circle cx="50" cy="-176" r="12" fill="${PINK}"/>
+  <circle cx="0" cy="-126" r="68" fill="${FUR}" stroke="${DARK}" stroke-width="5"/>
+  <ellipse cx="0" cy="-100" rx="33" ry="25" fill="${LIGHT}"/>
+  <ellipse cx="0" cy="-111" rx="12" ry="8.5" fill="#3a2416"/><ellipse cx="-3" cy="-114" rx="4" ry="2.4" fill="#fff" opacity=".6"/>
+  <path d="M-13,-97 Q0,-86 13,-97" stroke="#3a2416" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <g class="eyeo"><g class="blink"><circle cx="-25" cy="-136" r="8.5" fill="#2a1a10"/><circle cx="25" cy="-136" r="8.5" fill="#2a1a10"/><circle cx="-22" cy="-139" r="2.8" fill="#fff"/><circle cx="28" cy="-139" r="2.8" fill="#fff"/></g></g>
+  <g class="eyec"><path d="M-34,-134 Q-25,-144 -16,-134 M16,-134 Q25,-144 34,-134" stroke="#2a1a10" stroke-width="4.5" fill="none" stroke-linecap="round"/></g>
+  <circle cx="-46" cy="-106" r="10" fill="#ff8a8a" opacity=".45"/><circle cx="46" cy="-106" r="10" fill="#ff8a8a" opacity=".45"/>
+ </g>
+ <g id="tint" class="fxg"><circle cx="0" cy="-126" r="68" fill="#8ec5ff"/></g>
+ <g id="clothes"></g>
+ <g id="sweat" class="fxg"><circle cx="-62" cy="-150" r="7" fill="#9fe0ff" stroke="#4aa8d8" stroke-width="2"/><circle cx="64" cy="-140" r="6" fill="#9fe0ff" stroke="#4aa8d8" stroke-width="2" style="animation-delay:-.5s"/></g>
+ <g id="drip" class="fxg"><path d="M-40,-196 q6,10 0,14 q-6,-4 0,-14Z M30,-200 q6,10 0,14 q-6,-4 0,-14Z M70,-150 q6,10 0,14 q-6,-4 0,-14Z" fill="#9fe0ff" stroke="#4aa8d8" stroke-width="2"/></g>
+ <g id="brr" class="fxg"><text x="-120" y="-150" font-size="34" font-weight="800" fill="#4a8ad8" font-family="Baloo 2,sans-serif">brr</text><text x="84" y="-170" font-size="30" font-weight="800" fill="#4a8ad8" font-family="Baloo 2,sans-serif">brr</text></g>
+</g></g></g>`;
+// where each thing sits on the bear: [x, y, size, mirrored]
+const SPOTS = {
+  socks: [[-36, 138, 50, true], [36, 138, 50]], shoes: [[-38, 148, 72, true], [38, 148, 72]], boots: [[-36, 128, 90], [36, 128, 90, true]],
+  shorts: [[0, 88, 120]], jeans: [[0, 104, 158]], tshirt: [[0, 10, 176]], coat: [[0, 16, 196]], scarf: [[0, -30, 96]],
+  gloves: [[-88, 60, 60, true], [88, 60, 60]], sunglasses: [[0, -134, 102]], hat: [[0, -196, 138]], cap: [[4, -186, 124]], umbrella: [[112, -70, 190]]
+};
+const ORDER = ['socks', 'shoes', 'boots', 'shorts', 'jeans', 'tshirt', 'coat', 'scarf', 'gloves', 'sunglasses', 'hat', 'cap', 'umbrella'];
+const bear = $('bear'); bear.innerHTML = BEAR;
+// the bear's own paws are round, so gloves are drawn as mittens rather than as the emoji pair
+const mitten = m => `<g transform="scale(${m ? -1 : 1},1)"><rect x="-19" y="-34" width="38" height="16" rx="7" fill="#fff" stroke="#9aa7b8" stroke-width="3"/><ellipse cx="-19" cy="-2" rx="9" ry="13" fill="#4d9bff" stroke="#2a5ea8" stroke-width="3.5" transform="rotate(-25 -19 -2)"/><ellipse cx="2" cy="2" rx="21" ry="24" fill="#4d9bff" stroke="#2a5ea8" stroke-width="3.5"/><path d="M-12,8 Q2,16 16,6" stroke="#8ec5ff" stroke-width="4" fill="none" stroke-linecap="round"/></g>`;
+function drawClothes(fresh) {
+  $('clothes').innerHTML = ORDER.filter(k => S.worn.has(k)).map(k => `<g class="cl" data-k="${k}">${SPOTS[k].map(([x, y, s, m]) => `<g transform="translate(${x},${y})"><g class="${fresh === k ? 'pop' : ''}"><circle r="${s * .42}" fill="transparent"/>${k === 'gloves' ? mitten(m) : `<text font-size="${s}" text-anchor="middle" dominant-baseline="central" ${m ? 'transform="scale(-1,1)"' : ''}>${ITEMS[k].e}</text>`}</g></g>`).join('')}</g>`).join('');
+  $('clothes').querySelectorAll('.cl').forEach(g => g.addEventListener('pointerdown', e => { e.stopPropagation(); tapWorn(g.dataset.k); }));
+}
+function mood(m, ms = 1600) { bear.classList.remove('hot', 'cold', 'wet', 'happy'); if (m) bear.classList.add(m); clearTimeout(mood.t); if (m && ms) mood.t = setTimeout(() => bear.classList.remove(m), ms); }
+function spotScreen(k) {
+  const [x, y] = SPOTS[k][0], m = bear.getScreenCTM(); if (!m) return [innerWidth / 2, innerHeight / 2];
+  const pt = bear.createSVGPoint(); pt.x = x; pt.y = y; const p = pt.matrixTransform(m); return [p.x, p.y];
+}
+
+/* ============ state ============ */
+const S = { mode: 'menu', level: 0, ri: 0, N: 8, round: null, results: [], busy: false, token: 0, worn: new Set(), plan: [] };
+let quiet = false;
+const say = k => kit.say(k), chain = (ks, gap = 150) => kit.sayChain(ks, gap);
+const slotFree = (k, except) => ![...S.worn].some(w => w !== except && ITEMS[w].slot === ITEMS[k].slot);
+
+function startSession(level) {
+  S.token++; const my = S.token;
+  Object.assign(S, { mode: 'play', level, ri: 0, N: LEVELS[level].rounds, results: [], busy: true, round: null, worn: new Set() });
+  $('menu').classList.add('hide'); $('end').classList.add('hide'); $('chip').classList.remove('hide'); $('tray').innerHTML = '';
+  mood(null); $('dots').innerHTML = '<i></i>'.repeat(S.N); $('pic').textContent = ''; $('cnt').textContent = '';
+  kit.preload(['wd:hi', 'wd:ready', 'wd:now', 'wd:hot', 'wd:cold', 'wd:wet', 'wd:yay', 'cheer:0', 'cheer:1', 'cheer:2', 'cheer:3', 'done']);
+  if (level === 0) { setWeather('sunny'); drawClothes(); S.plan = Array(8).fill('on'); chain(['wd:hi']).then(() => { if (my === S.token) newRound(); }); }
+  else if (level === 1) {
+    let ws; do { ws = [...shuffle(Object.keys(WEATHER)), ...shuffle(Object.keys(WEATHER))]; } while (ws.some((w, i) => i && ws[i - 1] === w));
+    S.plan = ws; drawClothes(); newRound();
+  } else {
+    setWeather('snowy'); WARM.forEach(k => S.worn.add(k)); drawClothes();
+    S.plan = ['off', 'on', 'off', 'on', 'off', 'on', 'off', 'on'];
+    (async () => { await chain(['wd:w:snowy']); if (my !== S.token) return; await kit.sleep(500); setWeather('sunny'); kit.sfx.whoosh(); await chain(['wd:now']); if (my !== S.token) return; mood('hot', 1800); await say('wd:hot'); if (my !== S.token) return; newRound(); })();
+  }
+}
+function newRound() {
+  if (S.ri >= S.N) return endSession();
+  const type = S.plan[S.ri], prev = S.round, my = S.token;
+  let R;
+  if (type === 'on') {
+    const pool = (S.level === 2 ? SUMMER : Object.keys(ITEMS)).filter(k => !S.worn.has(k) && slotFree(k));
+    const k = kit.mastery.pick(GAME, pool.map(k => 'it:' + k), prev && prev.item ? 'it:' + prev.item : undefined).slice(3);
+    const others = shuffle(Object.keys(ITEMS).filter(x => x !== k && !S.worn.has(x))).slice(0, 3);
+    R = { type, item: k, choices: shuffle([k, ...others]), key: 'it:' + k };
+  } else if (type === 'off') {
+    const pool = WARM.filter(k => S.worn.has(k));
+    const k = kit.mastery.pick(GAME, pool.map(k => 'it:' + k)).slice(3);
+    R = { type, item: k, choices: shuffle([...S.worn]), key: 'it:' + k };
+  } else {
+    const w = type, WD = WEATHER[w], good = [];
+    for (const k of shuffle(WD.good)) if (good.length < 3 && !good.some(g => ITEMS[g].slot === ITEMS[k].slot)) good.push(k);
+    const bad = shuffle(WD.bad).slice(0, 3);
+    R = { type: 'weather', weather: w, good, need: good.length, got: 0, choices: shuffle([...good, ...bad]), key: 'w:' + w };
+  }
+  Object.assign(R, { miss: false, wrong: 0, done: false, intro: kit.mastery.isNew(GAME, R.key) });
+  S.round = R; S.busy = false;
+  [...$('dots').children].forEach((d, i) => { d.className = i < S.results.length ? (S.results[i] ? 'ok' : 'no') : ''; });
+  if (R.type === 'weather') {
+    S.busy = true;
+    (async () => {
+      if (S.worn.size) { await undressAll(); if (my !== S.token) return; }
+      setWeather(R.weather); kit.sfx.whoosh(); mood(null);
+      $('pic').textContent = WEATHER[R.weather].icon; $('cnt').textContent = '0 / ' + R.need;
+      kit.preload(['wd:w:' + R.weather, 'wd:need:' + R.weather, 'wd:not:' + R.weather, ...R.choices.map(k => 'wd:name:' + k)]);
+      buildTray(); S.busy = false; sayRound();
+    })();
+    return;
+  }
+  $('pic').textContent = ''; $('cnt').textContent = '';
+  kit.preload(['wd:' + R.type + ':' + R.item, 'wd:name:' + R.item, ...R.choices.map(k => 'wd:that:' + k)]);
+  buildTray(); sayRound();
+}
+function sayRound() {
+  const R = S.round; if (!R || S.mode !== 'play') return;
+  if (R.type === 'weather') chain(['wd:w:' + R.weather, 'wd:need:' + R.weather], 250);
+  else say('wd:' + R.type + ':' + R.item);
+}
+function buildTray() {
+  const R = S.round, t = $('tray');
+  t.classList.toggle('six', R.choices.length > 4 && innerWidth < 700);
+  t.innerHTML = R.choices.map((k, i) => `<button class="pb ${S.worn.has(k) && R.type !== 'off' ? 'used' : ''}" data-k="${k}" style="animation-delay:${i * .05}s"><span class="e">${ITEMS[k].e}</span><b>${ITEMS[k].word}</b><i class="${R.type === 'off' ? 'off' : ''}">${R.type === 'off' ? '−' : '+'}</i></button>`).join('');
+  t.querySelectorAll('.pb').forEach(b => b.addEventListener('click', () => tapItem(b.dataset.k, b)));
+  if (R.intro && R.type !== 'weather') glowTarget();
+}
+function glowTarget() {
+  const R = S.round; $('tray').querySelectorAll('.pb').forEach(b => b.classList.toggle('glow', R.type === 'weather' ? R.good.includes(b.dataset.k) && !S.worn.has(b.dataset.k) : b.dataset.k === R.item));
+  if (R.type === 'off') { const g = bear.querySelector(`.cl[data-k="${R.item}"]`); if (g) g.classList.add('glowcl'); }
+}
+
+/* ---------- effects ---------- */
+function flyEmoji(e, from, to, size, ms = 420) {
+  const d = document.createElement('div'); d.className = 'flyer'; d.textContent = e; d.style.fontSize = size + 'px'; document.body.appendChild(d);
+  const h = size / 2, mid = [(from[0] + to[0]) / 2, Math.min(from[1], to[1]) - 120];
+  const a = d.animate([{ transform: `translate(${from[0] - h}px,${from[1] - h}px) scale(1)` }, { transform: `translate(${mid[0] - h}px,${mid[1] - h}px) scale(1.25)`, offset: .5 }, { transform: `translate(${to[0] - h}px,${to[1] - h}px) scale(.9)` }], { duration: quiet ? 1 : ms, easing: 'ease-in-out' });
+  return a.finished.catch(() => {}).then(() => d.remove());
+}
+function sparks(x, y, n = 12) {
+  if (quiet) return;
+  for (let i = 0; i < n; i++) { const s = document.createElement('div'); s.className = 'spark'; s.textContent = pick(['⭐', '✨', '💛']); document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, r = rnd(70, 180);
+    s.animate([{ transform: `translate(${x}px,${y}px) scale(.3)`, opacity: 1 }, { transform: `translate(${x + Math.cos(a) * r}px,${y + Math.sin(a) * r}px) scale(1.1)`, opacity: 0 }], { duration: rnd(600, 950), easing: 'ease-out' }).onfinish = () => s.remove(); }
+}
+const centerOf = el => { const b = el.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; };
+async function putOn(k, btn) {
+  kit.sfx.whoosh();
+  await flyEmoji(ITEMS[k].e, centerOf(btn), spotScreen(k), 70);
+  for (const w of [...S.worn]) if (ITEMS[w].slot === ITEMS[k].slot) S.worn.delete(w);
+  S.worn.add(k); drawClothes(k); kit.sfx.pop(); kit.sfx.boing(); umbCache = null;
+  const [x, y] = spotScreen(k); sparks(x, y, 10);
+}
+async function takeOff(k) {
+  const from = spotScreen(k); S.worn.delete(k); drawClothes(); kit.sfx.whoosh(); umbCache = null;
+  await flyEmoji(ITEMS[k].e, from, [innerWidth / 2 + rnd(-200, 200), innerHeight + 80], 80, 500);
+}
+async function undressAll() {
+  const ks = [...S.worn]; S.worn.clear(); drawClothes(); kit.sfx.whoosh(); umbCache = null;
+  await Promise.all(ks.map((k, i) => flyEmoji(ITEMS[k].e, spotScreen(k), [innerWidth * (.15 + .7 * i / Math.max(1, ks.length - 1)), innerHeight + 90], 70, 520)));
+}
+
+/* ---------- answers ---------- */
+function shake(b) { if (!b) return; b.classList.remove('shake', 'glow'); void b.offsetWidth; b.classList.add('shake'); }
+function tapItem(k, btn) {
+  const R = S.round; kit.audio(); if (!R || S.busy || S.mode !== 'play' || R.done) return;
+  if (R.type === 'off') return k === R.item ? rightOff() : wrongWorn(k, btn);
+  if (R.type === 'on') {
+    if (k !== R.item) { R.miss = true; R.wrong++; shake(btn); kit.sfx.bonk(); chain(['wd:that:' + k, 'wd:on:' + R.item], 250); if (R.wrong >= 2) setTimeout(glowTarget, 460); return; }
+    S.busy = true; kit.stopSpeech(); $('tray').querySelectorAll('.pb').forEach(b => b.classList.remove('glow'));
+    return putOn(k, btn).then(() => win(['wd:name:' + k]));
+  }
+  // weather round
+  if (S.worn.has(k)) return;
+  if (!R.good.includes(k)) {
+    R.miss = true; R.wrong++; shake(btn); kit.sfx.bonk();
+    const react = { sunny: 'hot', rainy: 'wet', snowy: 'cold' }[R.weather]; mood(react, 1700);
+    chain(['wd:' + react, 'wd:not:' + R.weather], 200);
+    if (R.wrong >= 2) setTimeout(glowTarget, 460);
+    return;
+  }
+  S.busy = true; kit.stopSpeech(); btn.classList.add('used'); btn.classList.remove('glow');
+  const my = S.token;
+  putOn(k, btn).then(async () => {
+    if (my !== S.token) return;
+    R.got++; $('cnt').textContent = R.got + ' / ' + R.need; kit.sfx.star(R.got);
+    if (R.got >= R.need) { mood('happy', 0); return win(['wd:name:' + k, 'wd:yay', 'wd:ready']); }
+    S.busy = false; say('wd:name:' + k);
+  });
+}
+function tapWorn(k) {
+  const R = S.round; kit.audio();
+  if (!R || S.busy || S.mode !== 'play' || R.done) { if (S.mode !== 'play') { mood('happy', 900); kit.sfx.boing(); } return; }
+  if (R.type !== 'off') { say('wd:name:' + k); return; }
+  if (k === R.item) rightOff(); else wrongWorn(k, $('tray').querySelector(`[data-k="${k}"]`));
+}
+function wrongWorn(k, btn) { const R = S.round; R.miss = true; R.wrong++; shake(btn); kit.sfx.bonk(); chain(['wd:that:' + k, 'wd:off:' + R.item], 250); if (R.wrong >= 2) setTimeout(glowTarget, 460); }
+function rightOff() {
+  const R = S.round; S.busy = true; kit.stopSpeech();
+  const b = $('tray').querySelector(`[data-k="${R.item}"]`); if (b) b.classList.add('used');
+  takeOff(R.item).then(() => { mood('happy', 900); win(['wd:name:' + R.item]); });
+}
+async function win(extra) {
+  const R = S.round, my = S.token; R.done = true; S.busy = true;
+  if (R.intro) kit.mastery.seen(GAME, R.key); else kit.mastery.record(GAME, R.key, !R.miss);
+  S.results.push(R.intro ? true : !R.miss);
+  const d = $('dots').children[S.results.length - 1]; if (d) d.className = S.results[S.results.length - 1] ? 'ok' : 'no';
+  kit.sfx.cheer();
+  await chain([...extra, ...(R.type === 'weather' ? [] : ['cheer:' + ((Math.random() * 4) | 0)])], 150); if (my !== S.token) return;
+  await kit.sleep(R.type === 'weather' ? 900 : 500); if (my !== S.token) return;
+  mood(null); S.ri++; newRound();
+}
+function endSession() {
+  S.mode = 'end'; S.round = null; const N = S.N, n = S.results.filter(Boolean).length, f = n / N, stars = f >= .85 ? 3 : f >= .6 ? 2 : 1, unlock = f >= .6;
+  kit.progress.finish(GAME, S.level + 1, stars, unlock); $('tray').innerHTML = ''; $('chip').classList.add('hide');
+  mood('happy', 0); kit.sfx.big(); kit.confetti(80); chain(['wd:yay', 'done'], 200);
+  $('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars); $('score').textContent = n + ' / ' + N;
+  $('nextlv').classList.toggle('hide', !(unlock && S.level < LEVELS.length - 1)); $('end').classList.remove('hide');
+}
+
+/* ---------- screens ---------- */
+function buildMenu() {
+  const p = kit.progress.get(GAME);
+  $('doors').innerHTML = LEVELS.map((L, i) => { const lock = i + 1 > p.unlocked, st = p.stars[i + 1] || 0;
+    return `<button class="kdoor ${lock ? 'lock' : ''}" data-l="${i}"><div class="big">${L.icon}</div><div class="nm">${L.name}</div><div class="st">${lock ? '🔒' : '★'.repeat(st) + '☆'.repeat(3 - st)}</div></button>`; }).join('');
+  $('doors').querySelectorAll('.kdoor:not(.lock)').forEach(b => b.addEventListener('click', () => { kit.audio(); startSession(+b.dataset.l); }));
+}
+function toMenu() {
+  S.token++; kit.stopSpeech(); S.mode = 'menu'; S.round = null; S.busy = false;
+  $('chip').classList.add('hide'); $('end').classList.add('hide'); $('dots').innerHTML = ''; $('tray').innerHTML = '';
+  S.worn = new Set(['cap', 'sunglasses', 'tshirt', 'shorts', 'shoes']); drawClothes(); setWeather('sunny', true); mood('happy', 0);
+  buildMenu(); $('menu').classList.remove('hide');
+}
+$('home').onclick = toMenu; $('chip').onclick = () => { kit.audio(); if (S.mode === 'play' && !S.busy) sayRound(); };
+$('again').onclick = () => startSession(S.level); $('nextlv').onclick = () => startSession(Math.min(LEVELS.length - 1, S.level + 1));
+$('mute').onclick = () => { kit.setMuted(!kit.isMuted()); $('mute').textContent = kit.isMuted() ? '🔇' : '🔊'; kit.audio(); };
+bear.addEventListener('pointerdown', () => { kit.audio(); if (S.mode !== 'play') { mood('happy', 900); kit.sfx.boing(); } });
+
+let last = performance.now();
+function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.05, (now - last) / 1000); last = now; if (!quiet) tickFx(dt); }
+try { await document.fonts.load('800 60px "Baloo 2"'); } catch (e) { /* fallback font */ }
+await kit.loadVoice();
+toMenu(); requestAnimationFrame(frame);
+
+window.wear = {
+  S, kit, ITEMS, WEATHER, startSession, toMenu, tapItem, tapWorn, setWeather, drawClothes, mood,
+  btn: k => $('tray').querySelector(`[data-k="${k}"]`),
+  quiet(v) { quiet = v; kit.setQuiet(v); }
+};
+</script>
+</body>
+</html>
