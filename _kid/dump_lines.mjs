@@ -4,7 +4,7 @@ import { writeFileSync, existsSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const games = ['hero-run', 'toy-room', 'alphabet-alley'];
+const games = ['hero-run', 'toy-room', 'alphabet-alley', 'monster-maker', 'rhyme-frog', 'weather-wardrobe', 'feelings-friends'];
 const all = new Map();
 for (const g of games) {
   const f = path.join(root, g, 'lines.js');

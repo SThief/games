@@ -1213,5 +1213,1646 @@
  {
   "key": "w:kid",
   "say": "kid."
+ },
+ {
+  "key": "mm:hi",
+  "say": "Let's make a monster!"
+ },
+ {
+  "key": "mm:count",
+  "say": "Let's count!"
+ },
+ {
+  "key": "mm:tick",
+  "say": "Tap the green button when you are done."
+ },
+ {
+  "key": "mm:love",
+  "say": "Hooray! Thank you! I love it!",
+  "voice": "am_puck"
+ },
+ {
+  "key": "mm:giggle",
+  "say": "Hee hee! That tickles!",
+  "voice": "am_puck"
+ },
+ {
+  "key": "mm:give:eyes",
+  "say": "Give it eyes."
+ },
+ {
+  "key": "mm:that:eyes",
+  "say": "Those are eyes."
+ },
+ {
+  "key": "mm:name:eyes",
+  "say": "Eyes!"
+ },
+ {
+  "key": "mm:give:ears",
+  "say": "Give it ears."
+ },
+ {
+  "key": "mm:that:ears",
+  "say": "Those are ears."
+ },
+ {
+  "key": "mm:name:ears",
+  "say": "Ears!"
+ },
+ {
+  "key": "mm:give:arms",
+  "say": "Give it arms."
+ },
+ {
+  "key": "mm:that:arms",
+  "say": "Those are arms."
+ },
+ {
+  "key": "mm:name:arms",
+  "say": "Arms!"
+ },
+ {
+  "key": "mm:give:legs",
+  "say": "Give it legs."
+ },
+ {
+  "key": "mm:that:legs",
+  "say": "Those are legs."
+ },
+ {
+  "key": "mm:name:legs",
+  "say": "Legs!"
+ },
+ {
+  "key": "mm:give:horns",
+  "say": "Give it horns."
+ },
+ {
+  "key": "mm:that:horns",
+  "say": "Those are horns."
+ },
+ {
+  "key": "mm:name:horns",
+  "say": "Horns!"
+ },
+ {
+  "key": "mm:give:teeth",
+  "say": "Give it teeth."
+ },
+ {
+  "key": "mm:that:teeth",
+  "say": "Those are teeth."
+ },
+ {
+  "key": "mm:name:teeth",
+  "say": "Teeth!"
+ },
+ {
+  "key": "mm:give:spots",
+  "say": "Give it spots."
+ },
+ {
+  "key": "mm:that:spots",
+  "say": "Those are spots."
+ },
+ {
+  "key": "mm:name:spots",
+  "say": "Spots!"
+ },
+ {
+  "key": "mm:give:nose",
+  "say": "Give it a nose."
+ },
+ {
+  "key": "mm:that:nose",
+  "say": "That is a nose."
+ },
+ {
+  "key": "mm:name:nose",
+  "say": "A nose!"
+ },
+ {
+  "key": "mm:give:mouth",
+  "say": "Give it a mouth."
+ },
+ {
+  "key": "mm:that:mouth",
+  "say": "That is a mouth."
+ },
+ {
+  "key": "mm:name:mouth",
+  "say": "A mouth!"
+ },
+ {
+  "key": "mm:give:tail",
+  "say": "Give it a tail."
+ },
+ {
+  "key": "mm:that:tail",
+  "say": "That is a tail."
+ },
+ {
+  "key": "mm:name:tail",
+  "say": "A tail!"
+ },
+ {
+  "key": "mm:give:wings",
+  "say": "Give it wings."
+ },
+ {
+  "key": "mm:that:wings",
+  "say": "Those are wings."
+ },
+ {
+  "key": "mm:name:wings",
+  "say": "Wings!"
+ },
+ {
+  "key": "mm:give:hair",
+  "say": "Give it hair."
+ },
+ {
+  "key": "mm:that:hair",
+  "say": "That is hair."
+ },
+ {
+  "key": "mm:name:hair",
+  "say": "Hair!"
+ },
+ {
+  "key": "mm:n:eyes:1",
+  "say": "Give it one eye."
+ },
+ {
+  "key": "mm:need:eyes:1",
+  "say": "We need one eye."
+ },
+ {
+  "key": "mm:n:eyes:2",
+  "say": "Give it two eyes."
+ },
+ {
+  "key": "mm:need:eyes:2",
+  "say": "We need two eyes."
+ },
+ {
+  "key": "mm:n:eyes:3",
+  "say": "Give it three eyes."
+ },
+ {
+  "key": "mm:need:eyes:3",
+  "say": "We need three eyes."
+ },
+ {
+  "key": "mm:n:eyes:4",
+  "say": "Give it four eyes."
+ },
+ {
+  "key": "mm:need:eyes:4",
+  "say": "We need four eyes."
+ },
+ {
+  "key": "mm:n:eyes:5",
+  "say": "Give it five eyes."
+ },
+ {
+  "key": "mm:need:eyes:5",
+  "say": "We need five eyes."
+ },
+ {
+  "key": "mm:n:ears:1",
+  "say": "Give it one ear."
+ },
+ {
+  "key": "mm:need:ears:1",
+  "say": "We need one ear."
+ },
+ {
+  "key": "mm:n:ears:2",
+  "say": "Give it two ears."
+ },
+ {
+  "key": "mm:need:ears:2",
+  "say": "We need two ears."
+ },
+ {
+  "key": "mm:n:ears:3",
+  "say": "Give it three ears."
+ },
+ {
+  "key": "mm:need:ears:3",
+  "say": "We need three ears."
+ },
+ {
+  "key": "mm:n:ears:4",
+  "say": "Give it four ears."
+ },
+ {
+  "key": "mm:need:ears:4",
+  "say": "We need four ears."
+ },
+ {
+  "key": "mm:n:ears:5",
+  "say": "Give it five ears."
+ },
+ {
+  "key": "mm:need:ears:5",
+  "say": "We need five ears."
+ },
+ {
+  "key": "mm:n:arms:1",
+  "say": "Give it one arm."
+ },
+ {
+  "key": "mm:need:arms:1",
+  "say": "We need one arm."
+ },
+ {
+  "key": "mm:n:arms:2",
+  "say": "Give it two arms."
+ },
+ {
+  "key": "mm:need:arms:2",
+  "say": "We need two arms."
+ },
+ {
+  "key": "mm:n:arms:3",
+  "say": "Give it three arms."
+ },
+ {
+  "key": "mm:need:arms:3",
+  "say": "We need three arms."
+ },
+ {
+  "key": "mm:n:arms:4",
+  "say": "Give it four arms."
+ },
+ {
+  "key": "mm:need:arms:4",
+  "say": "We need four arms."
+ },
+ {
+  "key": "mm:n:arms:5",
+  "say": "Give it five arms."
+ },
+ {
+  "key": "mm:need:arms:5",
+  "say": "We need five arms."
+ },
+ {
+  "key": "mm:n:legs:1",
+  "say": "Give it one leg."
+ },
+ {
+  "key": "mm:need:legs:1",
+  "say": "We need one leg."
+ },
+ {
+  "key": "mm:n:legs:2",
+  "say": "Give it two legs."
+ },
+ {
+  "key": "mm:need:legs:2",
+  "say": "We need two legs."
+ },
+ {
+  "key": "mm:n:legs:3",
+  "say": "Give it three legs."
+ },
+ {
+  "key": "mm:need:legs:3",
+  "say": "We need three legs."
+ },
+ {
+  "key": "mm:n:legs:4",
+  "say": "Give it four legs."
+ },
+ {
+  "key": "mm:need:legs:4",
+  "say": "We need four legs."
+ },
+ {
+  "key": "mm:n:legs:5",
+  "say": "Give it five legs."
+ },
+ {
+  "key": "mm:need:legs:5",
+  "say": "We need five legs."
+ },
+ {
+  "key": "mm:n:horns:1",
+  "say": "Give it one horn."
+ },
+ {
+  "key": "mm:need:horns:1",
+  "say": "We need one horn."
+ },
+ {
+  "key": "mm:n:horns:2",
+  "say": "Give it two horns."
+ },
+ {
+  "key": "mm:need:horns:2",
+  "say": "We need two horns."
+ },
+ {
+  "key": "mm:n:horns:3",
+  "say": "Give it three horns."
+ },
+ {
+  "key": "mm:need:horns:3",
+  "say": "We need three horns."
+ },
+ {
+  "key": "mm:n:horns:4",
+  "say": "Give it four horns."
+ },
+ {
+  "key": "mm:need:horns:4",
+  "say": "We need four horns."
+ },
+ {
+  "key": "mm:n:horns:5",
+  "say": "Give it five horns."
+ },
+ {
+  "key": "mm:need:horns:5",
+  "say": "We need five horns."
+ },
+ {
+  "key": "mm:n:teeth:1",
+  "say": "Give it one tooth."
+ },
+ {
+  "key": "mm:need:teeth:1",
+  "say": "We need one tooth."
+ },
+ {
+  "key": "mm:n:teeth:2",
+  "say": "Give it two teeth."
+ },
+ {
+  "key": "mm:need:teeth:2",
+  "say": "We need two teeth."
+ },
+ {
+  "key": "mm:n:teeth:3",
+  "say": "Give it three teeth."
+ },
+ {
+  "key": "mm:need:teeth:3",
+  "say": "We need three teeth."
+ },
+ {
+  "key": "mm:n:teeth:4",
+  "say": "Give it four teeth."
+ },
+ {
+  "key": "mm:need:teeth:4",
+  "say": "We need four teeth."
+ },
+ {
+  "key": "mm:n:teeth:5",
+  "say": "Give it five teeth."
+ },
+ {
+  "key": "mm:need:teeth:5",
+  "say": "We need five teeth."
+ },
+ {
+  "key": "mm:n:spots:1",
+  "say": "Give it one spot."
+ },
+ {
+  "key": "mm:need:spots:1",
+  "say": "We need one spot."
+ },
+ {
+  "key": "mm:n:spots:2",
+  "say": "Give it two spots."
+ },
+ {
+  "key": "mm:need:spots:2",
+  "say": "We need two spots."
+ },
+ {
+  "key": "mm:n:spots:3",
+  "say": "Give it three spots."
+ },
+ {
+  "key": "mm:need:spots:3",
+  "say": "We need three spots."
+ },
+ {
+  "key": "mm:n:spots:4",
+  "say": "Give it four spots."
+ },
+ {
+  "key": "mm:need:spots:4",
+  "say": "We need four spots."
+ },
+ {
+  "key": "mm:n:spots:5",
+  "say": "Give it five spots."
+ },
+ {
+  "key": "mm:need:spots:5",
+  "say": "We need five spots."
+ },
+ {
+  "key": "mm:num:1",
+  "say": "One!"
+ },
+ {
+  "key": "mm:num:2",
+  "say": "Two!"
+ },
+ {
+  "key": "mm:num:3",
+  "say": "Three!"
+ },
+ {
+  "key": "mm:num:4",
+  "say": "Four!"
+ },
+ {
+  "key": "mm:num:5",
+  "say": "Five!"
+ },
+ {
+  "key": "mm:color:red",
+  "say": "Make it red."
+ },
+ {
+  "key": "mm:is:red",
+  "say": "That is red."
+ },
+ {
+  "key": "mm:cname:red",
+  "say": "Red!"
+ },
+ {
+  "key": "mm:color:blue",
+  "say": "Make it blue."
+ },
+ {
+  "key": "mm:is:blue",
+  "say": "That is blue."
+ },
+ {
+  "key": "mm:cname:blue",
+  "say": "Blue!"
+ },
+ {
+  "key": "mm:color:yellow",
+  "say": "Make it yellow."
+ },
+ {
+  "key": "mm:is:yellow",
+  "say": "That is yellow."
+ },
+ {
+  "key": "mm:cname:yellow",
+  "say": "Yellow!"
+ },
+ {
+  "key": "mm:color:green",
+  "say": "Make it green."
+ },
+ {
+  "key": "mm:is:green",
+  "say": "That is green."
+ },
+ {
+  "key": "mm:cname:green",
+  "say": "Green!"
+ },
+ {
+  "key": "mm:color:orange",
+  "say": "Make it orange."
+ },
+ {
+  "key": "mm:is:orange",
+  "say": "That is orange."
+ },
+ {
+  "key": "mm:cname:orange",
+  "say": "Orange!"
+ },
+ {
+  "key": "mm:color:purple",
+  "say": "Make it purple."
+ },
+ {
+  "key": "mm:is:purple",
+  "say": "That is purple."
+ },
+ {
+  "key": "mm:cname:purple",
+  "say": "Purple!"
+ },
+ {
+  "key": "mm:color:pink",
+  "say": "Make it pink."
+ },
+ {
+  "key": "mm:is:pink",
+  "say": "That is pink."
+ },
+ {
+  "key": "mm:cname:pink",
+  "say": "Pink!"
+ },
+ {
+  "key": "mm:color:brown",
+  "say": "Make it brown."
+ },
+ {
+  "key": "mm:is:brown",
+  "say": "That is brown."
+ },
+ {
+  "key": "mm:cname:brown",
+  "say": "Brown!"
+ },
+ {
+  "key": "rf:hi",
+  "say": "Help the frog hop! Find the word that rhymes."
+ },
+ {
+  "key": "rf:yes",
+  "say": "They rhyme!"
+ },
+ {
+  "key": "rf:no",
+  "say": "No rhyme."
+ },
+ {
+  "key": "rw:cat",
+  "say": "cat."
+ },
+ {
+  "key": "rq:cat",
+  "say": "What rhymes with cat?"
+ },
+ {
+  "key": "rw:hat",
+  "say": "hat."
+ },
+ {
+  "key": "rq:hat",
+  "say": "What rhymes with hat?"
+ },
+ {
+  "key": "rw:bat",
+  "say": "bat."
+ },
+ {
+  "key": "rq:bat",
+  "say": "What rhymes with bat?"
+ },
+ {
+  "key": "rw:rat",
+  "say": "rat."
+ },
+ {
+  "key": "rq:rat",
+  "say": "What rhymes with rat?"
+ },
+ {
+  "key": "rw:dog",
+  "say": "dog."
+ },
+ {
+  "key": "rq:dog",
+  "say": "What rhymes with dog?"
+ },
+ {
+  "key": "rw:frog",
+  "say": "frog."
+ },
+ {
+  "key": "rq:frog",
+  "say": "What rhymes with frog?"
+ },
+ {
+  "key": "rw:log",
+  "say": "log."
+ },
+ {
+  "key": "rq:log",
+  "say": "What rhymes with log?"
+ },
+ {
+  "key": "rw:hen",
+  "say": "hen."
+ },
+ {
+  "key": "rq:hen",
+  "say": "What rhymes with hen?"
+ },
+ {
+  "key": "rw:pen",
+  "say": "pen."
+ },
+ {
+  "key": "rq:pen",
+  "say": "What rhymes with pen?"
+ },
+ {
+  "key": "rw:ten",
+  "say": "ten."
+ },
+ {
+  "key": "rq:ten",
+  "say": "What rhymes with ten?"
+ },
+ {
+  "key": "rw:box",
+  "say": "box."
+ },
+ {
+  "key": "rq:box",
+  "say": "What rhymes with box?"
+ },
+ {
+  "key": "rw:fox",
+  "say": "fox."
+ },
+ {
+  "key": "rq:fox",
+  "say": "What rhymes with fox?"
+ },
+ {
+  "key": "rw:socks",
+  "say": "socks."
+ },
+ {
+  "key": "rq:socks",
+  "say": "What rhymes with socks?"
+ },
+ {
+  "key": "rw:pan",
+  "say": "pan."
+ },
+ {
+  "key": "rq:pan",
+  "say": "What rhymes with pan?"
+ },
+ {
+  "key": "rw:van",
+  "say": "van."
+ },
+ {
+  "key": "rq:van",
+  "say": "What rhymes with van?"
+ },
+ {
+  "key": "rw:man",
+  "say": "man."
+ },
+ {
+  "key": "rq:man",
+  "say": "What rhymes with man?"
+ },
+ {
+  "key": "rw:boat",
+  "say": "boat."
+ },
+ {
+  "key": "rq:boat",
+  "say": "What rhymes with boat?"
+ },
+ {
+  "key": "rw:goat",
+  "say": "goat."
+ },
+ {
+  "key": "rq:goat",
+  "say": "What rhymes with goat?"
+ },
+ {
+  "key": "rw:coat",
+  "say": "coat."
+ },
+ {
+  "key": "rq:coat",
+  "say": "What rhymes with coat?"
+ },
+ {
+  "key": "rw:bee",
+  "say": "bee."
+ },
+ {
+  "key": "rq:bee",
+  "say": "What rhymes with bee?"
+ },
+ {
+  "key": "rw:tree",
+  "say": "tree."
+ },
+ {
+  "key": "rq:tree",
+  "say": "What rhymes with tree?"
+ },
+ {
+  "key": "rw:key",
+  "say": "key."
+ },
+ {
+  "key": "rq:key",
+  "say": "What rhymes with key?"
+ },
+ {
+  "key": "rw:three",
+  "say": "three."
+ },
+ {
+  "key": "rq:three",
+  "say": "What rhymes with three?"
+ },
+ {
+  "key": "rw:train",
+  "say": "train."
+ },
+ {
+  "key": "rq:train",
+  "say": "What rhymes with train?"
+ },
+ {
+  "key": "rw:rain",
+  "say": "rain."
+ },
+ {
+  "key": "rq:rain",
+  "say": "What rhymes with rain?"
+ },
+ {
+  "key": "rw:chain",
+  "say": "chain."
+ },
+ {
+  "key": "rq:chain",
+  "say": "What rhymes with chain?"
+ },
+ {
+  "key": "rw:plane",
+  "say": "plane."
+ },
+ {
+  "key": "rq:plane",
+  "say": "What rhymes with plane?"
+ },
+ {
+  "key": "rw:moon",
+  "say": "moon."
+ },
+ {
+  "key": "rq:moon",
+  "say": "What rhymes with moon?"
+ },
+ {
+  "key": "rw:spoon",
+  "say": "spoon."
+ },
+ {
+  "key": "rq:spoon",
+  "say": "What rhymes with spoon?"
+ },
+ {
+  "key": "rw:balloon",
+  "say": "balloon."
+ },
+ {
+  "key": "rq:balloon",
+  "say": "What rhymes with balloon?"
+ },
+ {
+  "key": "rw:car",
+  "say": "car."
+ },
+ {
+  "key": "rq:car",
+  "say": "What rhymes with car?"
+ },
+ {
+  "key": "rw:star",
+  "say": "star."
+ },
+ {
+  "key": "rq:star",
+  "say": "What rhymes with star?"
+ },
+ {
+  "key": "rw:guitar",
+  "say": "guitar."
+ },
+ {
+  "key": "rq:guitar",
+  "say": "What rhymes with guitar?"
+ },
+ {
+  "key": "rw:cake",
+  "say": "cake."
+ },
+ {
+  "key": "rq:cake",
+  "say": "What rhymes with cake?"
+ },
+ {
+  "key": "rw:snake",
+  "say": "snake."
+ },
+ {
+  "key": "rq:snake",
+  "say": "What rhymes with snake?"
+ },
+ {
+  "key": "rw:bed",
+  "say": "bed."
+ },
+ {
+  "key": "rq:bed",
+  "say": "What rhymes with bed?"
+ },
+ {
+  "key": "rw:sled",
+  "say": "sled."
+ },
+ {
+  "key": "rq:sled",
+  "say": "What rhymes with sled?"
+ },
+ {
+  "key": "rw:bread",
+  "say": "bread."
+ },
+ {
+  "key": "rq:bread",
+  "say": "What rhymes with bread?"
+ },
+ {
+  "key": "rw:bear",
+  "say": "bear."
+ },
+ {
+  "key": "rq:bear",
+  "say": "What rhymes with bear?"
+ },
+ {
+  "key": "rw:pear",
+  "say": "pear."
+ },
+ {
+  "key": "rq:pear",
+  "say": "What rhymes with pear?"
+ },
+ {
+  "key": "rw:chair",
+  "say": "chair."
+ },
+ {
+  "key": "rq:chair",
+  "say": "What rhymes with chair?"
+ },
+ {
+  "key": "rw:king",
+  "say": "king."
+ },
+ {
+  "key": "rq:king",
+  "say": "What rhymes with king?"
+ },
+ {
+  "key": "rw:ring",
+  "say": "ring."
+ },
+ {
+  "key": "rq:ring",
+  "say": "What rhymes with ring?"
+ },
+ {
+  "key": "rw:bell",
+  "say": "bell."
+ },
+ {
+  "key": "rq:bell",
+  "say": "What rhymes with bell?"
+ },
+ {
+  "key": "rw:shell",
+  "say": "shell."
+ },
+ {
+  "key": "rq:shell",
+  "say": "What rhymes with shell?"
+ },
+ {
+  "key": "rw:mouse",
+  "say": "mouse."
+ },
+ {
+  "key": "rq:mouse",
+  "say": "What rhymes with mouse?"
+ },
+ {
+  "key": "rw:house",
+  "say": "house."
+ },
+ {
+  "key": "rq:house",
+  "say": "What rhymes with house?"
+ },
+ {
+  "key": "rw:snail",
+  "say": "snail."
+ },
+ {
+  "key": "rq:snail",
+  "say": "What rhymes with snail?"
+ },
+ {
+  "key": "rw:whale",
+  "say": "whale."
+ },
+ {
+  "key": "rq:whale",
+  "say": "What rhymes with whale?"
+ },
+ {
+  "key": "rw:nose",
+  "say": "nose."
+ },
+ {
+  "key": "rq:nose",
+  "say": "What rhymes with nose?"
+ },
+ {
+  "key": "rw:rose",
+  "say": "rose."
+ },
+ {
+  "key": "rq:rose",
+  "say": "What rhymes with rose?"
+ },
+ {
+  "key": "rw:pie",
+  "say": "pie."
+ },
+ {
+  "key": "rq:pie",
+  "say": "What rhymes with pie?"
+ },
+ {
+  "key": "rw:tie",
+  "say": "tie."
+ },
+ {
+  "key": "rq:tie",
+  "say": "What rhymes with tie?"
+ },
+ {
+  "key": "rw:eye",
+  "say": "eye."
+ },
+ {
+  "key": "rq:eye",
+  "say": "What rhymes with eye?"
+ },
+ {
+  "key": "rw:fly",
+  "say": "fly."
+ },
+ {
+  "key": "rq:fly",
+  "say": "What rhymes with fly?"
+ },
+ {
+  "key": "rw:clock",
+  "say": "clock."
+ },
+ {
+  "key": "rq:clock",
+  "say": "What rhymes with clock?"
+ },
+ {
+  "key": "rw:rock",
+  "say": "rock."
+ },
+ {
+  "key": "rq:rock",
+  "say": "What rhymes with rock?"
+ },
+ {
+  "key": "rw:lock",
+  "say": "lock."
+ },
+ {
+  "key": "rq:lock",
+  "say": "What rhymes with lock?"
+ },
+ {
+  "key": "rw:fish",
+  "say": "fish."
+ },
+ {
+  "key": "rq:fish",
+  "say": "What rhymes with fish?"
+ },
+ {
+  "key": "rw:dish",
+  "say": "dish."
+ },
+ {
+  "key": "rq:dish",
+  "say": "What rhymes with dish?"
+ },
+ {
+  "key": "rw:kite",
+  "say": "kite."
+ },
+ {
+  "key": "rq:kite",
+  "say": "What rhymes with kite?"
+ },
+ {
+  "key": "rw:light",
+  "say": "light."
+ },
+ {
+  "key": "rq:light",
+  "say": "What rhymes with light?"
+ },
+ {
+  "key": "rw:shoe",
+  "say": "shoe."
+ },
+ {
+  "key": "rq:shoe",
+  "say": "What rhymes with shoe?"
+ },
+ {
+  "key": "rw:two",
+  "say": "two."
+ },
+ {
+  "key": "rq:two",
+  "say": "What rhymes with two?"
+ },
+ {
+  "key": "rw:kangaroo",
+  "say": "kangaroo."
+ },
+ {
+  "key": "rq:kangaroo",
+  "say": "What rhymes with kangaroo?"
+ },
+ {
+  "key": "rw:door",
+  "say": "door."
+ },
+ {
+  "key": "rq:door",
+  "say": "What rhymes with door?"
+ },
+ {
+  "key": "rw:four",
+  "say": "four."
+ },
+ {
+  "key": "rq:four",
+  "say": "What rhymes with four?"
+ },
+ {
+  "key": "wd:hi",
+  "say": "Help Bobo the bear get dressed!"
+ },
+ {
+  "key": "wd:ready",
+  "say": "Ready! Let's go outside!"
+ },
+ {
+  "key": "wd:now",
+  "say": "Now it is sunny and hot!"
+ },
+ {
+  "key": "wd:hot",
+  "say": "Phew! Too hot!",
+  "voice": "am_puck"
+ },
+ {
+  "key": "wd:cold",
+  "say": "Brr! So cold!",
+  "voice": "am_puck"
+ },
+ {
+  "key": "wd:wet",
+  "say": "Oh no! I am all wet!",
+  "voice": "am_puck"
+ },
+ {
+  "key": "wd:yay",
+  "say": "Yay! Thank you!",
+  "voice": "am_puck"
+ },
+ {
+  "key": "wd:on:hat",
+  "say": "Put on the hat."
+ },
+ {
+  "key": "wd:off:hat",
+  "say": "Take off the hat."
+ },
+ {
+  "key": "wd:that:hat",
+  "say": "That is the hat."
+ },
+ {
+  "key": "wd:name:hat",
+  "say": "Hat!"
+ },
+ {
+  "key": "wd:on:cap",
+  "say": "Put on the cap."
+ },
+ {
+  "key": "wd:off:cap",
+  "say": "Take off the cap."
+ },
+ {
+  "key": "wd:that:cap",
+  "say": "That is the cap."
+ },
+ {
+  "key": "wd:name:cap",
+  "say": "Cap!"
+ },
+ {
+  "key": "wd:on:sunglasses",
+  "say": "Put on the sunglasses."
+ },
+ {
+  "key": "wd:off:sunglasses",
+  "say": "Take off the sunglasses."
+ },
+ {
+  "key": "wd:that:sunglasses",
+  "say": "Those are the sunglasses."
+ },
+ {
+  "key": "wd:name:sunglasses",
+  "say": "Sunglasses!"
+ },
+ {
+  "key": "wd:on:scarf",
+  "say": "Put on the scarf."
+ },
+ {
+  "key": "wd:off:scarf",
+  "say": "Take off the scarf."
+ },
+ {
+  "key": "wd:that:scarf",
+  "say": "That is the scarf."
+ },
+ {
+  "key": "wd:name:scarf",
+  "say": "Scarf!"
+ },
+ {
+  "key": "wd:on:tshirt",
+  "say": "Put on the T-shirt."
+ },
+ {
+  "key": "wd:off:tshirt",
+  "say": "Take off the T-shirt."
+ },
+ {
+  "key": "wd:that:tshirt",
+  "say": "That is the T-shirt."
+ },
+ {
+  "key": "wd:name:tshirt",
+  "say": "T-shirt!"
+ },
+ {
+  "key": "wd:on:coat",
+  "say": "Put on the coat."
+ },
+ {
+  "key": "wd:off:coat",
+  "say": "Take off the coat."
+ },
+ {
+  "key": "wd:that:coat",
+  "say": "That is the coat."
+ },
+ {
+  "key": "wd:name:coat",
+  "say": "Coat!"
+ },
+ {
+  "key": "wd:on:gloves",
+  "say": "Put on the gloves."
+ },
+ {
+  "key": "wd:off:gloves",
+  "say": "Take off the gloves."
+ },
+ {
+  "key": "wd:that:gloves",
+  "say": "Those are the gloves."
+ },
+ {
+  "key": "wd:name:gloves",
+  "say": "Gloves!"
+ },
+ {
+  "key": "wd:on:shorts",
+  "say": "Put on the shorts."
+ },
+ {
+  "key": "wd:off:shorts",
+  "say": "Take off the shorts."
+ },
+ {
+  "key": "wd:that:shorts",
+  "say": "Those are the shorts."
+ },
+ {
+  "key": "wd:name:shorts",
+  "say": "Shorts!"
+ },
+ {
+  "key": "wd:on:jeans",
+  "say": "Put on the jeans."
+ },
+ {
+  "key": "wd:off:jeans",
+  "say": "Take off the jeans."
+ },
+ {
+  "key": "wd:that:jeans",
+  "say": "Those are the jeans."
+ },
+ {
+  "key": "wd:name:jeans",
+  "say": "Jeans!"
+ },
+ {
+  "key": "wd:on:socks",
+  "say": "Put on the socks."
+ },
+ {
+  "key": "wd:off:socks",
+  "say": "Take off the socks."
+ },
+ {
+  "key": "wd:that:socks",
+  "say": "Those are the socks."
+ },
+ {
+  "key": "wd:name:socks",
+  "say": "Socks!"
+ },
+ {
+  "key": "wd:on:shoes",
+  "say": "Put on the shoes."
+ },
+ {
+  "key": "wd:off:shoes",
+  "say": "Take off the shoes."
+ },
+ {
+  "key": "wd:that:shoes",
+  "say": "Those are the shoes."
+ },
+ {
+  "key": "wd:name:shoes",
+  "say": "Shoes!"
+ },
+ {
+  "key": "wd:on:boots",
+  "say": "Put on the boots."
+ },
+ {
+  "key": "wd:off:boots",
+  "say": "Take off the boots."
+ },
+ {
+  "key": "wd:that:boots",
+  "say": "Those are the boots."
+ },
+ {
+  "key": "wd:name:boots",
+  "say": "Boots!"
+ },
+ {
+  "key": "wd:on:umbrella",
+  "say": "Take the umbrella."
+ },
+ {
+  "key": "wd:off:umbrella",
+  "say": "Put the umbrella away."
+ },
+ {
+  "key": "wd:that:umbrella",
+  "say": "That is the umbrella."
+ },
+ {
+  "key": "wd:name:umbrella",
+  "say": "Umbrella!"
+ },
+ {
+  "key": "wd:w:sunny",
+  "say": "It is sunny and hot!"
+ },
+ {
+  "key": "wd:w:rainy",
+  "say": "It is rainy and wet!"
+ },
+ {
+  "key": "wd:w:snowy",
+  "say": "It is snowy and cold!"
+ },
+ {
+  "key": "wd:need:sunny",
+  "say": "What do you need for the sun?"
+ },
+ {
+  "key": "wd:need:rainy",
+  "say": "What do you need for the rain?"
+ },
+ {
+  "key": "wd:need:snowy",
+  "say": "What do you need for the snow?"
+ },
+ {
+  "key": "wd:not:sunny",
+  "say": "Not on a hot, sunny day!"
+ },
+ {
+  "key": "wd:not:rainy",
+  "say": "Not in the rain!"
+ },
+ {
+  "key": "wd:not:snowy",
+  "say": "Not in the snow!"
+ },
+ {
+  "key": "fe:hi",
+  "say": "Meet Pip and friends! Let's learn about feelings."
+ },
+ {
+  "key": "fe:how",
+  "say": "How does Pip feel?"
+ },
+ {
+  "key": "fe:you",
+  "say": "How do you feel today?"
+ },
+ {
+  "key": "fe:thanks",
+  "say": "Thank you! Now I feel happy!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:who:happy",
+  "say": "Who is happy?"
+ },
+ {
+  "key": "fe:iam:happy",
+  "say": "I am happy!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:happy",
+  "say": "I feel happy.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:happy",
+  "say": "Pip is happy."
+ },
+ {
+  "key": "fe:isit:happy",
+  "say": "Is Pip happy? Look again!"
+ },
+ {
+  "key": "fe:help:happy",
+  "say": "Let's dance!"
+ },
+ {
+  "key": "fe:who:sad",
+  "say": "Who is sad?"
+ },
+ {
+  "key": "fe:iam:sad",
+  "say": "I am sad!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:sad",
+  "say": "I feel sad.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:sad",
+  "say": "Pip is sad."
+ },
+ {
+  "key": "fe:isit:sad",
+  "say": "Is Pip sad? Look again!"
+ },
+ {
+  "key": "fe:help:sad",
+  "say": "Let's give Pip a hug."
+ },
+ {
+  "key": "fe:who:angry",
+  "say": "Who is angry?"
+ },
+ {
+  "key": "fe:iam:angry",
+  "say": "I am angry!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:angry",
+  "say": "I feel angry.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:angry",
+  "say": "Pip is angry."
+ },
+ {
+  "key": "fe:isit:angry",
+  "say": "Is Pip angry? Look again!"
+ },
+ {
+  "key": "fe:help:angry",
+  "say": "Let's take a big, slow breath."
+ },
+ {
+  "key": "fe:who:scared",
+  "say": "Who is scared?"
+ },
+ {
+  "key": "fe:iam:scared",
+  "say": "I am scared!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:scared",
+  "say": "I feel scared.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:scared",
+  "say": "Pip is scared."
+ },
+ {
+  "key": "fe:isit:scared",
+  "say": "Is Pip scared? Look again!"
+ },
+ {
+  "key": "fe:help:scared",
+  "say": "Let's hold Pip's hand."
+ },
+ {
+  "key": "fe:who:surprised",
+  "say": "Who is surprised?"
+ },
+ {
+  "key": "fe:iam:surprised",
+  "say": "I am surprised!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:surprised",
+  "say": "I feel surprised.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:surprised",
+  "say": "Pip is surprised."
+ },
+ {
+  "key": "fe:isit:surprised",
+  "say": "Is Pip surprised? Look again!"
+ },
+ {
+  "key": "fe:help:surprised",
+  "say": "Let's clap!"
+ },
+ {
+  "key": "fe:who:tired",
+  "say": "Who is tired?"
+ },
+ {
+  "key": "fe:iam:tired",
+  "say": "I am tired!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:tired",
+  "say": "I feel tired.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:tired",
+  "say": "Pip is tired."
+ },
+ {
+  "key": "fe:isit:tired",
+  "say": "Is Pip tired? Look again!"
+ },
+ {
+  "key": "fe:help:tired",
+  "say": "Time for a little nap."
+ },
+ {
+  "key": "fe:who:hungry",
+  "say": "Who is hungry?"
+ },
+ {
+  "key": "fe:iam:hungry",
+  "say": "I am hungry!",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:ifeel:hungry",
+  "say": "I feel hungry.",
+  "voice": "af_sky"
+ },
+ {
+  "key": "fe:is:hungry",
+  "say": "Pip is hungry."
+ },
+ {
+  "key": "fe:isit:hungry",
+  "say": "Is Pip hungry? Look again!"
+ },
+ {
+  "key": "fe:help:hungry",
+  "say": "Let's eat an apple."
+ },
+ {
+  "key": "fe:story:birthday",
+  "say": "It is Pip's birthday! Here is a cake."
+ },
+ {
+  "key": "fe:story:puppy",
+  "say": "Pip has a new puppy!"
+ },
+ {
+  "key": "fe:story:icecream",
+  "say": "Oh no! Pip's ice cream fell down."
+ },
+ {
+  "key": "fe:story:balloon",
+  "say": "Oh no! Pip's balloon flew away."
+ },
+ {
+  "key": "fe:story:tower",
+  "say": "Someone knocked down Pip's tower!"
+ },
+ {
+  "key": "fe:story:toy",
+  "say": "Someone took Pip's teddy!"
+ },
+ {
+  "key": "fe:story:spider",
+  "say": "A big spider! Eek!"
+ },
+ {
+  "key": "fe:story:thunder",
+  "say": "Boom! Thunder in the dark!"
+ },
+ {
+  "key": "fe:story:present",
+  "say": "Pop! A present for Pip!"
+ },
+ {
+  "key": "fe:story:rabbit",
+  "say": "A rabbit jumps out of the hat!"
+ },
+ {
+  "key": "fe:story:playday",
+  "say": "Pip played all day. Yawn!"
+ },
+ {
+  "key": "fe:story:late",
+  "say": "It is very late at night."
+ },
+ {
+  "key": "fe:story:tummy",
+  "say": "Pip's tummy is rumbling. Grrr!"
+ },
+ {
+  "key": "fe:story:lunch",
+  "say": "It is lunch time, and the plate is empty."
  }
 ]

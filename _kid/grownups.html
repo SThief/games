@@ -42,6 +42,10 @@ tr.weak td:first-child{color:#ff9aa8}
 import { VERBS } from '../hero-run/lines.js';
 import { TOYS, RELS, PAIRS } from '../toy-room/lines.js';
 import { GROUPS, KEY, WORDS } from '../alphabet-alley/lines.js';
+import { PARTS, NUMS, COLORS } from '../monster-maker/lines.js';
+import { FAMILIES } from '../rhyme-frog/lines.js';
+import { ITEMS, WEATHER } from '../weather-wardrobe/lines.js';
+import { FEELINGS } from '../feelings-friends/lines.js';
 
 const $ = id => document.getElementById(id);
 const a = 3 + Math.floor(Math.random() * 6), b = 4 + Math.floor(Math.random() * 5);
@@ -55,7 +59,15 @@ const GAMES = [
   { id: 'toy', title: '🧸 Toy Room', what: 'where things are',
     items: [...Object.entries(RELS).map(([id, w]) => ({ k: 'rel:' + id, label: `“${w}”` })), ...Object.keys(PAIRS).map(f => ({ k: 'furn:' + f, label: f })), ...TOYS.map(t => ({ k: 'toy:' + t.id, label: `${t.icon} ${t.id}` }))] },
   { id: 'alley', title: '🔤 Alphabet Alley', what: 'letter sounds and short words',
-    items: [...GROUPS.flat().map(l => ({ k: 'snd:' + l, label: `${l}  (${KEY[l][1]} ${KEY[l][0]})` })), ...WORDS.map(w => ({ k: 'w:' + w.w, label: `word: ${w.w} ${w.e}` }))] }
+    items: [...GROUPS.flat().map(l => ({ k: 'snd:' + l, label: `${l}  (${KEY[l][1]} ${KEY[l][0]})` })), ...WORDS.map(w => ({ k: 'w:' + w.w, label: `word: ${w.w} ${w.e}` }))] },
+  { id: 'monster', title: '👾 Monster Maker', what: 'body parts, counting to five, colors',
+    items: [...Object.keys(PARTS).map(p => ({ k: 'part:' + p, label: PARTS[p].word })), ...NUMS.map((w, i) => ({ k: 'num:' + (i + 1), label: `${i + 1}  ${w}` })), ...Object.keys(COLORS).map(c => ({ k: 'color:' + c, label: c }))] },
+  { id: 'rhyme', title: '🐸 Rhyme Frog', what: 'hearing which words rhyme',
+    items: Object.entries(FAMILIES).map(([f, ws]) => ({ k: 'fam:' + f, label: `-${f}  (${ws.map(w => w[0]).join(', ')})` })) },
+  { id: 'wear', title: '🧥 Weather Wardrobe', what: 'clothes, put on / take off, what to wear for the weather',
+    items: [...Object.entries(ITEMS).map(([k, it]) => ({ k: 'it:' + k, label: `${it.e} ${it.word}` })), ...Object.entries(WEATHER).map(([w, d]) => ({ k: 'w:' + w, label: `${d.icon} dressing for ${w}` }))] },
+  { id: 'feel', title: '💗 Feelings Friends', what: 'naming feelings from faces and from little stories',
+    items: Object.entries(FEELINGS).map(([f, d]) => ({ k: 'f:' + f, label: `${d.e} ${f}` })) }
 ];
 function draw() {
   const m = read('kid-mastery-v1'), pr = read('kid-progress-v1');
@@ -68,7 +80,7 @@ function draw() {
       <table><tr><th>Item</th><th class="n">Right</th><th class="n">Missed</th><th>Step</th></tr>${rows.map(r => `<tr class="${r.e ? (r.e.box <= 2 && r.e.wrong ? 'weak' : '') : 'new'}"><td>${r.label}</td><td class="n">${r.e ? r.e.right : '–'}</td><td class="n">${r.e ? r.e.wrong : '–'}</td><td><div class="pips">${[1, 2, 3, 4, 5].map(i => `<i class="${r.e && r.e.box >= i ? 'on' : ''}"></i>`).join('')}</div></td></tr>`).join('')}</table></section>`;
   }).join('');
 }
-$('reset').onclick = () => { if (confirm('Clear everything the games remember?')) { localStorage.removeItem('kid-mastery-v1'); localStorage.removeItem('kid-progress-v1'); draw(); } };
+$('reset').onclick = () => { if (confirm('Clear everything the games remember?')) { localStorage.removeItem('kid-mastery-v1'); localStorage.removeItem('kid-progress-v1'); localStorage.removeItem('monster-zoo-v1'); draw(); } };
 </script>
 </body>
 </html>
