@@ -1,5 +1,19 @@
 [
   {
+    "folder": "word-buddies",
+    "url": "https://sthief.github.io/word-buddies/",
+    "title": "Word Buddies",
+    "blurb": "Meet a word, answer yes or no, pop the right balloon, then find it hiding on the farm.",
+    "tags": [
+      "English",
+      "kids 3-7",
+      "words",
+      "listening"
+    ],
+    "made": "2026-09-30",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
     "folder": "ice-cream-truck",
     "url": "https://sthief.github.io/ice-cream-truck/",
     "title": "Ice Cream Truck",
