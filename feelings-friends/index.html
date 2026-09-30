@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Feelings Friends</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff8ab0'/%3E%3Ccircle cx='16' cy='17' r='10' fill='%23ffb58a'/%3E%3Cpath d='M10 15 Q12 12 14 15 M18 15 Q20 12 22 15 M11 19 Q16 25 21 19' stroke='%237a2338' stroke-width='1.8' fill='none'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_kid/kit.css">
+<style>
+body{background:linear-gradient(#ffe3ef,#ffd6c2 50%,#ffeebd)}
+#bg{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#flags{position:fixed;left:0;right:0;top:0;width:100%;height:min(16vh,120px);pointer-events:none}
+#shade{position:fixed;inset:0;background:#1a1850;opacity:0;pointer-events:none;transition:opacity .8s;z-index:1}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:2}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;z-index:3}
+#scene{flex:1;min-height:0;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:clamp(4px,2vw,26px);padding:96px 8px 0;position:relative}
+#scene svg{overflow:visible}
+.fr{height:min(100%,62vw);max-width:31vw;cursor:pointer;animation:rise .45s cubic-bezier(.3,1.5,.5,1) both}
+.fr.four{max-width:24vw;height:min(100%,48vw)}
+@media (max-aspect-ratio:4/5){#scene{flex-wrap:wrap;align-content:center;align-items:center;row-gap:0}.fr,.fr.four{height:auto;width:43vw;max-width:none;max-height:36vh}}
+.fr.glow{animation:frglow 1s ease-in-out infinite}
+.fr.nod{animation:nod .5s}
+.fr.hop{animation:hopfr .5s 2}
+@keyframes frglow{50%{filter:drop-shadow(0 0 14px #fff6a0) drop-shadow(0 0 28px #ffd23f)}}
+@keyframes nod{30%{transform:rotate(-6deg)}70%{transform:rotate(5deg)}}
+@keyframes hopfr{50%{transform:translateY(-30px)}}
+#pip{height:100%;max-height:min(100%,110vw);width:auto;max-width:94vw}
+#tray{flex:none;width:100%;display:flex;flex-wrap:wrap;gap:clamp(8px,2vw,16px);align-items:center;justify-content:center;padding:6px 10px 14px;min-height:clamp(118px,21vh,168px)}
+.pb{position:relative;width:clamp(78px,17vw,128px);aspect-ratio:1/1.08;border:0;border-radius:26px;background:#fff;box-shadow:0 7px 0 #f2b8c8,0 14px 26px rgba(120,40,70,.2);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px 4px;font:inherit;color:#6a2a48;animation:rise .35s cubic-bezier(.3,1.5,.5,1) both}
+.pb:active{transform:translateY(4px);box-shadow:0 3px 0 #f2b8c8}
+.pb svg{width:74%;height:66%}
+.pb b{font-size:clamp(15px,2.6vw,21px);line-height:1;margin-top:2px}
+.pb.glow{animation:glow 1s ease-in-out infinite}
+.pb.shake{animation:shake .45s}
+.pb.help{width:clamp(150px,40vw,260px);aspect-ratio:auto;height:clamp(96px,17vh,140px);flex-direction:row;gap:12px;background:#fff;animation:rise .35s cubic-bezier(.3,1.5,.5,1) both,okpulse 1.4s .8s ease-in-out infinite}
+.pb.help .e{font-size:clamp(46px,8vw,70px)}
+.pb.help b{font-size:clamp(20px,3.4vw,30px)}
+@keyframes okpulse{50%{transform:scale(1.07)}}
+@keyframes rise{from{transform:translateY(60px) scale(.6);opacity:0}}
+@keyframes glow{50%{box-shadow:0 7px 0 #f0b53a,0 0 0 8px rgba(255,210,70,.8),0 0 40px rgba(255,210,70,.9)}}
+@keyframes shake{20%{transform:translateX(-10px) rotate(-5deg)}40%{transform:translateX(9px) rotate(4deg)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+#chip{display:flex;align-items:center;gap:10px;padding:2px 22px;min-height:62px;border-radius:999px;background:rgba(255,255,255,.95);color:#6a2a48;box-shadow:0 6px 0 rgba(0,0,0,.14);cursor:pointer}
+#chip .sp{font-size:34px;animation:beat 1s ease-in-out infinite}
+#chip #word{font-size:32px;font-weight:800}
+@keyframes beat{50%{transform:scale(1.15)}}
+#dots{position:fixed;top:84px;left:0;right:0;display:flex;gap:6px;justify-content:center;pointer-events:none;z-index:4}
+#dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.6);border:2px solid #fff}
+#dots i.ok{background:var(--gold);border-color:#fff;transform:scale(1.25)}
+#dots i.no{background:#d9a6b8;border-color:#c48aa0}
+.ktop{z-index:5}
+.kround{background:rgba(255,255,255,.55)}
+#menu,#end,#check{z-index:7;background:rgba(90,30,70,.6)}
+.kdoor .big{font-size:40px}
+.kdoor .nm{font-size:22px;font-weight:800;margin-top:2px}
+#checkbtn{font:inherit;font-weight:800;font-size:22px;border-radius:999px;padding:6px 26px;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;border:2px solid rgba(255,255,255,.4)}
+#check{justify-content:flex-start;padding-top:70px;background:rgba(90,30,70,.35)}
+#check h2{margin:0;font-size:clamp(30px,6vw,48px);color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.2)}
+#cgrid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:720px}
+#cgrid .pb{width:clamp(80px,20vw,112px)}
+#cpip{height:38vh;max-width:90vw}
+#cclose{position:fixed;top:10px;left:12px}
+#end .stars{font-size:clamp(56px,12vw,100px);color:var(--gold);letter-spacing:8px;text-shadow:0 4px 0 #b9741a}
+#end .row{display:flex;gap:14px}
+.prop{position:fixed;left:0;top:0;z-index:4;pointer-events:none;line-height:1;will-change:transform}
+.thread{position:fixed;width:2px;background:#555;z-index:4;pointer-events:none;left:0;top:0}
+.spark{position:fixed;z-index:40;pointer-events:none;font-size:28px;left:0;top:0}
+/* feelings move the whole friend */
+.mv{transform-box:fill-box;transform-origin:50% 100%}
+.f-happy .mv{animation:bounce .9s ease-in-out infinite}
+.f-angry .mv{animation:grr .18s linear infinite}
+.f-scared .mv{animation:tremble .1s linear infinite}
+.f-surprised .mv{animation:jump1 .6s ease-out}
+.f-tired .mv{animation:sway 3s ease-in-out infinite}
+.f-hungry .mv{animation:wob 1.4s ease-in-out infinite}
+.dance .mv{animation:dance .8s ease-in-out infinite}
+.puff .mv{animation:puff 3s ease-in-out}
+@keyframes bounce{50%{transform:translateY(-10px)}}
+@keyframes grr{50%{transform:translateX(2px) rotate(.6deg)}}
+@keyframes tremble{50%{transform:translateX(-2.5px)}}
+@keyframes jump1{30%{transform:translateY(-34px) scale(1.04)}}
+@keyframes sway{50%{transform:rotate(3deg) translateY(4px)}}
+@keyframes wob{50%{transform:scale(1.03,.97)}}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-26px) rotate(-7deg)}50%{transform:scale(1.04,.96)}75%{transform:translateY(-26px) rotate(7deg)}}
+@keyframes puff{0%,100%{transform:scale(1)}30%{transform:scale(1.12)}60%{transform:scale(.96)}}
+.tear{animation:tear 1.6s ease-in infinite}
+@keyframes tear{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(46px);opacity:0}}
+.steam{animation:steam 1.2s ease-out infinite}
+@keyframes steam{from{transform:translateY(0) scale(.6);opacity:.9}to{transform:translateY(-34px) scale(1.2);opacity:0}}
+.zz{animation:zz 2.4s ease-out infinite}
+@keyframes zz{from{transform:translate(0,0) scale(.6);opacity:0}30%{opacity:1}to{transform:translate(26px,-50px) scale(1.2);opacity:0}}
+.blink{animation:blink 4s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+</style>
+</head>
+<body>
+<svg id="bg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMax slice">
+  <circle cx="170" cy="300" r="60" fill="#fff3b0" opacity=".9"/>
+  <path d="M0,520 Q220,440 470,500 T1000,480 L1000,700 L0,700Z" fill="#b8e6a0"/>
+  <path d="M0,590 Q300,540 560,580 T1000,570 L1000,700 L0,700Z" fill="#9ad88a"/>
+  <g id="flowers"></g>
+</svg>
+<svg id="flags" viewBox="0 0 1000 140" preserveAspectRatio="xMidYMin slice"><g id="bunting"></g></svg>
+<div id="shade"></div><div id="flash"></div>
+<div id="stage">
+  <div id="scene"></div>
+  <div id="tray"></div>
+</div>
+<div class="ktop">
+  <button class="kround" id="home" title="Menu">🏠</button>
+  <div id="chip" class="hide"><span class="sp">🔊</span><span id="word"></span></div>
+  <button class="kround" id="mute" title="Sound">🔊</button>
+</div>
+<div id="dots"></div>
+<div id="menu" class="kov">
+  <h1 class="ktitle">Feelings Friends</h1>
+  <div class="ksub">Happy, sad, angry, scared… How does Pip feel?</div>
+  <div class="kdoors" id="doors"></div>
+  <button id="checkbtn">💬 How do you feel today?</button>
+</div>
+<div id="check" class="kov hide"><button class="kround" id="cclose">✖</button><h2>How do you feel today?</h2><svg id="cpip" viewBox="-130 -170 260 380"></svg><div id="cgrid"></div></div>
+<div id="end" class="kov hide"><div class="stars" id="stars"></div><div class="ksub" id="score"></div><div class="row"><button class="kbig" id="again">Again</button><button class="kbig" id="nextlv">Next</button></div></div>
+
+<script type="module">
+import * as kit from '../_kid/kit.js';
+import { FEELINGS, STORIES, LEVELS } from './lines.js';
+
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[(Math.random() * a.length) | 0];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const GAME = 'feel';
+
+/* ============ scenery ============ */
+(function scenery() {
+  let b = '<path d="M-20,30 Q250,100 500,50 T1020,40" stroke="#c98aa8" stroke-width="3" fill="none"/>';
+  const cols = ['#ff6b8a', '#ffd23f', '#4dc3ff', '#7ddc6a', '#b48cff'];
+  for (let i = 0; i < 16; i++) { const t = i / 15, x = -20 + t * 1040, y = t < .5 ? 30 + (1 - Math.pow(2 * t - 1, 2)) * 45 : 50 - (1 - Math.pow(2 * t - 1, 2)) * 8; b += `<path d="M${x - 18},${y} L${x + 18},${y} L${x},${y + 34}Z" fill="${cols[i % 5]}"/>`; }
+  $('bunting').innerHTML = b;
+  let f = ''; for (let i = 0; i < 16; i++) { const x = rnd(20, 980) | 0, y = rnd(600, 690) | 0, c = pick(['#ff6b8a', '#ffd23f', '#fff', '#b48cff']); f += `<g transform="translate(${x},${y})"><circle cx="-6" r="6" fill="${c}"/><circle cx="6" r="6" fill="${c}"/><circle cy="-6" r="6" fill="${c}"/><circle cy="6" r="6" fill="${c}"/><circle r="4.5" fill="#ffb020"/></g>`; }
+  $('flowers').innerHTML = f;
+})();
+
+/* ============ friends and faces ============ */
+const KINDS = {
+  bunny: { col: '#ffb58a', dark: '#b8663a' },
+  cat:   { col: '#9fc6ff', dark: '#3f6fb8' },
+  bear:  { col: '#c8a2ff', dark: '#7048b8' },
+  mouse: { col: '#b9e59a', dark: '#4f9a3a' }
+};
+const INK = '#3a1a2a', MOUTH = '#7a2338', TONGUE = '#ff8aa8';
+function earsSvg(kind, f, c) {
+  const droop = f === 'sad' || f === 'tired', stiff = f === 'scared' || f === 'surprised';
+  if (kind === 'bunny') return [-1, 1].map(s => `<g transform="translate(${s * 30},-58) rotate(${s * (droop ? 62 : stiff ? 4 : 14)})"><ellipse cx="0" cy="-46" rx="17" ry="48" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/><ellipse cx="0" cy="-44" rx="8" ry="34" fill="#ffd6e0"/></g>`).join('');
+  if (kind === 'cat') return [-1, 1].map(s => `<g transform="translate(${s * 46},-46) rotate(${s * (droop ? 40 : 14)})"><path d="M-24,12 L0,-44 L24,12Z" fill="${c.col}" stroke="${c.dark}" stroke-width="5" stroke-linejoin="round"/><path d="M-11,6 L0,-22 L11,6Z" fill="#ffd6e0"/></g>`).join('');
+  if (kind === 'bear') return [-1, 1].map(s => `<g transform="translate(${s * (droop ? 60 : 52)},${droop ? -40 : -54})"><circle r="24" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/><circle r="11" fill="#ffd6e0"/></g>`).join('');
+  return [-1, 1].map(s => `<g transform="translate(${s * 60},-50)"><circle r="${droop ? 30 : 36}" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/><circle r="${droop ? 18 : 23}" fill="#ffd6e0"/></g>`).join('');
+}
+const eyeOpen = (x, y, rx, ry, pr, px = 0, py = 2) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="#fff" stroke="${INK}" stroke-width="3.5"/><circle cx="${x + px}" cy="${y + py}" r="${pr}" fill="${INK}"/><circle cx="${x + px - pr * .35}" cy="${y + py - pr * .4}" r="${Math.max(1.6, pr * .3)}" fill="#fff"/>`;
+function faceSvg(f, c) {
+  const both = fn => fn(-1) + fn(1), cheeks = (o = .55) => `<circle cx="-50" cy="18" r="11" fill="#ff7a9a" opacity="${o}"/><circle cx="50" cy="18" r="11" fill="#ff7a9a" opacity="${o}"/>`;
+  switch (f) {
+    case 'happy': return both(s => `<path d="M${s * 42},-4 Q${s * 28},-22 ${s * 14},-4" stroke="${INK}" stroke-width="6" fill="none" stroke-linecap="round"/>`) + `<path d="M-28,16 Q0,56 28,16Z" fill="${MOUTH}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><ellipse cx="0" cy="36" rx="12" ry="6" fill="${TONGUE}"/>` + cheeks(.7);
+    case 'sad': return `<g class="blink">${eyeOpen(-28, -6, 13, 15, 7, 0, 5)}${eyeOpen(28, -6, 13, 15, 7, 0, 5)}</g>` + both(s => `<path d="M${s * 46},-26 L${s * 16},-36" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>`) + `<path d="M-20,36 Q0,20 20,36" stroke="${INK}" stroke-width="6" fill="none" stroke-linecap="round"/>` + cheeks(.3) + `<path class="tear" d="M-34,12 q7,11 0,15 q-7,-4 0,-15Z" fill="#8fd4ff" stroke="#3a9ad8" stroke-width="2"/><path class="tear" style="animation-delay:-.8s" d="M34,12 q7,11 0,15 q-7,-4 0,-15Z" fill="#8fd4ff" stroke="#3a9ad8" stroke-width="2"/>`;
+    case 'angry': return `<circle cx="-50" cy="18" r="12" fill="#ff4a4a" opacity=".55"/><circle cx="50" cy="18" r="12" fill="#ff4a4a" opacity=".55"/><g transform="translate(46,-52)" stroke="#e0303a" stroke-width="4.5" fill="none" stroke-linecap="round"><path d="M-10,-3 Q-4,-4 -3,-10 M10,-3 Q4,-4 3,-10 M-10,3 Q-4,4 -3,10 M10,3 Q4,4 3,10"/></g>` + both(s => `<ellipse cx="${s * 28}" cy="-2" rx="13" ry="9" fill="#fff" stroke="${INK}" stroke-width="3.5"/><circle cx="${s * 26}" cy="0" r="6" fill="${INK}"/><path d="M${s * 48},-28 L${s * 14},-16" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>`) + `<rect x="-22" y="18" width="44" height="18" rx="7" fill="#fff" stroke="${INK}" stroke-width="4"/><path d="M-22,27 H22 M-8,18 V36 M8,18 V36" stroke="${INK}" stroke-width="2.5"/>` + `<g transform="translate(-62,-78)"><circle class="steam" r="12" fill="#fff" stroke="#e08a8a" stroke-width="3"/></g><g transform="translate(62,-78)"><circle class="steam" style="animation-delay:-.6s" r="12" fill="#fff" stroke="#e08a8a" stroke-width="3"/></g>`;
+    case 'scared': return `<g class="blink">${eyeOpen(-28, -8, 16, 20, 4)}${eyeOpen(28, -8, 16, 20, 4)}</g>` + both(s => `<path d="M${s * 46},-38 L${s * 16},-46" stroke="${INK}" stroke-width="5" stroke-linecap="round"/>`) + `<path d="M-22,30 q5.5,-8 11,0 q5.5,8 11,0 q5.5,-8 11,0 q5.5,8 11,0" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M60,-40 q9,14 0,19 q-9,-5 0,-19Z" fill="#8fd4ff" stroke="#3a9ad8" stroke-width="2"/>` + cheeks(.2);
+    case 'surprised': return `<g class="blink">${eyeOpen(-28, -8, 16, 18, 8)}${eyeOpen(28, -8, 16, 18, 8)}</g>` + both(s => `<path d="M${s * 46},-38 Q${s * 30},-54 ${s * 14},-42" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>`) + `<ellipse cx="0" cy="30" rx="12" ry="15" fill="${MOUTH}" stroke="${INK}" stroke-width="4"/>` + cheeks(.5);
+    case 'tired': return both(s => `<ellipse cx="${s * 28}" cy="-2" rx="13" ry="12" fill="#fff" stroke="${INK}" stroke-width="3.5"/><circle cx="${s * 28}" cy="4" r="6" fill="${INK}"/><path d="M${s * 28 - 16},-3 Q${s * 28},-20 ${s * 28 + 16},-3 Z" fill="${c.col}" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>`) + `<ellipse cx="0" cy="32" rx="9" ry="11" fill="${MOUTH}" stroke="${INK}" stroke-width="3.5"/>` + `<g transform="translate(56,-64)" font-family="Baloo 2,sans-serif" font-weight="800" fill="#6b5bd6"><text class="zz" font-size="30">Z</text><text class="zz" style="animation-delay:-1.2s" font-size="22" x="-10" y="10">z</text></g>`;
+    case 'hungry': return `<g class="blink">${eyeOpen(-28, -6, 13, 15, 7, 3, -4)}${eyeOpen(28, -6, 13, 15, 7, 3, -4)}</g>` + `<path d="M-22,22 Q0,42 22,22" stroke="${INK}" stroke-width="6" fill="none" stroke-linecap="round"/><ellipse cx="14" cy="30" rx="9" ry="7" fill="${TONGUE}" stroke="${INK}" stroke-width="2.5"/><path class="tear" d="M-12,34 q6,10 0,13 q-6,-3 0,-13Z" fill="#cfefff" stroke="#8ab8d8" stroke-width="2"/>` + cheeks(.6);
+    default: return `<g class="blink">${eyeOpen(-28, -6, 13, 15, 7)}${eyeOpen(28, -6, 13, 15, 7)}</g><path d="M-14,24 Q0,34 14,24" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>` + cheeks(.4);
+  }
+}
+function friendSvg(kind, f) {
+  const c = KINDS[kind];
+  const rumble = f === 'hungry' ? `<path d="M-30,112 q6,-6 12,0 q6,6 12,0 q6,-6 12,0 q6,6 12,0" stroke="${c.dark}" stroke-width="4" fill="none"/><path d="M-24,130 q6,-6 12,0 q6,6 12,0 q6,-6 12,0" stroke="${c.dark}" stroke-width="4" fill="none"/>` : '';
+  return `<g class="f-${f}"><ellipse cx="0" cy="196" rx="80" ry="12" fill="#6a2a48" opacity=".14"/><g class="mv">
+    <ellipse cx="-30" cy="186" rx="26" ry="14" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/><ellipse cx="30" cy="186" rx="26" ry="14" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/>
+    <ellipse cx="0" cy="124" rx="64" ry="66" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/><ellipse cx="0" cy="134" rx="40" ry="44" fill="#fff" opacity=".45"/>${rumble}
+    <ellipse cx="-62" cy="118" rx="16" ry="28" fill="${c.col}" stroke="${c.dark}" stroke-width="5" transform="rotate(20 -62 118)"/><ellipse cx="62" cy="118" rx="16" ry="28" fill="${c.col}" stroke="${c.dark}" stroke-width="5" transform="rotate(-20 62 118)"/>
+    ${earsSvg(kind, f, c)}
+    <circle r="76" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/>
+    ${kind === 'cat' ? `<path d="M-60,14 L-84,8 M-60,22 L-84,24 M60,14 L84,8 M60,22 L84,24" stroke="${c.dark}" stroke-width="3" stroke-linecap="round"/>` : ''}
+    <ellipse cx="0" cy="12" rx="${kind === 'bear' ? 22 : 8}" ry="${kind === 'bear' ? 16 : 6}" fill="${kind === 'bear' ? '#fff' : c.dark}" opacity="${kind === 'bear' ? .5 : 1}"/>${kind === 'bear' ? `<ellipse cx="0" cy="6" rx="8" ry="6" fill="${c.dark}"/>` : ''}
+    ${faceSvg(f, c)}
+  </g></g>`;
+}
+const FVB = '-130 -170 260 380';
+function faceIcon(f) { const c = KINDS.bunny; return `<svg viewBox="-86 -86 172 172"><circle r="76" fill="${c.col}" stroke="${c.dark}" stroke-width="5"/>${faceSvg(f, c)}</svg>`; }
+
+/* ============ state ============ */
+const S = { mode: 'menu', level: 0, ri: 0, N: 8, plan: [], round: null, results: [], busy: false, token: 0, usedStories: [] };
+let quiet = false;
+const say = k => kit.say(k), chain = (ks, gap = 150) => kit.sayChain(ks, gap);
+const scene = $('scene'), tray = $('tray');
+
+function startSession(level) {
+  S.token++; const my = S.token, L = LEVELS[level];
+  Object.assign(S, { mode: 'play', level, ri: 0, N: L.rounds, results: [], busy: true, round: null, usedStories: [] });
+  S.plan = L.plan === 'faces' ? Array(L.rounds).fill('face') : L.plan === 'stories' ? Array(L.rounds).fill('story') : shuffle(['face', 'face', 'face', 'face', 'story', 'story', 'story', 'story']);
+  $('menu').classList.add('hide'); $('end').classList.add('hide'); $('chip').classList.remove('hide'); tray.innerHTML = ''; scene.innerHTML = '';
+  $('dots').innerHTML = '<i></i>'.repeat(S.N); $('word').textContent = '';
+  kit.preload(['fe:hi', 'fe:how', 'fe:thanks', 'cheer:0', 'cheer:1', 'cheer:2', 'cheer:3', 'done']);
+  if (level === 0 && kit.progress.get(GAME).stars[1] === undefined) {
+    scene.innerHTML = ['bunny', 'cat', 'bear'].map(k => `<svg class="fr" viewBox="${FVB}">${friendSvg(k, 'happy')}</svg>`).join('');
+    chain(['fe:hi']).then(() => { if (my === S.token) newRound(); });
+  } else newRound();
+}
+function newRound() {
+  if (S.ri >= S.N) return endSession();
+  clearProps();
+  const L = LEVELS[S.level], type = S.plan[S.ri], prev = S.round;
+  let R;
+  if (type === 'face') {
+    const f = kit.mastery.pick(GAME, L.feels.map(x => 'f:' + x), prev ? 'f:' + prev.f : undefined).slice(2);
+    const others = shuffle(L.feels.filter(x => x !== f)).slice(0, L.choices - 1), feels = shuffle([f, ...others]);
+    const kinds = shuffle(Object.keys(KINDS)).slice(0, feels.length);
+    R = { type, f, friends: feels.map((ff, i) => ({ kind: kinds[i], f: ff })) };
+  } else {
+    let pool = STORIES.filter(s => L.feels.includes(s.f) && !S.usedStories.includes(s.id));
+    if (!pool.length) { S.usedStories = []; pool = STORIES.filter(s => L.feels.includes(s.f)); }
+    const f = kit.mastery.pick(GAME, [...new Set(pool.map(s => 'f:' + s.f))], prev ? 'f:' + prev.f : undefined).slice(2);
+    const st = pick(pool.filter(s => s.f === f)); S.usedStories.push(st.id);
+    R = { type, f, story: st, choices: shuffle([f, ...shuffle(L.feels.filter(x => x !== f)).slice(0, L.choices - 1)]) };
+  }
+  Object.assign(R, { miss: false, wrong: 0, done: false, intro: kit.mastery.isNew(GAME, 'f:' + R.f) });
+  S.round = R; S.busy = false;
+  [...$('dots').children].forEach((d, i) => { d.className = i < S.results.length ? (S.results[i] ? 'ok' : 'no') : ''; });
+  if (type === 'face') {
+    $('word').textContent = R.f;
+    kit.preload(['fe:who:' + R.f, ...R.friends.map(x => 'fe:iam:' + x.f)]);
+    scene.innerHTML = R.friends.map((x, i) => `<svg class="fr ${R.friends.length > 3 ? 'four' : ''}" data-i="${i}" viewBox="${FVB}" style="animation-delay:${i * .08}s">${friendSvg(x.kind, x.f)}</svg>`).join('');
+    scene.querySelectorAll('.fr').forEach(el => el.addEventListener('pointerdown', e => { e.preventDefault(); tapFriend(+el.dataset.i, el); }));
+    tray.innerHTML = '';
+    if (R.intro) glowTarget();
+    sayRound();
+  } else {
+    $('word').textContent = '';
+    kit.preload(['fe:story:' + R.story.id, 'fe:is:' + R.f, 'fe:help:' + R.f, ...R.choices.map(x => 'fe:isit:' + x)]);
+    scene.innerHTML = `<svg id="pip" viewBox="${FVB}">${friendSvg('bunny', 'neutral')}</svg>`;
+    tray.innerHTML = '';
+    S.busy = true; const my = S.token;
+    (async () => {
+      await kit.sleep(350); if (my !== S.token) return;
+      playStory(R.story);
+      await say('fe:story:' + R.story.id); if (my !== S.token) return;
+      await kit.sleep(300); if (my !== S.token) return;
+      buildChoices(); S.busy = false;
+      await say('fe:how');
+    })();
+  }
+}
+function sayRound() {
+  const R = S.round; if (!R || S.mode !== 'play') return;
+  if (R.type === 'face') say('fe:who:' + R.f);
+  else if (R.done) say('fe:help:' + R.f);
+  else chain(['fe:story:' + R.story.id, 'fe:how'], 300);
+}
+function buildChoices() {
+  const R = S.round;
+  tray.innerHTML = R.choices.map((f, i) => `<button class="pb" data-f="${f}" style="animation-delay:${i * .06}s">${faceIcon(f)}<b>${f}</b></button>`).join('');
+  tray.querySelectorAll('.pb').forEach(b => b.addEventListener('click', () => tapFeeling(b.dataset.f, b)));
+  if (R.intro) glowTarget();
+}
+function glowTarget() {
+  const R = S.round;
+  if (R.type === 'face') scene.querySelectorAll('.fr').forEach(el => el.classList.toggle('glow', R.friends[+el.dataset.i].f === R.f));
+  else tray.querySelectorAll('.pb').forEach(b => b.classList.toggle('glow', b.dataset.f === R.f));
+}
+
+/* ---------- story scenes ---------- */
+let props = [];
+function pipBox() { const p = $('pip'); if (!p) return { x: innerWidth / 2, y: innerHeight / 2, s: 300, top: 100, bottom: innerHeight - 150 }; const b = p.getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + b.height * .45, s: b.height, top: b.top, bottom: b.bottom, left: b.left, right: b.right }; }
+function prop(e, x, y, size) { const d = document.createElement('div'); d.className = 'prop'; d.textContent = e; d.style.fontSize = size + 'px'; d.style.transform = `translate(${x - size / 2}px,${y - size / 2}px)`; document.body.appendChild(d); props.push(d); d._x = x; d._y = y; d._s = size; return d; }
+const at = (d, x, y, extra = '') => `translate(${x - d._s / 2}px,${y - d._s / 2}px) ${extra}`;
+function anim(d, frames, ms, opt = {}) { if (quiet) return Promise.resolve(); return d.animate(frames, { duration: ms, easing: 'ease-in-out', fill: 'forwards', ...opt }).finished.catch(() => {}); }
+function clearProps() { props.forEach(p => p.remove()); props = []; $('shade').style.opacity = 0; }
+function playStory(st) {
+  const b = pipBox(), s = b.s, handX = b.x + s * .24, handY = b.top + s * .66, ground = b.bottom - s * .04, side = b.x + s * .46;
+  const P = st.props;
+  switch (st.anim) {
+    case 'appear': {
+      const cake = prop(P[0], b.x - s * .42, ground - s * .1, s * .26); anim(cake, [{ transform: at(cake, cake._x, cake._y, 'scale(0)') }, { transform: at(cake, cake._x, cake._y, 'scale(1)') }], 500, { easing: 'cubic-bezier(.3,1.6,.5,1)' });
+      [1, 2].forEach(i => { const bl = prop(P[i], b.x + (i === 1 ? -1 : 1) * s * .5, b.top + s * .1, s * .2); anim(bl, [{ transform: at(bl, bl._x, bl._y + 300) }, { transform: at(bl, bl._x, bl._y) }], 1100 + i * 200, { easing: 'ease-out' }); });
+      kit.sfx.cheer(); break;
+    }
+    case 'runin': { const d = prop(P[0], innerWidth + 100, ground - s * .1, s * .26); const fr = []; for (let i = 0; i <= 8; i++) { const t = i / 8, x = innerWidth + 100 + (side - innerWidth - 100) * t; fr.push({ transform: at(d, x, ground - s * .1 - Math.abs(Math.sin(t * Math.PI * 4)) * 40) }); } anim(d, fr, 1300, { easing: 'linear' }); setTimeout(() => kit.sfx.boing(), 1300); break; }
+    case 'fall': { const d = prop(P[0], handX, handY - s * .12, s * .2); setTimeout(async () => { kit.sfx.whoosh(); await anim(d, [{ transform: at(d, handX, handY - s * .12) }, { transform: at(d, handX + 40, ground - s * .03, 'rotate(160deg)') }], 600, { easing: 'ease-in' }); kit.sfx.thud(); anim(d, [{ transform: at(d, handX + 40, ground - s * .03, 'rotate(160deg)') }, { transform: at(d, handX + 40, ground, 'rotate(180deg) scale(1.3,.4)') }], 200); }, 900); break; }
+    case 'floataway': { const d = prop(P[0], handX, handY - s * .3, s * .24); setTimeout(() => { kit.tone(500, .8, 'sine', .05, 400); anim(d, [{ transform: at(d, handX, handY - s * .3) }, { transform: at(d, handX + 80, handY - s * .8, 'rotate(10deg)') }, { transform: at(d, handX + 180, -200, 'rotate(-8deg)') }], 3200, { easing: 'ease-in' }); }, 800); break; }
+    case 'topple': {
+      const bs = P.map((e, i) => prop(e, side, ground - s * .06 - i * s * .12, s * .13));
+      setTimeout(() => { kit.sfx.bonk(); bs.forEach((d, i) => anim(d, [{ transform: at(d, d._x, d._y) }, { transform: at(d, d._x + (i - 1.5) * 70 + 40, ground - s * .03, `rotate(${(i % 2 ? 1 : -1) * rnd(60, 160)}deg)`) }], 600 + i * 90, { easing: 'cubic-bezier(.5,0,.8,.6)' })); setTimeout(() => kit.sfx.thud(), 700); }, 1000);
+      break;
+    }
+    case 'grab': {
+      const t = prop(P[0], side, ground - s * .1, s * .22), h = prop('✋', innerWidth + 120, ground - s * .14, s * .2);
+      setTimeout(async () => { await anim(h, [{ transform: at(h, innerWidth + 120, h._y) }, { transform: at(h, side + s * .08, h._y, 'rotate(-20deg)') }], 600); kit.sfx.whoosh(); anim(h, [{ transform: at(h, side + s * .08, h._y, 'rotate(-20deg)') }, { transform: at(h, innerWidth + 160, h._y) }], 600); anim(t, [{ transform: at(t, side, t._y) }, { transform: at(t, innerWidth + 120, t._y, 'rotate(30deg)') }], 620); }, 700);
+      break;
+    }
+    case 'drop': {
+      const d = prop(P[0], b.x + s * .3, -60, s * .2), th = document.createElement('div'); th.className = 'thread'; th.style.left = b.x + s * .3 + 'px'; th.style.height = '0px'; document.body.appendChild(th); props.push(th);
+      const y = b.top + s * .08;
+      anim(d, [{ transform: at(d, d._x, -60) }, { transform: at(d, d._x, y) }], 900, { easing: 'cubic-bezier(.3,1.3,.6,1)' }); anim(th, [{ height: '0px' }, { height: y - s * .08 + 'px' }], 900, { easing: 'cubic-bezier(.3,1.3,.6,1)' });
+      setTimeout(() => kit.sfx.boing(), 800); break;
+    }
+    case 'storm': {
+      $('shade').style.opacity = .55; const c = prop(P[1], b.x - s * .45, b.top + s * .05, s * .3);
+      const flash = () => { if (quiet) return; $('flash').animate([{ opacity: 0 }, { opacity: .9 }, { opacity: 0 }, { opacity: .6 }, { opacity: 0 }], { duration: 500 }); kit.noise(.9, .16, 220); kit.tone(60, .9, 'sawtooth', .05, -20); };
+      setTimeout(flash, 700); setTimeout(flash, 2400);
+      const z = prop(P[0], c._x + 20, c._y + s * .16, s * .14); anim(z, [{ opacity: 0 }, { opacity: 1 }, { opacity: 0 }, { opacity: 1 }], 2400, { iterations: 1 }); break;
+    }
+    case 'popup': { const d = prop(P[0], side - s * .05, ground - s * .12, s * .26); anim(d, [{ transform: at(d, d._x, d._y, 'scale(.2)') }, { transform: at(d, d._x, d._y - 40, 'scale(1.25)') }, { transform: at(d, d._x, d._y, 'scale(1)') }], 600, { easing: 'ease-out' }); kit.sfx.pop(); setTimeout(() => { kit.sfx.pop(); kit.confetti(30); }, 300); break; }
+    case 'hat': {
+      const h = prop(P[0], side, ground - s * .06, s * .22), r = prop(P[1], side, ground - s * .08, s * .2); r.style.opacity = 0;
+      setTimeout(() => { r.style.opacity = 1; kit.sfx.boing(); anim(r, [{ transform: at(r, side, ground - s * .06, 'scale(.3)') }, { transform: at(r, side + 40, ground - s * .5, 'scale(1.1)') }, { transform: at(r, side + 90, ground - s * .1) }], 900, { easing: 'ease-out' }); }, 900);
+      break;
+    }
+    case 'night': {
+      $('shade').style.opacity = .5;
+      if (P[0] === '⚽') { const bl = prop('⚽', b.x - s * .5, ground - s * .06, s * .12); anim(bl, [{ transform: at(bl, bl._x, bl._y) }, { transform: at(bl, -80, bl._y, 'rotate(-720deg)') }], 1600, { easing: 'ease-in' }); }
+      const m = prop('🌙', b.x + s * .5, b.top + s * .1, s * .2); anim(m, [{ transform: at(m, m._x, m._y + 200), opacity: 0 }, { transform: at(m, m._x, m._y), opacity: 1 }], 1400, { easing: 'ease-out' });
+      [0, 1, 2].forEach(i => { const st = prop('⭐', b.x + (i - 1) * s * .45, b.top - s * .02 + (i % 2) * 30, s * .09); anim(st, [{ opacity: 0 }, { opacity: 1 }, { opacity: .5 }, { opacity: 1 }], 1800 + i * 300, { iterations: 1 }); });
+      kit.tone(330, 1.2, 'sine', .04, -80); break;
+    }
+    case 'rumble': {
+      if (P[0] === '🕛') { const c = prop('🕛', b.x - s * .45, b.top + s * .12, s * .18); anim(c, [{ transform: at(c, c._x, c._y, 'rotate(-8deg)') }, { transform: at(c, c._x, c._y, 'rotate(8deg)') }], 300, { iterations: 6, direction: 'alternate' }); }
+      const p = prop('🍽️', side, ground - s * .08, s * .2); p.style.opacity = 1;
+      const g = document.createElement('div'); g.className = 'prop'; g.textContent = 'grrr!'; g.style.cssText += `font-weight:800;color:#b8663a;font-size:${s * .08}px`; g._s = s * .08; g.style.transform = at(g, b.x - s * .02, b.top + s * .66); document.body.appendChild(g); props.push(g);
+      anim(g, [{ transform: at(g, b.x - s * .02, b.top + s * .66, 'rotate(-6deg)') }, { transform: at(g, b.x + 6, b.top + s * .66, 'rotate(6deg)') }], 120, { iterations: 14, direction: 'alternate' });
+      kit.tone(70, 1, 'sawtooth', .05, 20); break;
+    }
+  }
+}
+
+/* ---------- answers ---------- */
+function tapFriend(i, el) {
+  const R = S.round; kit.audio(); if (!R || S.busy || S.mode !== 'play' || R.type !== 'face' || R.done) return;
+  const fr = R.friends[i]; kit.stopSpeech();
+  if (fr.f === R.f) {
+    S.busy = true; R.done = true; el.classList.remove('glow'); el.classList.add('hop'); kit.sfx.cheer(); sparksAt(el);
+    scene.querySelectorAll('.fr').forEach(x => { if (x !== el) x.style.opacity = .45; });
+    win(['fe:iam:' + fr.f]);
+  } else {
+    R.miss = true; R.wrong++; el.classList.remove('nod'); void el.getBoundingClientRect(); el.classList.add('nod'); kit.sfx.bonk();
+    chain(['fe:iam:' + fr.f, 'fe:who:' + R.f], 300);
+    if (R.wrong >= 2) setTimeout(glowTarget, 500);
+  }
+}
+function tapFeeling(f, btn) {
+  const R = S.round; kit.audio(); if (!R || S.busy || S.mode !== 'play' || R.type !== 'story' || R.done) return;
+  kit.stopSpeech();
+  if (f !== R.f) {
+    R.miss = true; R.wrong++; btn.classList.remove('shake', 'glow'); void btn.offsetWidth; btn.classList.add('shake'); kit.sfx.bonk();
+    say('fe:isit:' + f); if (R.wrong >= 2) setTimeout(glowTarget, 460);
+    return;
+  }
+  S.busy = true; R.done = true; const my = S.token;
+  setPip(R.f); kit.sfx.cheer(); sparksAt($('pip'));
+  record(R);
+  (async () => {
+    await chain(['fe:is:' + R.f, 'cheer:' + ((Math.random() * 4) | 0)], 200); if (my !== S.token) return;
+    const [e, word] = FEELINGS[R.f].help;
+    tray.innerHTML = `<button class="pb help" id="helpbtn"><span class="e">${e}</span><b>${word}</b></button>`;
+    $('helpbtn').onclick = () => doHelp(R, my);
+    S.busy = false; say('fe:help:' + R.f);
+  })();
+}
+function setPip(f, cls = '') { const p = $('pip'); if (p) p.innerHTML = friendSvg('bunny', f).replace('<g class="f-', `<g class="${cls} f-`); }
+async function doHelp(R, my) {
+  if (S.busy || my !== S.token) return; S.busy = true; kit.audio(); kit.stopSpeech();
+  const b = pipBox(), [e, what] = FEELINGS[R.f].help;
+  tray.innerHTML = '';
+  const fly = prop(e, innerWidth / 2, innerHeight - 90, b.s * .22);
+  await anim(fly, [{ transform: at(fly, innerWidth / 2, innerHeight - 90) }, { transform: at(fly, b.x + b.s * .1, b.y, 'scale(1.3)') }], 600); if (my !== S.token) return;
+  if (what === 'breathe') { setPip('angry', 'puff'); kit.noise(1.2, .05, 500); await kit.sleep(1500); setPip('neutral', 'puff'); kit.noise(1.2, .05, 400); await kit.sleep(1500); }
+  else if (what === 'nap') { $('shade').style.opacity = .6; setPip('tired'); kit.tone(260, 1.4, 'sine', .04, -60); await kit.sleep(1800); $('shade').style.opacity = 0; kit.sfx.cheer(); }
+  else if (what === 'clap') { for (let i = 0; i < 4; i++) { kit.noise(.08, .18, 3000); anim(fly, [{ transform: at(fly, b.x + b.s * .1, b.y, 'scale(1.3)') }, { transform: at(fly, b.x + b.s * .1, b.y, 'scale(.9)') }, { transform: at(fly, b.x + b.s * .1, b.y, 'scale(1.3)') }], 260); await kit.sleep(300); } }
+  else if (what === 'apple') { anim(fly, [{ transform: at(fly, b.x + b.s * .1, b.y, 'scale(1.3)') }, { transform: at(fly, b.x, b.top + b.s * .3, 'scale(.2)') }], 500); await kit.sleep(500); kit.noise(.12, .15, 1500); await kit.sleep(160); kit.noise(.12, .15, 1500); await kit.sleep(300); }
+  else if (what === 'hug') { for (let i = 0; i < 8; i++) { const h = prop(pick(['💛', '💗', '💜']), b.x + rnd(-b.s * .3, b.s * .3), b.y, b.s * .09); anim(h, [{ transform: at(h, h._x, h._y), opacity: 1 }, { transform: at(h, h._x + rnd(-40, 40), h._y - rnd(120, 220)), opacity: 0 }], 1300, { delay: i * 90 }); } kit.tone(520, .4, 'triangle', .06, 200); await kit.sleep(900); }
+  else if (what === 'hold hands') { $('shade').style.opacity = 0; kit.tone(440, .5, 'triangle', .06, 100); await kit.sleep(900); }
+  if (my !== S.token) return;
+  fly.remove();
+  clearOverlay();
+  setPip('happy', R.f === 'happy' || R.f === 'surprised' ? 'dance' : ''); if (R.f === 'happy') kit.confetti(40);
+  sparksAt($('pip'));
+  await chain(R.f === 'happy' || R.f === 'surprised' ? ['cheer:' + ((Math.random() * 4) | 0)] : ['fe:thanks'], 150); if (my !== S.token) return;
+  await kit.sleep(700); if (my !== S.token) return;
+  S.ri++; newRound();
+}
+function clearOverlay() { $('shade').style.opacity = 0; props.forEach(p => { if (!quiet) p.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }); }); setTimeout(() => { if (!S.round || S.round.done) { } }, 0); }
+function record(R) {
+  if (R.intro) kit.mastery.seen(GAME, 'f:' + R.f); else kit.mastery.record(GAME, 'f:' + R.f, !R.miss);
+  S.results.push(R.intro ? true : !R.miss);
+  const d = $('dots').children[S.results.length - 1]; if (d) d.className = S.results[S.results.length - 1] ? 'ok' : 'no';
+}
+async function win(extra) {
+  const R = S.round, my = S.token; record(R);
+  await chain([...extra, 'cheer:' + ((Math.random() * 4) | 0)], 200); if (my !== S.token) return;
+  await kit.sleep(600); if (my !== S.token) return;
+  S.ri++; newRound();
+}
+function sparksAt(el, n = 14) {
+  if (quiet || !el) return; const b = el.getBoundingClientRect(), x = b.left + b.width / 2, y = b.top + b.height * .35;
+  for (let i = 0; i < n; i++) { const s = document.createElement('div'); s.className = 'spark'; s.textContent = pick(['⭐', '✨', '💗', '💛']); document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, r = rnd(80, 190);
+    s.animate([{ transform: `translate(${x}px,${y}px) scale(.3)`, opacity: 1 }, { transform: `translate(${x + Math.cos(a) * r}px,${y + Math.sin(a) * r}px) scale(1.1)`, opacity: 0 }], { duration: rnd(600, 950), easing: 'ease-out' }).onfinish = () => s.remove(); }
+}
+function endSession() {
+  S.mode = 'end'; S.round = null; clearProps(); const N = S.N, n = S.results.filter(Boolean).length, f = n / N, stars = f >= .85 ? 3 : f >= .6 ? 2 : 1, unlock = f >= .6;
+  kit.progress.finish(GAME, S.level + 1, stars, unlock); tray.innerHTML = ''; $('chip').classList.add('hide');
+  scene.innerHTML = ['cat', 'bunny', 'bear'].map(k => `<svg class="fr" viewBox="${FVB}"><g class="dance">${friendSvg(k, 'happy')}</g></svg>`).join('');
+  kit.sfx.big(); kit.confetti(80); kit.say('done');
+  $('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars); $('score').textContent = n + ' / ' + N;
+  $('nextlv').classList.toggle('hide', !(unlock && S.level < LEVELS.length - 1)); $('end').classList.remove('hide');
+}
+
+/* ---------- how do you feel today? (no right answer: the child picks, Pip shows it and says it) ---------- */
+function showCheck() {
+  $('cgrid').innerHTML = Object.keys(FEELINGS).map(f => `<button class="pb" data-f="${f}">${faceIcon(f)}<b>${f}</b></button>`).join('');
+  $('cpip').innerHTML = friendSvg('bunny', 'neutral');
+  $('cgrid').querySelectorAll('.pb').forEach(b => b.onclick = () => { kit.audio(); $('cpip').innerHTML = friendSvg('bunny', b.dataset.f); kit.sfx.pop(); say('fe:ifeel:' + b.dataset.f); });
+  $('check').classList.remove('hide'); $('menu').classList.add('hide'); scene.style.visibility = 'hidden'; say('fe:you');
+}
+
+/* ---------- screens ---------- */
+function buildMenu() {
+  const p = kit.progress.get(GAME);
+  $('doors').innerHTML = LEVELS.map((L, i) => { const lock = i + 1 > p.unlocked, st = p.stars[i + 1] || 0;
+    return `<button class="kdoor ${lock ? 'lock' : ''}" data-l="${i}"><div class="big">${L.icon}</div><div class="nm">${L.name}</div><div class="st">${lock ? '🔒' : '★'.repeat(st) + '☆'.repeat(3 - st)}</div></button>`; }).join('');
+  $('doors').querySelectorAll('.kdoor:not(.lock)').forEach(b => b.addEventListener('click', () => { kit.audio(); startSession(+b.dataset.l); }));
+}
+function toMenu() {
+  S.token++; kit.stopSpeech(); S.mode = 'menu'; S.round = null; S.busy = false; clearProps(); scene.style.visibility = '';
+  $('chip').classList.add('hide'); $('end').classList.add('hide'); $('check').classList.add('hide'); $('dots').innerHTML = ''; tray.innerHTML = '';
+  scene.innerHTML = [['cat', 'surprised'], ['bunny', 'happy'], ['bear', 'hungry']].map(([k, f]) => `<svg class="fr" viewBox="${FVB}">${friendSvg(k, f)}</svg>`).join('');
+  buildMenu(); $('menu').classList.remove('hide');
+}
+$('home').onclick = toMenu; $('chip').onclick = () => { kit.audio(); if (S.mode === 'play' && !S.busy) sayRound(); };
+$('again').onclick = () => startSession(S.level); $('nextlv').onclick = () => startSession(Math.min(LEVELS.length - 1, S.level + 1));
+$('mute').onclick = () => { kit.setMuted(!kit.isMuted()); $('mute').textContent = kit.isMuted() ? '🔇' : '🔊'; kit.audio(); };
+$('checkbtn').onclick = () => { kit.audio(); showCheck(); }; $('cclose').onclick = () => { kit.stopSpeech(); $('check').classList.add('hide'); scene.style.visibility = ''; if (S.mode === 'menu') $('menu').classList.remove('hide'); };
+
+try { await document.fonts.load('800 60px "Baloo 2"'); } catch (e) { /* fallback font */ }
+await kit.loadVoice();
+toMenu();
+
+window.feel = {
+  S, kit, FEELINGS, STORIES, startSession, toMenu, tapFriend, tapFeeling, doHelp, friendSvg, showCheck,
+  friend: f => { const i = S.round.friends.findIndex(x => x.f === f); return [i, scene.querySelector(`.fr[data-i="${i}"]`)]; },
+  btn: f => tray.querySelector(`[data-f="${f}"]`),
+  quiet(v) { quiet = v; kit.setQuiet(v); }
+};
+</script>
+</body>
+</html>
