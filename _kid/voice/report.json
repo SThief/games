@@ -470,5 +470,1625 @@
 "w:kid": {
 "sec": 0.67,
 "centroid_hz": 2906
+},
+"mm:hi": {
+"sec": 1.39,
+"centroid_hz": 3742
+},
+"mm:count": {
+"sec": 0.98,
+"centroid_hz": 3985
+},
+"mm:tick": {
+"sec": 1.93,
+"centroid_hz": 3040
+},
+"mm:love": {
+"sec": 1.62,
+"centroid_hz": 2025
+},
+"mm:giggle": {
+"sec": 1.32,
+"centroid_hz": 2287
+},
+"mm:give:eyes": {
+"sec": 0.96,
+"centroid_hz": 3599
+},
+"mm:that:eyes": {
+"sec": 1.09,
+"centroid_hz": 3640
+},
+"mm:name:eyes": {
+"sec": 0.74,
+"centroid_hz": 3934
+},
+"mm:give:ears": {
+"sec": 0.95,
+"centroid_hz": 3724
+},
+"mm:that:ears": {
+"sec": 1.06,
+"centroid_hz": 3466
+},
+"mm:name:ears": {
+"sec": 0.71,
+"centroid_hz": 3833
+},
+"mm:give:arms": {
+"sec": 1.01,
+"centroid_hz": 3595
+},
+"mm:that:arms": {
+"sec": 1.15,
+"centroid_hz": 3557
+},
+"mm:name:arms": {
+"sec": 0.77,
+"centroid_hz": 3810
+},
+"mm:give:legs": {
+"sec": 1.01,
+"centroid_hz": 3636
+},
+"mm:that:legs": {
+"sec": 1.1,
+"centroid_hz": 3555
+},
+"mm:name:legs": {
+"sec": 0.77,
+"centroid_hz": 3659
+},
+"mm:give:horns": {
+"sec": 1.06,
+"centroid_hz": 3657
+},
+"mm:that:horns": {
+"sec": 1.15,
+"centroid_hz": 3659
+},
+"mm:name:horns": {
+"sec": 0.8,
+"centroid_hz": 3687
+},
+"mm:give:teeth": {
+"sec": 1.0,
+"centroid_hz": 3367
+},
+"mm:that:teeth": {
+"sec": 1.09,
+"centroid_hz": 3361
+},
+"mm:name:teeth": {
+"sec": 0.74,
+"centroid_hz": 3839
+},
+"mm:give:spots": {
+"sec": 1.15,
+"centroid_hz": 3479
+},
+"mm:that:spots": {
+"sec": 1.2,
+"centroid_hz": 3345
+},
+"mm:name:spots": {
+"sec": 0.83,
+"centroid_hz": 3615
+},
+"mm:give:nose": {
+"sec": 1.05,
+"centroid_hz": 3620
+},
+"mm:that:nose": {
+"sec": 1.11,
+"centroid_hz": 3617
+},
+"mm:name:nose": {
+"sec": 0.84,
+"centroid_hz": 3834
+},
+"mm:give:mouth": {
+"sec": 1.01,
+"centroid_hz": 3219
+},
+"mm:that:mouth": {
+"sec": 1.07,
+"centroid_hz": 3772
+},
+"mm:name:mouth": {
+"sec": 0.8,
+"centroid_hz": 3565
+},
+"mm:give:tail": {
+"sec": 1.04,
+"centroid_hz": 3822
+},
+"mm:that:tail": {
+"sec": 1.09,
+"centroid_hz": 3967
+},
+"mm:name:tail": {
+"sec": 0.83,
+"centroid_hz": 4150
+},
+"mm:give:wings": {
+"sec": 1.01,
+"centroid_hz": 3628
+},
+"mm:that:wings": {
+"sec": 1.09,
+"centroid_hz": 3542
+},
+"mm:name:wings": {
+"sec": 0.78,
+"centroid_hz": 3799
+},
+"mm:give:hair": {
+"sec": 0.93,
+"centroid_hz": 2717
+},
+"mm:that:hair": {
+"sec": 0.93,
+"centroid_hz": 4077
+},
+"mm:name:hair": {
+"sec": 0.65,
+"centroid_hz": 2428
+},
+"mm:n:eyes:1": {
+"sec": 1.13,
+"centroid_hz": 2769
+},
+"mm:need:eyes:1": {
+"sec": 1.21,
+"centroid_hz": 2314
+},
+"mm:n:eyes:2": {
+"sec": 1.17,
+"centroid_hz": 3476
+},
+"mm:need:eyes:2": {
+"sec": 1.24,
+"centroid_hz": 3688
+},
+"mm:n:eyes:3": {
+"sec": 1.24,
+"centroid_hz": 3428
+},
+"mm:need:eyes:3": {
+"sec": 1.28,
+"centroid_hz": 3576
+},
+"mm:n:eyes:4": {
+"sec": 1.21,
+"centroid_hz": 3442
+},
+"mm:need:eyes:4": {
+"sec": 1.28,
+"centroid_hz": 3497
+},
+"mm:n:eyes:5": {
+"sec": 1.3,
+"centroid_hz": 3447
+},
+"mm:need:eyes:5": {
+"sec": 1.32,
+"centroid_hz": 3427
+},
+"mm:n:ears:1": {
+"sec": 1.05,
+"centroid_hz": 2607
+},
+"mm:need:ears:1": {
+"sec": 1.19,
+"centroid_hz": 2357
+},
+"mm:n:ears:2": {
+"sec": 1.19,
+"centroid_hz": 3567
+},
+"mm:need:ears:2": {
+"sec": 1.24,
+"centroid_hz": 3772
+},
+"mm:n:ears:3": {
+"sec": 1.26,
+"centroid_hz": 3470
+},
+"mm:need:ears:3": {
+"sec": 1.3,
+"centroid_hz": 3658
+},
+"mm:n:ears:4": {
+"sec": 1.25,
+"centroid_hz": 3383
+},
+"mm:need:ears:4": {
+"sec": 1.34,
+"centroid_hz": 3467
+},
+"mm:n:ears:5": {
+"sec": 1.26,
+"centroid_hz": 3266
+},
+"mm:need:ears:5": {
+"sec": 1.32,
+"centroid_hz": 3286
+},
+"mm:n:arms:1": {
+"sec": 1.12,
+"centroid_hz": 2719
+},
+"mm:need:arms:1": {
+"sec": 1.22,
+"centroid_hz": 2576
+},
+"mm:n:arms:2": {
+"sec": 1.26,
+"centroid_hz": 3506
+},
+"mm:need:arms:2": {
+"sec": 1.28,
+"centroid_hz": 3627
+},
+"mm:n:arms:3": {
+"sec": 1.25,
+"centroid_hz": 3405
+},
+"mm:need:arms:3": {
+"sec": 1.34,
+"centroid_hz": 3552
+},
+"mm:n:arms:4": {
+"sec": 1.28,
+"centroid_hz": 3440
+},
+"mm:need:arms:4": {
+"sec": 1.34,
+"centroid_hz": 3529
+},
+"mm:n:arms:5": {
+"sec": 1.3,
+"centroid_hz": 3469
+},
+"mm:need:arms:5": {
+"sec": 1.34,
+"centroid_hz": 3439
+},
+"mm:n:legs:1": {
+"sec": 1.11,
+"centroid_hz": 2532
+},
+"mm:need:legs:1": {
+"sec": 1.19,
+"centroid_hz": 2464
+},
+"mm:n:legs:2": {
+"sec": 1.21,
+"centroid_hz": 3489
+},
+"mm:need:legs:2": {
+"sec": 1.26,
+"centroid_hz": 3597
+},
+"mm:n:legs:3": {
+"sec": 1.23,
+"centroid_hz": 3469
+},
+"mm:need:legs:3": {
+"sec": 1.33,
+"centroid_hz": 3511
+},
+"mm:n:legs:4": {
+"sec": 1.24,
+"centroid_hz": 3403
+},
+"mm:need:legs:4": {
+"sec": 1.35,
+"centroid_hz": 3423
+},
+"mm:n:legs:5": {
+"sec": 1.26,
+"centroid_hz": 3420
+},
+"mm:need:legs:5": {
+"sec": 1.35,
+"centroid_hz": 3313
+},
+"mm:n:horns:1": {
+"sec": 1.21,
+"centroid_hz": 3008
+},
+"mm:need:horns:1": {
+"sec": 1.26,
+"centroid_hz": 3247
+},
+"mm:n:horns:2": {
+"sec": 1.3,
+"centroid_hz": 3499
+},
+"mm:need:horns:2": {
+"sec": 1.36,
+"centroid_hz": 3621
+},
+"mm:n:horns:3": {
+"sec": 1.3,
+"centroid_hz": 3437
+},
+"mm:need:horns:3": {
+"sec": 1.38,
+"centroid_hz": 3522
+},
+"mm:n:horns:4": {
+"sec": 1.35,
+"centroid_hz": 3440
+},
+"mm:need:horns:4": {
+"sec": 1.38,
+"centroid_hz": 3528
+},
+"mm:n:horns:5": {
+"sec": 1.3,
+"centroid_hz": 3380
+},
+"mm:need:horns:5": {
+"sec": 1.38,
+"centroid_hz": 3418
+},
+"mm:n:teeth:1": {
+"sec": 1.15,
+"centroid_hz": 3179
+},
+"mm:need:teeth:1": {
+"sec": 1.27,
+"centroid_hz": 3418
+},
+"mm:n:teeth:2": {
+"sec": 1.23,
+"centroid_hz": 3355
+},
+"mm:need:teeth:2": {
+"sec": 1.28,
+"centroid_hz": 3598
+},
+"mm:n:teeth:3": {
+"sec": 1.28,
+"centroid_hz": 3052
+},
+"mm:need:teeth:3": {
+"sec": 1.34,
+"centroid_hz": 3257
+},
+"mm:n:teeth:4": {
+"sec": 1.26,
+"centroid_hz": 3021
+},
+"mm:need:teeth:4": {
+"sec": 1.31,
+"centroid_hz": 3153
+},
+"mm:n:teeth:5": {
+"sec": 1.28,
+"centroid_hz": 2885
+},
+"mm:need:teeth:5": {
+"sec": 1.37,
+"centroid_hz": 2979
+},
+"mm:n:spots:1": {
+"sec": 1.23,
+"centroid_hz": 3980
+},
+"mm:need:spots:1": {
+"sec": 1.33,
+"centroid_hz": 4167
+},
+"mm:n:spots:2": {
+"sec": 1.28,
+"centroid_hz": 3433
+},
+"mm:need:spots:2": {
+"sec": 1.35,
+"centroid_hz": 3479
+},
+"mm:n:spots:3": {
+"sec": 1.35,
+"centroid_hz": 3292
+},
+"mm:need:spots:3": {
+"sec": 1.41,
+"centroid_hz": 3411
+},
+"mm:n:spots:4": {
+"sec": 1.37,
+"centroid_hz": 3326
+},
+"mm:need:spots:4": {
+"sec": 1.37,
+"centroid_hz": 3504
+},
+"mm:n:spots:5": {
+"sec": 1.37,
+"centroid_hz": 3417
+},
+"mm:need:spots:5": {
+"sec": 1.37,
+"centroid_hz": 3422
+},
+"mm:num:1": {
+"sec": 0.66,
+"centroid_hz": 2016
+},
+"mm:num:2": {
+"sec": 0.67,
+"centroid_hz": 3427
+},
+"mm:num:3": {
+"sec": 0.73,
+"centroid_hz": 3741
+},
+"mm:num:4": {
+"sec": 0.7,
+"centroid_hz": 3156
+},
+"mm:num:5": {
+"sec": 0.76,
+"centroid_hz": 2982
+},
+"mm:color:red": {
+"sec": 0.98,
+"centroid_hz": 2609
+},
+"mm:is:red": {
+"sec": 0.96,
+"centroid_hz": 3926
+},
+"mm:cname:red": {
+"sec": 0.65,
+"centroid_hz": 2090
+},
+"mm:color:blue": {
+"sec": 1.02,
+"centroid_hz": 2501
+},
+"mm:is:blue": {
+"sec": 1.0,
+"centroid_hz": 4045
+},
+"mm:cname:blue": {
+"sec": 0.71,
+"centroid_hz": 2305
+},
+"mm:color:yellow": {
+"sec": 1.05,
+"centroid_hz": 2356
+},
+"mm:is:yellow": {
+"sec": 1.02,
+"centroid_hz": 3823
+},
+"mm:cname:yellow": {
+"sec": 0.73,
+"centroid_hz": 2414
+},
+"mm:color:green": {
+"sec": 1.07,
+"centroid_hz": 2524
+},
+"mm:is:green": {
+"sec": 1.0,
+"centroid_hz": 3795
+},
+"mm:cname:green": {
+"sec": 0.73,
+"centroid_hz": 2228
+},
+"mm:color:orange": {
+"sec": 1.15,
+"centroid_hz": 2946
+},
+"mm:is:orange": {
+"sec": 1.1,
+"centroid_hz": 3961
+},
+"mm:cname:orange": {
+"sec": 0.81,
+"centroid_hz": 2917
+},
+"mm:color:purple": {
+"sec": 1.13,
+"centroid_hz": 2497
+},
+"mm:is:purple": {
+"sec": 1.08,
+"centroid_hz": 4215
+},
+"mm:cname:purple": {
+"sec": 0.76,
+"centroid_hz": 2419
+},
+"mm:color:pink": {
+"sec": 1.05,
+"centroid_hz": 2547
+},
+"mm:is:pink": {
+"sec": 1.03,
+"centroid_hz": 3877
+},
+"mm:cname:pink": {
+"sec": 0.72,
+"centroid_hz": 2642
+},
+"mm:color:brown": {
+"sec": 1.09,
+"centroid_hz": 2557
+},
+"mm:is:brown": {
+"sec": 1.04,
+"centroid_hz": 4127
+},
+"mm:cname:brown": {
+"sec": 0.76,
+"centroid_hz": 2208
+},
+"rf:hi": {
+"sec": 2.82,
+"centroid_hz": 3511
+},
+"rf:yes": {
+"sec": 0.86,
+"centroid_hz": 2270
+},
+"rf:no": {
+"sec": 0.91,
+"centroid_hz": 2324
+},
+"rw:cat": {
+"sec": 0.68,
+"centroid_hz": 3107
+},
+"rq:cat": {
+"sec": 1.32,
+"centroid_hz": 3630
+},
+"rw:hat": {
+"sec": 0.66,
+"centroid_hz": 3600
+},
+"rq:hat": {
+"sec": 1.28,
+"centroid_hz": 3701
+},
+"rw:bat": {
+"sec": 0.68,
+"centroid_hz": 3318
+},
+"rq:bat": {
+"sec": 1.3,
+"centroid_hz": 3701
+},
+"rw:rat": {
+"sec": 0.7,
+"centroid_hz": 3452
+},
+"rq:rat": {
+"sec": 1.3,
+"centroid_hz": 3675
+},
+"rw:dog": {
+"sec": 0.76,
+"centroid_hz": 3165
+},
+"rq:dog": {
+"sec": 1.36,
+"centroid_hz": 3901
+},
+"rw:frog": {
+"sec": 0.76,
+"centroid_hz": 3545
+},
+"rq:frog": {
+"sec": 1.36,
+"centroid_hz": 3697
+},
+"rw:log": {
+"sec": 0.69,
+"centroid_hz": 2084
+},
+"rq:log": {
+"sec": 1.3,
+"centroid_hz": 3943
+},
+"rw:hen": {
+"sec": 0.65,
+"centroid_hz": 2325
+},
+"rq:hen": {
+"sec": 1.28,
+"centroid_hz": 3871
+},
+"rw:pen": {
+"sec": 0.65,
+"centroid_hz": 2624
+},
+"rq:pen": {
+"sec": 1.32,
+"centroid_hz": 3780
+},
+"rw:ten": {
+"sec": 0.66,
+"centroid_hz": 3944
+},
+"rq:ten": {
+"sec": 1.32,
+"centroid_hz": 3716
+},
+"rw:box": {
+"sec": 0.81,
+"centroid_hz": 3732
+},
+"rq:box": {
+"sec": 1.43,
+"centroid_hz": 3544
+},
+"rw:fox": {
+"sec": 0.78,
+"centroid_hz": 3524
+},
+"rq:fox": {
+"sec": 1.42,
+"centroid_hz": 3449
+},
+"rw:socks": {
+"sec": 0.82,
+"centroid_hz": 3506
+},
+"rq:socks": {
+"sec": 1.38,
+"centroid_hz": 3338
+},
+"rw:pan": {
+"sec": 0.66,
+"centroid_hz": 2702
+},
+"rq:pan": {
+"sec": 1.34,
+"centroid_hz": 3813
+},
+"rw:van": {
+"sec": 0.69,
+"centroid_hz": 2611
+},
+"rq:van": {
+"sec": 1.32,
+"centroid_hz": 3729
+},
+"rw:man": {
+"sec": 0.7,
+"centroid_hz": 2288
+},
+"rq:man": {
+"sec": 1.32,
+"centroid_hz": 3754
+},
+"rw:boat": {
+"sec": 0.73,
+"centroid_hz": 3309
+},
+"rq:boat": {
+"sec": 1.34,
+"centroid_hz": 3657
+},
+"rw:goat": {
+"sec": 0.7,
+"centroid_hz": 3255
+},
+"rq:goat": {
+"sec": 1.34,
+"centroid_hz": 3645
+},
+"rw:coat": {
+"sec": 0.71,
+"centroid_hz": 3145
+},
+"rq:coat": {
+"sec": 1.34,
+"centroid_hz": 3654
+},
+"rw:bee": {
+"sec": 0.69,
+"centroid_hz": 2489
+},
+"rq:bee": {
+"sec": 1.3,
+"centroid_hz": 3709
+},
+"rw:tree": {
+"sec": 0.71,
+"centroid_hz": 3431
+},
+"rq:tree": {
+"sec": 1.33,
+"centroid_hz": 3661
+},
+"rw:key": {
+"sec": 0.66,
+"centroid_hz": 3095
+},
+"rq:key": {
+"sec": 1.3,
+"centroid_hz": 3584
+},
+"rw:three": {
+"sec": 0.71,
+"centroid_hz": 3584
+},
+"rq:three": {
+"sec": 1.31,
+"centroid_hz": 3613
+},
+"rw:train": {
+"sec": 0.74,
+"centroid_hz": 3470
+},
+"rq:train": {
+"sec": 1.36,
+"centroid_hz": 3686
+},
+"rw:rain": {
+"sec": 0.73,
+"centroid_hz": 2116
+},
+"rq:rain": {
+"sec": 1.3,
+"centroid_hz": 3756
+},
+"rw:chain": {
+"sec": 0.73,
+"centroid_hz": 3466
+},
+"rq:chain": {
+"sec": 1.38,
+"centroid_hz": 3652
+},
+"rw:plane": {
+"sec": 0.74,
+"centroid_hz": 2755
+},
+"rq:plane": {
+"sec": 1.36,
+"centroid_hz": 3705
+},
+"rw:moon": {
+"sec": 0.71,
+"centroid_hz": 2310
+},
+"rq:moon": {
+"sec": 1.28,
+"centroid_hz": 3763
+},
+"rw:spoon": {
+"sec": 0.76,
+"centroid_hz": 4559
+},
+"rq:spoon": {
+"sec": 1.38,
+"centroid_hz": 3722
+},
+"rw:balloon": {
+"sec": 0.79,
+"centroid_hz": 2327
+},
+"rq:balloon": {
+"sec": 1.42,
+"centroid_hz": 3838
+},
+"rw:car": {
+"sec": 0.68,
+"centroid_hz": 2632
+},
+"rq:car": {
+"sec": 1.3,
+"centroid_hz": 3842
+},
+"rw:star": {
+"sec": 0.73,
+"centroid_hz": 3943
+},
+"rq:star": {
+"sec": 1.36,
+"centroid_hz": 3780
+},
+"rw:guitar": {
+"sec": 0.81,
+"centroid_hz": 3678
+},
+"rq:guitar": {
+"sec": 1.49,
+"centroid_hz": 3849
+},
+"rw:cake": {
+"sec": 0.71,
+"centroid_hz": 2691
+},
+"rq:cake": {
+"sec": 1.32,
+"centroid_hz": 3631
+},
+"rw:snake": {
+"sec": 0.78,
+"centroid_hz": 4154
+},
+"rq:snake": {
+"sec": 1.36,
+"centroid_hz": 3611
+},
+"rw:bed": {
+"sec": 0.69,
+"centroid_hz": 2178
+},
+"rq:bed": {
+"sec": 1.3,
+"centroid_hz": 3769
+},
+"rw:sled": {
+"sec": 0.71,
+"centroid_hz": 4346
+},
+"rq:sled": {
+"sec": 1.32,
+"centroid_hz": 3880
+},
+"rw:bread": {
+"sec": 0.7,
+"centroid_hz": 2071
+},
+"rq:bread": {
+"sec": 1.33,
+"centroid_hz": 3796
+},
+"rw:bear": {
+"sec": 0.65,
+"centroid_hz": 2374
+},
+"rq:bear": {
+"sec": 1.3,
+"centroid_hz": 3838
+},
+"rw:pear": {
+"sec": 0.68,
+"centroid_hz": 2636
+},
+"rq:pear": {
+"sec": 1.34,
+"centroid_hz": 3876
+},
+"rw:chair": {
+"sec": 0.69,
+"centroid_hz": 3423
+},
+"rq:chair": {
+"sec": 1.33,
+"centroid_hz": 3727
+},
+"rw:king": {
+"sec": 0.66,
+"centroid_hz": 3155
+},
+"rq:king": {
+"sec": 1.3,
+"centroid_hz": 3715
+},
+"rw:ring": {
+"sec": 0.67,
+"centroid_hz": 2150
+},
+"rq:ring": {
+"sec": 1.3,
+"centroid_hz": 3855
+},
+"rw:bell": {
+"sec": 0.67,
+"centroid_hz": 2195
+},
+"rq:bell": {
+"sec": 1.3,
+"centroid_hz": 3934
+},
+"rw:shell": {
+"sec": 0.67,
+"centroid_hz": 3235
+},
+"rq:shell": {
+"sec": 1.29,
+"centroid_hz": 3727
+},
+"rw:mouse": {
+"sec": 0.74,
+"centroid_hz": 3645
+},
+"rq:mouse": {
+"sec": 1.37,
+"centroid_hz": 3486
+},
+"rw:house": {
+"sec": 0.71,
+"centroid_hz": 3526
+},
+"rq:house": {
+"sec": 1.32,
+"centroid_hz": 3515
+},
+"rw:snail": {
+"sec": 0.75,
+"centroid_hz": 4184
+},
+"rq:snail": {
+"sec": 1.34,
+"centroid_hz": 3806
+},
+"rw:whale": {
+"sec": 0.7,
+"centroid_hz": 2038
+},
+"rq:whale": {
+"sec": 1.33,
+"centroid_hz": 3941
+},
+"rw:nose": {
+"sec": 0.78,
+"centroid_hz": 3787
+},
+"rq:nose": {
+"sec": 1.34,
+"centroid_hz": 3527
+},
+"rw:rose": {
+"sec": 0.77,
+"centroid_hz": 3737
+},
+"rq:rose": {
+"sec": 1.34,
+"centroid_hz": 3564
+},
+"rw:pie": {
+"sec": 0.67,
+"centroid_hz": 2621
+},
+"rq:pie": {
+"sec": 1.37,
+"centroid_hz": 3831
+},
+"rw:tie": {
+"sec": 0.67,
+"centroid_hz": 4016
+},
+"rq:tie": {
+"sec": 1.39,
+"centroid_hz": 3834
+},
+"rw:eye": {
+"sec": 0.63,
+"centroid_hz": 2352
+},
+"rq:eye": {
+"sec": 1.28,
+"centroid_hz": 3889
+},
+"rw:fly": {
+"sec": 0.71,
+"centroid_hz": 3354
+},
+"rq:fly": {
+"sec": 1.34,
+"centroid_hz": 3689
+},
+"rw:clock": {
+"sec": 0.75,
+"centroid_hz": 2597
+},
+"rq:clock": {
+"sec": 1.38,
+"centroid_hz": 3761
+},
+"rw:rock": {
+"sec": 0.74,
+"centroid_hz": 2446
+},
+"rq:rock": {
+"sec": 1.36,
+"centroid_hz": 3837
+},
+"rw:lock": {
+"sec": 0.75,
+"centroid_hz": 2274
+},
+"rq:lock": {
+"sec": 1.38,
+"centroid_hz": 3809
+},
+"rw:fish": {
+"sec": 0.71,
+"centroid_hz": 2874
+},
+"rq:fish": {
+"sec": 1.34,
+"centroid_hz": 3422
+},
+"rw:dish": {
+"sec": 0.7,
+"centroid_hz": 2831
+},
+"rq:dish": {
+"sec": 1.35,
+"centroid_hz": 3524
+},
+"rw:kite": {
+"sec": 0.71,
+"centroid_hz": 3189
+},
+"rq:kite": {
+"sec": 1.32,
+"centroid_hz": 3575
+},
+"rw:light": {
+"sec": 0.71,
+"centroid_hz": 3252
+},
+"rq:light": {
+"sec": 1.33,
+"centroid_hz": 3633
+},
+"rw:shoe": {
+"sec": 0.67,
+"centroid_hz": 3420
+},
+"rq:shoe": {
+"sec": 1.25,
+"centroid_hz": 3705
+},
+"rw:two": {
+"sec": 0.67,
+"centroid_hz": 3489
+},
+"rq:two": {
+"sec": 1.3,
+"centroid_hz": 3788
+},
+"rw:kangaroo": {
+"sec": 0.85,
+"centroid_hz": 2792
+},
+"rq:kangaroo": {
+"sec": 1.48,
+"centroid_hz": 3895
+},
+"rw:door": {
+"sec": 0.71,
+"centroid_hz": 3181
+},
+"rq:door": {
+"sec": 1.33,
+"centroid_hz": 3866
+},
+"rw:four": {
+"sec": 0.7,
+"centroid_hz": 3156
+},
+"rq:four": {
+"sec": 1.29,
+"centroid_hz": 3704
+},
+"wd:hi": {
+"sec": 1.79,
+"centroid_hz": 3346
+},
+"wd:ready": {
+"sec": 1.64,
+"centroid_hz": 3829
+},
+"wd:now": {
+"sec": 1.57,
+"centroid_hz": 3979
+},
+"wd:hot": {
+"sec": 1.02,
+"centroid_hz": 2329
+},
+"wd:cold": {
+"sec": 1.49,
+"centroid_hz": 2841
+},
+"wd:wet": {
+"sec": 1.32,
+"centroid_hz": 2082
+},
+"wd:yay": {
+"sec": 1.11,
+"centroid_hz": 1717
+},
+"wd:on:hat": {
+"sec": 1.05,
+"centroid_hz": 3319
+},
+"wd:off:hat": {
+"sec": 1.19,
+"centroid_hz": 3098
+},
+"wd:that:hat": {
+"sec": 1.07,
+"centroid_hz": 4218
+},
+"wd:name:hat": {
+"sec": 0.66,
+"centroid_hz": 3640
+},
+"wd:on:cap": {
+"sec": 1.05,
+"centroid_hz": 2774
+},
+"wd:off:cap": {
+"sec": 1.19,
+"centroid_hz": 3649
+},
+"wd:that:cap": {
+"sec": 1.11,
+"centroid_hz": 4264
+},
+"wd:name:cap": {
+"sec": 0.67,
+"centroid_hz": 2754
+},
+"wd:on:sunglasses": {
+"sec": 1.43,
+"centroid_hz": 3304
+},
+"wd:off:sunglasses": {
+"sec": 1.57,
+"centroid_hz": 3196
+},
+"wd:that:sunglasses": {
+"sec": 1.53,
+"centroid_hz": 3142
+},
+"wd:name:sunglasses": {
+"sec": 1.0,
+"centroid_hz": 3195
+},
+"wd:on:scarf": {
+"sec": 1.16,
+"centroid_hz": 3959
+},
+"wd:off:scarf": {
+"sec": 1.26,
+"centroid_hz": 3679
+},
+"wd:that:scarf": {
+"sec": 1.2,
+"centroid_hz": 3766
+},
+"wd:name:scarf": {
+"sec": 0.78,
+"centroid_hz": 3990
+},
+"wd:on:tshirt": {
+"sec": 1.26,
+"centroid_hz": 3286
+},
+"wd:off:tshirt": {
+"sec": 1.39,
+"centroid_hz": 2999
+},
+"wd:that:tshirt": {
+"sec": 1.36,
+"centroid_hz": 3817
+},
+"wd:name:tshirt": {
+"sec": 0.87,
+"centroid_hz": 3398
+},
+"wd:on:coat": {
+"sec": 1.13,
+"centroid_hz": 3367
+},
+"wd:off:coat": {
+"sec": 1.21,
+"centroid_hz": 3081
+},
+"wd:that:coat": {
+"sec": 1.11,
+"centroid_hz": 3910
+},
+"wd:name:coat": {
+"sec": 0.71,
+"centroid_hz": 3200
+},
+"wd:on:gloves": {
+"sec": 1.1,
+"centroid_hz": 3691
+},
+"wd:off:gloves": {
+"sec": 1.23,
+"centroid_hz": 3513
+},
+"wd:that:gloves": {
+"sec": 1.22,
+"centroid_hz": 3500
+},
+"wd:name:gloves": {
+"sec": 0.77,
+"centroid_hz": 3690
+},
+"wd:on:shorts": {
+"sec": 1.17,
+"centroid_hz": 3484
+},
+"wd:off:shorts": {
+"sec": 1.3,
+"centroid_hz": 3361
+},
+"wd:that:shorts": {
+"sec": 1.27,
+"centroid_hz": 3363
+},
+"wd:name:shorts": {
+"sec": 0.8,
+"centroid_hz": 3401
+},
+"wd:on:jeans": {
+"sec": 1.18,
+"centroid_hz": 3534
+},
+"wd:off:jeans": {
+"sec": 1.27,
+"centroid_hz": 3381
+},
+"wd:that:jeans": {
+"sec": 1.26,
+"centroid_hz": 3358
+},
+"wd:name:jeans": {
+"sec": 0.79,
+"centroid_hz": 4039
+},
+"wd:on:socks": {
+"sec": 1.18,
+"centroid_hz": 3535
+},
+"wd:off:socks": {
+"sec": 1.3,
+"centroid_hz": 3370
+},
+"wd:that:socks": {
+"sec": 1.26,
+"centroid_hz": 3294
+},
+"wd:name:socks": {
+"sec": 0.78,
+"centroid_hz": 3330
+},
+"wd:on:shoes": {
+"sec": 1.13,
+"centroid_hz": 3545
+},
+"wd:off:shoes": {
+"sec": 1.23,
+"centroid_hz": 3257
+},
+"wd:that:shoes": {
+"sec": 1.25,
+"centroid_hz": 3276
+},
+"wd:name:shoes": {
+"sec": 0.77,
+"centroid_hz": 3822
+},
+"wd:on:boots": {
+"sec": 1.11,
+"centroid_hz": 3645
+},
+"wd:off:boots": {
+"sec": 1.24,
+"centroid_hz": 3455
+},
+"wd:that:boots": {
+"sec": 1.23,
+"centroid_hz": 3452
+},
+"wd:name:boots": {
+"sec": 0.78,
+"centroid_hz": 3672
+},
+"wd:on:umbrella": {
+"sec": 1.23,
+"centroid_hz": 3435
+},
+"wd:off:umbrella": {
+"sec": 1.43,
+"centroid_hz": 2411
+},
+"wd:that:umbrella": {
+"sec": 1.31,
+"centroid_hz": 4512
+},
+"wd:name:umbrella": {
+"sec": 0.84,
+"centroid_hz": 2008
+},
+"wd:w:sunny": {
+"sec": 1.31,
+"centroid_hz": 4047
+},
+"wd:w:rainy": {
+"sec": 1.39,
+"centroid_hz": 3885
+},
+"wd:w:snowy": {
+"sec": 1.48,
+"centroid_hz": 4228
+},
+"wd:need:sunny": {
+"sec": 1.38,
+"centroid_hz": 3722
+},
+"wd:need:rainy": {
+"sec": 1.43,
+"centroid_hz": 3594
+},
+"wd:need:snowy": {
+"sec": 1.47,
+"centroid_hz": 3820
+},
+"wd:not:sunny": {
+"sec": 1.59,
+"centroid_hz": 3930
+},
+"wd:not:rainy": {
+"sec": 1.12,
+"centroid_hz": 2149
+},
+"wd:not:snowy": {
+"sec": 1.14,
+"centroid_hz": 3922
+},
+"fe:hi": {
+"sec": 2.92,
+"centroid_hz": 3388
+},
+"fe:how": {
+"sec": 1.24,
+"centroid_hz": 3732
+},
+"fe:you": {
+"sec": 1.38,
+"centroid_hz": 3547
+},
+"fe:thanks": {
+"sec": 2.11,
+"centroid_hz": 1820
+},
+"fe:who:happy": {
+"sec": 1.07,
+"centroid_hz": 4026
+},
+"fe:iam:happy": {
+"sec": 1.32,
+"centroid_hz": 1594
+},
+"fe:ifeel:happy": {
+"sec": 1.4,
+"centroid_hz": 1674
+},
+"fe:is:happy": {
+"sec": 1.11,
+"centroid_hz": 4095
+},
+"fe:isit:happy": {
+"sec": 1.8,
+"centroid_hz": 4186
+},
+"fe:help:happy": {
+"sec": 1.01,
+"centroid_hz": 3513
+},
+"fe:who:sad": {
+"sec": 0.98,
+"centroid_hz": 4088
+},
+"fe:iam:sad": {
+"sec": 1.19,
+"centroid_hz": 2732
+},
+"fe:ifeel:sad": {
+"sec": 1.3,
+"centroid_hz": 2482
+},
+"fe:is:sad": {
+"sec": 1.04,
+"centroid_hz": 3991
+},
+"fe:isit:sad": {
+"sec": 1.72,
+"centroid_hz": 3932
+},
+"fe:help:sad": {
+"sec": 1.41,
+"centroid_hz": 3956
+},
+"fe:who:angry": {
+"sec": 1.03,
+"centroid_hz": 4268
+},
+"fe:iam:angry": {
+"sec": 1.25,
+"centroid_hz": 1813
+},
+"fe:ifeel:angry": {
+"sec": 1.34,
+"centroid_hz": 1731
+},
+"fe:is:angry": {
+"sec": 1.08,
+"centroid_hz": 4220
+},
+"fe:isit:angry": {
+"sec": 1.81,
+"centroid_hz": 4361
+},
+"fe:help:angry": {
+"sec": 1.72,
+"centroid_hz": 3735
+},
+"fe:who:scared": {
+"sec": 0.97,
+"centroid_hz": 4316
+},
+"fe:iam:scared": {
+"sec": 1.27,
+"centroid_hz": 2702
+},
+"fe:ifeel:scared": {
+"sec": 1.4,
+"centroid_hz": 2511
+},
+"fe:is:scared": {
+"sec": 1.04,
+"centroid_hz": 4224
+},
+"fe:isit:scared": {
+"sec": 1.79,
+"centroid_hz": 4017
+},
+"fe:help:scared": {
+"sec": 1.44,
+"centroid_hz": 3675
+},
+"fe:who:surprised": {
+"sec": 1.18,
+"centroid_hz": 3938
+},
+"fe:iam:surprised": {
+"sec": 1.42,
+"centroid_hz": 2505
+},
+"fe:ifeel:surprised": {
+"sec": 1.62,
+"centroid_hz": 2367
+},
+"fe:is:surprised": {
+"sec": 1.27,
+"centroid_hz": 3880
+},
+"fe:isit:surprised": {
+"sec": 2.02,
+"centroid_hz": 3755
+},
+"fe:help:surprised": {
+"sec": 0.98,
+"centroid_hz": 4211
+},
+"fe:who:tired": {
+"sec": 1.08,
+"centroid_hz": 3992
+},
+"fe:iam:tired": {
+"sec": 1.32,
+"centroid_hz": 2383
+},
+"fe:ifeel:tired": {
+"sec": 1.44,
+"centroid_hz": 2381
+},
+"fe:is:tired": {
+"sec": 1.16,
+"centroid_hz": 3837
+},
+"fe:isit:tired": {
+"sec": 1.83,
+"centroid_hz": 4080
+},
+"fe:help:tired": {
+"sec": 1.33,
+"centroid_hz": 3632
+},
+"fe:who:hungry": {
+"sec": 1.04,
+"centroid_hz": 4253
+},
+"fe:iam:hungry": {
+"sec": 1.34,
+"centroid_hz": 2474
+},
+"fe:ifeel:hungry": {
+"sec": 1.38,
+"centroid_hz": 1654
+},
+"fe:is:hungry": {
+"sec": 1.11,
+"centroid_hz": 4147
+},
+"fe:isit:hungry": {
+"sec": 1.86,
+"centroid_hz": 4274
+},
+"fe:help:hungry": {
+"sec": 1.28,
+"centroid_hz": 4218
+},
+"fe:story:birthday": {
+"sec": 2.33,
+"centroid_hz": 3851
+},
+"fe:story:puppy": {
+"sec": 1.3,
+"centroid_hz": 3831
+},
+"fe:story:icecream": {
+"sec": 2.25,
+"centroid_hz": 3760
+},
+"fe:story:balloon": {
+"sec": 2.08,
+"centroid_hz": 3974
+},
+"fe:story:tower": {
+"sec": 1.83,
+"centroid_hz": 3725
+},
+"fe:story:toy": {
+"sec": 1.58,
+"centroid_hz": 3557
+},
+"fe:story:spider": {
+"sec": 1.56,
+"centroid_hz": 3904
+},
+"fe:story:thunder": {
+"sec": 1.71,
+"centroid_hz": 2650
+},
+"fe:story:present": {
+"sec": 1.58,
+"centroid_hz": 3779
+},
+"fe:story:rabbit": {
+"sec": 1.79,
+"centroid_hz": 3683
+},
+"fe:story:playday": {
+"sec": 1.9,
+"centroid_hz": 3226
+},
+"fe:story:late": {
+"sec": 1.51,
+"centroid_hz": 3928
+},
+"fe:story:tummy": {
+"sec": 2.62,
+"centroid_hz": 3969
+},
+"fe:story:lunch": {
+"sec": 2.71,
+"centroid_hz": 3923
 }
 }
