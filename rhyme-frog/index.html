@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Rhyme Frog</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232aa6d6'/%3E%3Cellipse cx='16' cy='20' rx='11' ry='8' fill='%235cc94f'/%3E%3Ccircle cx='10' cy='12' r='5' fill='%235cc94f'/%3E%3Ccircle cx='22' cy='12' r='5' fill='%235cc94f'/%3E%3Ccircle cx='10' cy='12' r='2.5' fill='white'/%3E%3Ccircle cx='22' cy='12' r='2.5' fill='white'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_kid/kit.css">
+<style>
+body{background:linear-gradient(#8fe0f5 0,#53c1e6 22%,#2aa0d4 60%,#1b7fb8 100%)}
+#water{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#pond{position:fixed;inset:0;overflow:hidden}
+.pad{position:absolute;left:0;top:0;cursor:pointer;will-change:transform}
+.pad .in{width:100%;height:100%;position:relative;animation:float 3.2s ease-in-out infinite}
+.pad svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 8px 0 rgba(10,60,100,.25))}
+.pad .pic{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-size:calc(var(--p) * .42);line-height:1;filter:drop-shadow(0 4px 2px rgba(0,0,0,.25));pointer-events:none}
+.pad.glow svg{animation:padglow 1s ease-in-out infinite}
+.pad.say .in{animation:hi .5s ease-out}
+.pad.shake .in{animation:shake .5s}
+.pad.dip .in{animation:dip .6s ease-out}
+.pad.home{cursor:default}
+@keyframes float{50%{transform:translateY(-6px) rotate(1.5deg)}}
+@keyframes hi{40%{transform:scale(1.18) translateY(-10px)}}
+@keyframes shake{20%{transform:translateX(-12px) rotate(-6deg)}40%{transform:translateX(10px) rotate(5deg)}60%{transform:translateX(-7px)}80%{transform:translateX(4px)}}
+@keyframes dip{30%{transform:scale(.9,.84) translateY(10px)}70%{transform:scale(1.04)}}
+@keyframes padglow{50%{filter:drop-shadow(0 0 14px #fff6a0) drop-shadow(0 0 30px #ffe14d)}}
+#frog{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;z-index:5}
+#frog svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 6px 0 rgba(10,60,40,.25))}
+#frog .leap{display:none}
+#frog.jump .sit{display:none}
+#frog.jump .leap{display:inline}
+#frog .blink{animation:fblink 3.6s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes fblink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+#frog.happy .body{animation:hop .6s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
+@keyframes hop{50%{transform:translateY(-22px) scale(.96,1.05)}}
+.ring{position:absolute;border:4px solid rgba(255,255,255,.7);border-radius:50%;pointer-events:none;animation:ring 1.2s ease-out forwards}
+@keyframes ring{from{transform:translate(-50%,-50%) scale(.2);opacity:.9}to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.tongue{position:absolute;height:12px;border-radius:8px;background:#ff5d8a;transform-origin:0 50%;pointer-events:none;z-index:6;box-shadow:inset 0 -3px 0 #d93a6a}
+.fly{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;pointer-events:none;z-index:6}
+.spark{position:fixed;z-index:40;pointer-events:none;font-size:30px;left:0;top:0}
+#chip{display:flex;align-items:center;gap:10px;padding:2px 22px;min-height:62px;border-radius:999px;background:rgba(255,255,255,.95);color:#1b5a7a;box-shadow:0 6px 0 rgba(0,0,0,.18);cursor:pointer}
+#chip .sp{font-size:34px;animation:beat 1s ease-in-out infinite}
+#chip #pic{font-size:46px;line-height:1}
+@keyframes beat{50%{transform:scale(1.15)}}
+#dots{position:fixed;top:84px;left:0;right:0;display:flex;gap:6px;justify-content:center;pointer-events:none}
+#dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.6)}
+#dots i.ok{background:var(--gold);border-color:#fff;transform:scale(1.25)}
+#dots i.no{background:#7fa7c0;border-color:#5f87a0}
+#menu,#end{background:rgba(10,50,90,.62)}
+.kdoor .big{font-size:40px;letter-spacing:2px}
+.kdoor .nm{font-size:20px;font-weight:800;margin-top:2px}
+#end .stars{font-size:clamp(56px,12vw,100px);color:var(--gold);letter-spacing:8px;text-shadow:0 4px 0 #b9741a}
+#end .row{display:flex;gap:14px}
+</style>
+</head>
+<body>
+<svg id="water" preserveAspectRatio="none" viewBox="0 0 100 100">
+  <defs><radialGradient id="shine" cx="50%" cy="30%" r="60%"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+  <rect width="100" height="100" fill="url(#shine)"/>
+  <g fill="none" stroke="#fff" stroke-opacity=".18" stroke-width=".35" id="waves"></g>
+</svg>
+<div id="pond"></div>
+<div class="ktop">
+  <button class="kround" id="home" title="Menu">🏠</button>
+  <div id="chip" class="hide"><span class="sp">🔊</span><span id="pic"></span></div>
+  <button class="kround" id="mute" title="Sound">🔊</button>
+</div>
+<div id="dots"></div>
+<div id="menu" class="kov">
+  <h1 class="ktitle">Rhyme Frog</h1>
+  <div class="ksub">Cat, hat. They rhyme! Hop to the rhyme.</div>
+  <div class="kdoors" id="doors"></div>
+</div>
+<div id="end" class="kov hide"><div class="stars" id="stars"></div><div class="ksub" id="score"></div><div class="row"><button class="kbig" id="again">Again</button><button class="kbig" id="nextlv">Next</button></div></div>
+
+<script type="module">
+import * as kit from '../_kid/kit.js';
+import { FAMILIES, NEAR, LEVELS, WORDS } from './lines.js';
+
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[(Math.random() * a.length) | 0];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const ROUNDS = 8, GAME = 'rhyme';
+const EMOJI = Object.fromEntries(WORDS.map(w => [w.w, w.e]));
+const FAM = Object.fromEntries(WORDS.map(w => [w.w, w.f]));
+const onset = w => (w.match(/^[^aeiouy]*/) || [''])[0];
+const near = (a, b) => a === b || NEAR.some(([x, y]) => (x === a && y === b) || (x === b && y === a));
+
+/* ============ art ============ */
+const PAD_SVG = `<svg viewBox="-100 -100 200 200"><path d="M0,0 L20,-96 A98,92 0 1 1 -18,-96 Z" fill="#4fb948" stroke="#2f8a3a" stroke-width="6" stroke-linejoin="round"/><path d="M0,0 L-70,-50 M0,0 L-86,20 M0,0 L-50,72 M0,0 L20,90 M0,0 L78,52 M0,0 L88,-24 M0,0 L60,-72" stroke="#3a9a3f" stroke-width="5" stroke-linecap="round"/><ellipse cx="-30" cy="-40" rx="36" ry="18" fill="#fff" opacity=".14" transform="rotate(-25 -30 -40)"/></svg>`;
+const FROG_SVG = `<svg viewBox="-70 -70 140 130"><g class="body">
+  <g class="sit"><ellipse cx="-44" cy="34" rx="24" ry="16" fill="#3fa63a"/><ellipse cx="44" cy="34" rx="24" ry="16" fill="#3fa63a"/><ellipse cx="-52" cy="46" rx="16" ry="7" fill="#2f8a2f"/><ellipse cx="52" cy="46" rx="16" ry="7" fill="#2f8a2f"/></g>
+  <g class="leap"><path d="M-30,30 Q-60,50 -58,74" stroke="#3fa63a" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M30,30 Q60,50 58,74" stroke="#3fa63a" stroke-width="18" stroke-linecap="round" fill="none"/><ellipse cx="-60" cy="78" rx="14" ry="7" fill="#2f8a2f"/><ellipse cx="60" cy="78" rx="14" ry="7" fill="#2f8a2f"/></g>
+  <ellipse cx="0" cy="16" rx="50" ry="38" fill="#5cc94f" stroke="#2f8a2f" stroke-width="4"/>
+  <ellipse cx="0" cy="26" rx="32" ry="24" fill="#c8f2a8"/>
+  <circle cx="-26" cy="-22" r="19" fill="#5cc94f" stroke="#2f8a2f" stroke-width="4"/><circle cx="26" cy="-22" r="19" fill="#5cc94f" stroke="#2f8a2f" stroke-width="4"/>
+  <g class="blink"><circle cx="-26" cy="-24" r="12" fill="#fff"/><circle cx="26" cy="-24" r="12" fill="#fff"/><circle cx="-23" cy="-23" r="6.5" fill="#1b2a1b"/><circle cx="29" cy="-23" r="6.5" fill="#1b2a1b"/><circle cx="-21" cy="-26" r="2.2" fill="#fff"/><circle cx="31" cy="-26" r="2.2" fill="#fff"/></g>
+  <path d="M-24,4 Q0,22 24,4" stroke="#1f5c1f" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="-34" cy="6" r="7" fill="#ff9bb0" opacity=".7"/><circle cx="34" cy="6" r="7" fill="#ff9bb0" opacity=".7"/>
+  <ellipse cx="-20" cy="50" rx="12" ry="6" fill="#3fa63a"/><ellipse cx="20" cy="50" rx="12" ry="6" fill="#3fa63a"/>
+</g></svg>`;
+const FLY_SVG = `<svg viewBox="-22 -22 44 44"><circle r="18" fill="#fff59a" opacity=".45"/><ellipse cx="-8" cy="-9" rx="9" ry="6" fill="#e6f7ff" opacity=".9" transform="rotate(-30 -8 -9)"/><ellipse cx="8" cy="-9" rx="9" ry="6" fill="#e6f7ff" opacity=".9" transform="rotate(30 8 -9)"/><ellipse cx="0" cy="2" rx="8" ry="10" fill="#ffd23f" stroke="#c98a00" stroke-width="2"/><circle cx="-3" cy="-4" r="1.8" fill="#333"/><circle cx="3" cy="-4" r="1.8" fill="#333"/></svg>`;
+
+(function waves() { let s = ''; for (let i = 0; i < 16; i++) { const x = rnd(0, 92), y = rnd(20, 98), w = rnd(3, 8); s += `<path d="M${x.toFixed(1)},${y.toFixed(1)} q${(w / 2).toFixed(1)},-1.2 ${w.toFixed(1)},0 q${(w / 2).toFixed(1)},1.2 ${w.toFixed(1)},0"/>`; } $('waves').innerHTML = s; })();
+
+/* ============ layout ============ */
+const pond = $('pond');
+const L = { W: 0, H: 0, P: 0, F: 0, home: [0, 0], row: [] };
+function layout(n) {
+  const W = innerWidth, H = innerHeight;
+  L.W = W; L.H = H; n = n || (S.round ? S.round.choices.length : 3);
+  L.P = n === 4 ? Math.min(W * .22, H * .22, 185) : Math.min(W * .28, H * .25, 215);
+  L.home = [W / 2, H - Math.max(78, Math.min(L.P * .7, H * .16))];
+  const y = Math.max(170 + L.P * .45, H * .47);
+  const xs = n === 4 ? [.13, .38, .62, .87] : [.2, .5, .8];
+  L.row = xs.map(f => [W * f, y]);
+  L.F = Math.min(L.P * 1.05, 170);
+}
+function place(el, x, y, size) { el.style.width = el.style.height = size + 'px'; el.style.setProperty('--p', size + 'px'); el.style.transform = `translate(${x - size / 2}px,${y - size / 2}px)`; el._x = x; el._y = y; el._s = size; }
+function glide(el, x, y, ms, easing = 'cubic-bezier(.45,.05,.3,1)') {
+  const s = el._s, to = `translate(${x - s / 2}px,${y - s / 2}px)`, from = el.style.transform;
+  el._x = x; el._y = y; el.style.transform = to;
+  if (quiet) return Promise.resolve();
+  return el.animate([{ transform: from }, { transform: to }], { duration: ms, easing }).finished.catch(() => {});
+}
+const frog = document.createElement('div'); frog.id = 'frog'; frog.innerHTML = FROG_SVG; pond.appendChild(frog);
+function frogAt(x, y) { const F = L.F; frog.style.width = frog.style.height = F + 'px'; frog.style.transform = `translate(${x - F / 2}px,${y - F * .78}px)`; frog._x = x; frog._y = y; }
+function makePad(word, home) {
+  const d = document.createElement('div'); d.className = 'pad' + (home ? ' home' : '');
+  d.innerHTML = `<div class="in" style="animation-delay:${-rnd(0, 3)}s">${PAD_SVG}${word ? `<span class="pic">${EMOJI[word]}</span>` : ''}</div>`;
+  d.dataset.w = word || ''; pond.insertBefore(d, frog);
+  if (!home) d.addEventListener('pointerdown', e => { e.preventDefault(); tapPad(d); });
+  return d;
+}
+function ring(x, y, size) { if (quiet) return; const r = document.createElement('div'); r.className = 'ring'; r.style.left = x + 'px'; r.style.top = y + 'px'; r.style.width = r.style.height = size + 'px'; pond.appendChild(r); setTimeout(() => r.remove(), 1300); }
+setInterval(() => { if (!quiet && document.visibilityState === 'visible') ring(rnd(0, innerWidth), rnd(innerHeight * .25, innerHeight), rnd(60, 140)); }, 1400);
+
+/* ============ state ============ */
+const S = { mode: 'menu', level: 0, ri: 0, round: null, results: [], busy: false, token: 0, pid: 0, homePad: null, pads: [] };
+let quiet = false;
+const say = k => kit.say(k), chain = (ks, gap = 120) => kit.sayChain(ks, gap);
+
+function startSession(level) {
+  S.token++; Object.assign(S, { mode: 'play', level, ri: 0, results: [], busy: false, round: null });
+  $('menu').classList.add('hide'); $('end').classList.add('hide'); $('chip').classList.remove('hide'); frog.classList.remove('happy');
+  $('dots').innerHTML = '<i></i>'.repeat(ROUNDS);
+  kit.preload(['rf:hi', 'rf:yes', 'rf:no', 'cheer:0', 'cheer:1', 'cheer:2', 'cheer:3', 'done']);
+  S.pads.forEach(p => p.remove()); S.pads = [];
+  layout(LEVELS[level].pads);
+  if (!S.homePad) S.homePad = makePad(null, true);
+  place(S.homePad, L.home[0], L.home[1], L.P); frogAt(L.home[0], L.home[1]);
+  const my = S.token; newRound(true);
+  if (level === 0 && kit.progress.get(GAME).stars[1] === undefined) chain(['rf:hi']).then(() => { if (my === S.token) sayRound(); });
+  else sayRound();
+}
+function famsFor(level) { return LEVELS[level].fams || Object.keys(FAMILIES); }
+function newRound(first) {
+  const lv = LEVELS[S.level], fams = famsFor(S.level), prev = S.round;
+  const f = kit.mastery.pick(GAME, fams.map(x => 'fam:' + x), prev ? 'fam:' + prev.fam : undefined).slice(4);
+  const [target, answer] = shuffle(FAMILIES[f].map(x => x[0]));
+  const known = S.level >= 2 ? null : new Set(LEVELS.slice(0, S.level + 1).flatMap(l => l.fams));
+  const others = WORDS.filter(w => !near(w.f, f) && (!known || known.has(w.f)));
+  let ds = [];
+  if (lv.tricky) { const same = shuffle(others.filter(w => onset(w.w) === onset(target) && onset(target))); if (same.length) ds.push(same[0].w); }
+  for (const w of shuffle(others)) { if (ds.length >= lv.pads - 1) break; if (!ds.includes(w.w) && !ds.some(d => near(FAM[d], w.f))) ds.push(w.w); }
+  const R = { fam: f, target, answer, choices: shuffle([answer, ...ds]), miss: false, wrong: 0, done: false, intro: kit.mastery.isNew(GAME, 'fam:' + f) };
+  S.round = R; S.busy = false;
+  kit.preload(['rq:' + target, 'rw:' + target, ...R.choices.map(w => 'rw:' + w)]);
+  $('pic').textContent = EMOJI[target];
+  [...$('dots').children].forEach((d, i) => { d.className = i < S.results.length ? (S.results[i] ? 'ok' : 'no') : ''; });
+  layout(R.choices.length);
+  S.pads = R.choices.map((w, i) => { const p = makePad(w); place(p, L.row[i][0], L.row[i][1], L.P); if (!quiet) p.animate([{ transform: `translate(${L.row[i][0] - L.P / 2}px,${-L.P}px) scale(.4)`, opacity: 0 }, { transform: p.style.transform, opacity: 1 }], { duration: 650, delay: i * 110, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'backwards' }); return p; });
+  if (R.intro) S.pads.forEach(p => p.classList.toggle('glow', p.dataset.w === answer));
+}
+async function sayRound() {
+  const R = S.round, my = S.token; if (!R || S.mode !== 'play') return;
+  const ri = S.ri, pid = ++S.pid;   // a tap (or a newer prompt) stops this one reading out the pads
+  await say('rq:' + R.target); if (my !== S.token || ri !== S.ri || pid !== S.pid) return;
+  await kit.sleep(250);
+  for (const p of S.pads) {
+    if (my !== S.token || ri !== S.ri || S.busy || pid !== S.pid) return;
+    p.classList.remove('say'); void p.offsetWidth; p.classList.add('say');
+    await say('rw:' + p.dataset.w); await kit.sleep(180);
+  }
+}
+
+/* ---------- answers ---------- */
+function jumpTo(x, y, ms = 620, h = 170) {
+  const F = L.F, x0 = frog._x, y0 = frog._y, pts = [];
+  for (let i = 0; i <= 10; i++) { const t = i / 10, xx = x0 + (x - x0) * t, yy = y0 + (y - y0) * t - Math.sin(t * Math.PI) * h; pts.push({ transform: `translate(${xx - F / 2}px,${yy - F * .78}px) scale(${i === 0 || i === 10 ? '1.08,.9' : '.94,1.08'})` }); }
+  frog.classList.add('jump'); kit.sfx.whoosh(); kit.tone(300, .3, 'sine', .08, 500);
+  frogAt(x, y);
+  if (quiet) { frog.classList.remove('jump'); return Promise.resolve(); }
+  return frog.animate(pts, { duration: ms, easing: 'linear' }).finished.catch(() => {}).then(() => frog.classList.remove('jump'));
+}
+async function tapPad(p) {
+  const R = S.round; kit.audio(); if (!R || S.busy || S.mode !== 'play' || R.done || p.classList.contains('home')) return;
+  const w = p.dataset.w, my = S.token; S.pid++; kit.stopSpeech();
+  if (w === R.answer) {
+    S.busy = true; R.done = true;
+    S.pads.forEach(x => x.classList.remove('glow'));
+    await jumpTo(p._x, p._y); if (my !== S.token) return;
+    p.classList.add('dip'); ring(p._x, p._y, L.P * 1.6); kit.noise(.25, .08, 800); kit.sfx.thud();
+    const first = !R.miss;
+    if (R.intro) kit.mastery.seen(GAME, 'fam:' + R.fam); else kit.mastery.record(GAME, 'fam:' + R.fam, first);
+    S.results.push(R.intro ? true : first);
+    catchFly(); kit.sfx.cheer();
+    await chain(['rw:' + R.target, 'rw:' + R.answer, 'rf:yes'], 160); if (my !== S.token) return;
+    const d = $('dots').children[S.results.length - 1]; if (d) d.className = S.results[S.results.length - 1] ? 'ok' : 'no';
+    await kit.sleep(300); if (my !== S.token) return;
+    await advance(p); if (my !== S.token) return;
+    S.ri++;
+    if (S.ri >= ROUNDS) return endSession();
+    newRound(); sayRound();
+  } else {
+    R.miss = true; R.wrong++; kit.sfx.bonk();
+    p.classList.remove('shake'); void p.offsetWidth; p.classList.add('shake');
+    hopInPlace();
+    chain(['rw:' + R.target, 'rw:' + w, 'rf:no', 'rq:' + R.target], 200);
+    if (R.wrong >= 2) S.pads.forEach(x => x.classList.toggle('glow', x.dataset.w === R.answer));
+  }
+}
+function hopInPlace() { if (quiet) return; const F = L.F, t = frog.style.transform; frog.animate([{ transform: t }, { transform: t + ' translateY(-24px) scale(.95,1.06)' }, { transform: t }], { duration: 380, easing: 'ease-out' }); }
+function catchFly() {
+  if (quiet) return;
+  const fx = frog._x + (Math.random() < .5 ? -1 : 1) * L.F * .9, fy = frog._y - L.F * 1.35, fl = document.createElement('div');
+  fl.className = 'fly'; fl.innerHTML = FLY_SVG; pond.appendChild(fl);
+  const sx = fx < frog._x ? -60 : L.W + 60;
+  fl.animate([{ left: sx + 'px', top: fy - 80 + 'px' }, { left: fx + 'px', top: fy + 'px' }], { duration: 420, easing: 'ease-out', fill: 'forwards' }).finished.then(() => {
+    const mx = frog._x, my = frog._y - L.F * .52, dx = fx - mx, dy = fy - my, len = Math.hypot(dx, dy), t = document.createElement('div');
+    t.className = 'tongue'; t.style.left = mx + 'px'; t.style.top = my - 6 + 'px'; t.style.width = len + 'px'; pond.appendChild(t);
+    const ang = Math.atan2(dy, dx) * 180 / Math.PI; kit.sfx.pop();
+    t.animate([{ transform: `rotate(${ang}deg) scaleX(0)` }, { transform: `rotate(${ang}deg) scaleX(1)`, offset: .45 }, { transform: `rotate(${ang}deg) scaleX(0)` }], { duration: 300, easing: 'ease-in-out' }).finished.then(() => t.remove());
+    setTimeout(() => {
+      fl.animate([{ left: fx + 'px', top: fy + 'px' }, { left: mx + 'px', top: my + 'px', transform: 'scale(.2)' }], { duration: 150, fill: 'forwards' }).finished.then(() => fl.remove());
+      kit.sfx.star(S.results.length); sparks(mx, my);
+    }, 140);
+  });
+}
+function sparks(x, y, n = 12) {
+  if (quiet) return;
+  for (let i = 0; i < n; i++) { const s = document.createElement('div'); s.className = 'spark'; s.textContent = pick(['⭐', '✨', '💚']); document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, r = rnd(70, 170);
+    s.animate([{ transform: `translate(${x}px,${y}px) scale(.3)`, opacity: 1 }, { transform: `translate(${x + Math.cos(a) * r}px,${y + Math.sin(a) * r}px) scale(1.1)`, opacity: 0 }], { duration: rnd(600, 950), easing: 'ease-out' }).onfinish = () => s.remove(); }
+}
+async function advance(p) {
+  // the pad the frog landed on becomes its new home; the rest of the pond slides past
+  const oldHome = S.homePad, rest = S.pads.filter(x => x !== p);
+  rest.forEach(x => { if (quiet) return x.remove(); x.style.pointerEvents = 'none'; x.firstChild.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(50px) scale(.3)' }], { duration: 450, easing: 'ease-in', fill: 'forwards' }).finished.then(() => x.remove()); });
+  p.classList.remove('dip', 'shake', 'say', 'glow'); p.classList.add('home');
+  const pic = p.querySelector('.pic'); if (pic) { if (quiet) pic.remove(); else pic.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }).finished.then(() => pic.remove()); }
+  const drop = L.H - p._y + L.P;
+  const a = glide(oldHome, oldHome._x, oldHome._y + drop, 700), home = [L.home[0], L.home[1]];
+  const fx = frog._x, fy = frog._y, F = L.F;
+  const fAnim = quiet ? null : frog.animate([{ transform: `translate(${fx - F / 2}px,${fy - F * .78}px)` }, { transform: `translate(${home[0] - F / 2}px,${home[1] - F * .78}px)` }], { duration: 700, easing: 'cubic-bezier(.45,.05,.3,1)' });
+  frogAt(home[0], home[1]);
+  const b = glide(p, home[0], home[1], 700);
+  await Promise.all([a, b, fAnim ? fAnim.finished.catch(() => {}) : null]);
+  oldHome.remove(); S.homePad = p; S.pads = [];
+  if (rest.length && quiet) rest.forEach(x => x.remove());
+}
+function endSession() {
+  S.mode = 'end'; const n = S.results.filter(Boolean).length, stars = n >= 7 ? 3 : n >= 5 ? 2 : 1, unlock = n >= 5;
+  kit.progress.finish(GAME, S.level + 1, stars, unlock); kit.sfx.big(); kit.confetti(70); kit.say('done');
+  frog.classList.add('happy');
+  $('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars); $('score').textContent = n + ' / ' + ROUNDS;
+  $('nextlv').classList.toggle('hide', !(unlock && S.level < LEVELS.length - 1)); $('chip').classList.add('hide'); $('end').classList.remove('hide');
+}
+
+/* ---------- screens ---------- */
+function buildMenu() {
+  const p = kit.progress.get(GAME);
+  $('doors').innerHTML = LEVELS.map((lv, i) => { const lock = i + 1 > p.unlocked, st = p.stars[i + 1] || 0;
+    return `<button class="kdoor ${lock ? 'lock' : ''}" data-l="${i}"><div class="big">${lv.show.join('')}</div><div class="nm">${lv.label}</div><div class="st">${lock ? '🔒' : '★'.repeat(st) + '☆'.repeat(3 - st)}</div></button>`; }).join('');
+  $('doors').querySelectorAll('.kdoor:not(.lock)').forEach(b => b.addEventListener('click', () => { kit.audio(); startSession(+b.dataset.l); }));
+}
+function toMenu() {
+  S.token++; kit.stopSpeech(); S.mode = 'menu'; S.round = null; S.busy = false;
+  $('chip').classList.add('hide'); $('end').classList.add('hide'); $('dots').innerHTML = '';
+  S.pads.forEach(p => p.remove()); S.pads = [];
+  layout(3); if (!S.homePad) S.homePad = makePad(null, true);
+  place(S.homePad, L.home[0], L.home[1], L.P); frogAt(L.home[0], L.home[1]); frog.classList.add('happy');
+  buildMenu(); $('menu').classList.remove('hide');
+}
+addEventListener('resize', () => {
+  const n = S.pads.length || 3; layout(n);
+  if (S.homePad) place(S.homePad, L.home[0], L.home[1], L.P);
+  S.pads.forEach((p, i) => place(p, L.row[i][0], L.row[i][1], L.P));
+  if (!S.busy) frogAt(L.home[0], L.home[1]);
+});
+$('home').onclick = toMenu; $('chip').onclick = () => { kit.audio(); if (S.mode === 'play' && !S.busy) sayRound(); };
+$('again').onclick = () => startSession(S.level); $('nextlv').onclick = () => startSession(Math.min(LEVELS.length - 1, S.level + 1));
+$('mute').onclick = () => { kit.setMuted(!kit.isMuted()); $('mute').textContent = kit.isMuted() ? '🔇' : '🔊'; kit.audio(); };
+
+try { await document.fonts.load('800 60px "Baloo 2"'); } catch (e) { /* fallback font */ }
+await kit.loadVoice();
+toMenu();
+
+window.rhyme = {
+  S, kit, FAMILIES, startSession, toMenu, tapPad,
+  pad: w => S.pads.find(p => p.dataset.w === w),
+  quiet(v) { quiet = v; kit.setQuiet(v); }
+};
+</script>
+</body>
+</html>
