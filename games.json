@@ -1,5 +1,58 @@
 [
   {
+    "folder": "monster-maker",
+    "title": "Monster Maker",
+    "blurb": "Listen and build a silly monster. Give it three eyes, make it green, count the teeth. Every monster joins your zoo.",
+    "tags": [
+      "English",
+      "kids 3-7",
+      "body parts",
+      "numbers",
+      "colors"
+    ],
+    "made": "2026-10-01",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
+    "folder": "rhyme-frog",
+    "title": "Rhyme Frog",
+    "blurb": "Cat, hat! Help the frog hop to the lily pad that rhymes, and catch a firefly.",
+    "tags": [
+      "English",
+      "kids 4-8",
+      "rhyming",
+      "listening"
+    ],
+    "made": "2026-10-01",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
+    "folder": "weather-wardrobe",
+    "title": "Weather Wardrobe",
+    "blurb": "Sun, rain or snow? Dress Bobo the bear for the weather. Put on the boots, take off the coat.",
+    "tags": [
+      "English",
+      "kids 3-7",
+      "clothes",
+      "weather"
+    ],
+    "made": "2026-10-01",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
+    "folder": "feelings-friends",
+    "title": "Feelings Friends",
+    "blurb": "Happy, sad, angry, scared. Read the faces, hear little stories, then help Pip feel better.",
+    "tags": [
+      "English",
+      "kids 3-7",
+      "feelings",
+      "stories"
+    ],
+    "made": "2026-10-01",
+    "note": "Turn the sound on. It speaks."
+  },
+  {
     "folder": "word-buddies",
     "url": "https://sthief.github.io/word-buddies/",
     "title": "Word Buddies",
