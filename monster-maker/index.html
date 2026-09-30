@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Monster Maker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23a77bff'/%3E%3Ccircle cx='11' cy='13' r='5' fill='white'/%3E%3Ccircle cx='21' cy='13' r='5' fill='white'/%3E%3Ccircle cx='11' cy='14' r='2.4' fill='%23222'/%3E%3Ccircle cx='21' cy='14' r='2.4' fill='%23222'/%3E%3Cpath d='M9 21 Q16 27 23 21' stroke='white' stroke-width='2.5' fill='none'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_kid/kit.css">
+<style>
+body{background:radial-gradient(900px 600px at 50% 105%,#ffd9f1 0,#b9a2ff 45%,#6b5bd6 100%)}
+#bg{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center}
+#mwrap{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;padding:96px 8px 0}
+#monster{height:100%;width:100%;max-width:980px;overflow:visible;cursor:pointer}
+#tray{flex:none;height:clamp(118px,21vh,172px);width:100%;display:flex;gap:clamp(8px,2vw,18px);align-items:center;justify-content:center;padding:4px 10px 14px}
+.pb{position:relative;width:clamp(78px,17vw,128px);aspect-ratio:1/1.08;border:0;border-radius:26px;background:#fff;box-shadow:0 7px 0 #c9b9f5,0 14px 26px rgba(40,20,110,.28);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 4px 4px;font:inherit;color:#3a2a63;animation:rise .35s cubic-bezier(.3,1.5,.5,1) both}
+.pb:active{transform:translateY(4px);box-shadow:0 3px 0 #c9b9f5}
+.pb svg{width:78%;height:66%;overflow:visible}
+.pb b{font-size:clamp(15px,2.6vw,22px);line-height:1;margin-top:2px}
+.pb.glow{animation:glow 1s ease-in-out infinite}
+.pb.shake{animation:shake .45s}
+.pb.used{opacity:.35;pointer-events:none}
+@keyframes rise{from{transform:translateY(60px) scale(.6);opacity:0}}
+@keyframes glow{50%{box-shadow:0 7px 0 #f0b53a,0 0 0 8px rgba(255,210,70,.8),0 0 40px rgba(255,210,70,.9)}}
+@keyframes shake{20%{transform:translateX(-10px) rotate(-5deg)}40%{transform:translateX(9px) rotate(4deg)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+#ok{width:clamp(78px,15vw,116px);aspect-ratio:1;border-radius:50%;border:0;background:#3fcf6b;box-shadow:0 7px 0 #238a45,0 14px 26px rgba(20,80,40,.3);cursor:pointer;display:grid;place-items:center;margin-left:clamp(6px,3vw,30px);animation:rise .35s cubic-bezier(.3,1.5,.5,1) both, okpulse 1.4s 1s ease-in-out infinite}
+#ok:active{transform:translateY(4px);box-shadow:0 3px 0 #238a45}
+#ok svg{width:58%}
+@keyframes okpulse{50%{transform:scale(1.08)}}
+#chip{display:flex;align-items:center;gap:10px;padding:2px 22px;min-height:62px;border-radius:999px;background:rgba(255,255,255,.95);color:#3a2a63;box-shadow:0 6px 0 rgba(0,0,0,.18);cursor:pointer;font-weight:800;font-size:40px}
+#chip .sp{font-size:36px;animation:beat 1s ease-in-out infinite}
+#hint{font-size:44px;line-height:1;color:#6b3fd6}
+@keyframes beat{50%{transform:scale(1.15)}}
+#dots{position:fixed;top:84px;left:0;right:0;display:flex;gap:6px;justify-content:center;pointer-events:none}
+#dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.6)}
+#dots i.ok{background:var(--gold);border-color:#fff;transform:scale(1.25)}
+#dots i.no{background:#9a8fbf;border-color:#7a6fa0}
+.kdoor .big{font-size:44px}
+.kdoor .nm{font-size:22px;font-weight:800;margin-top:2px}
+#zoobtn{font:inherit;font-weight:800;font-size:22px;border:0;border-radius:999px;padding:6px 26px;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;border:2px solid rgba(255,255,255,.35)}
+#zoo{justify-content:flex-start;overflow-y:auto;padding-top:80px;background:rgba(40,26,110,.86)}
+#zoo h2{margin:0;font-size:clamp(34px,7vw,56px);color:var(--gold)}
+#zgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;width:min(960px,100%)}
+#zgrid div{background:rgba(255,255,255,.12);border-radius:22px;aspect-ratio:1;cursor:pointer;padding:6px}
+#zgrid svg{width:100%;height:100%;overflow:visible}
+#zclose{position:fixed;top:10px;left:12px}
+#end{background:transparent;justify-content:flex-end;padding-bottom:22px;pointer-events:none}
+#end>*{pointer-events:auto}
+#end .card{background:rgba(40,26,110,.82);border-radius:28px;padding:10px 22px 12px;display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 18px}
+@media (max-width:620px){#end .card{flex-direction:column}}
+#end .stars{font-size:clamp(46px,9vw,80px);color:var(--gold);letter-spacing:8px;text-shadow:0 4px 0 #b9741a;line-height:1}
+#end .row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.spark{position:fixed;z-index:40;pointer-events:none;font-size:30px;left:0;top:0}
+.blob{position:fixed;z-index:40;pointer-events:none;width:46px;height:46px;border-radius:50%;left:0;top:0}
+/* monster motion. Every moving group's origin (0,0) is where it joins the body, so it grows out of the body and waves from the shoulder. */
+.pop{animation:pop .55s cubic-bezier(.3,1.7,.5,1) both}
+@keyframes pop{from{transform:scale(0)}}
+.lid{animation:blink 4.2s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+.wave{animation:wave 1.8s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-14deg)}}
+.wag{animation:wag 1.2s ease-in-out infinite}
+@keyframes wag{50%{transform:rotate(16deg)}}
+.flap{animation:flap .9s ease-in-out infinite}
+@keyframes flap{50%{transform:rotate(-12deg) scale(1,.9)}}
+.breathe{animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.025,.975)}}
+.squish{animation:squish .5s}
+@keyframes squish{30%{transform:scale(1.12,.86)}60%{transform:scale(.94,1.08)}}
+.dance{animation:dance .9s ease-in-out infinite}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-38px) rotate(-8deg)}50%{transform:translateY(0) rotate(0) scale(1.06,.94)}75%{transform:translateY(-38px) rotate(8deg)}}
+.bump{animation:bump .45s}
+@keyframes bump{40%{transform:scale(1.45)}}
+.bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px)}}
+.wiggle{animation:dance .9s ease-in-out 2}
+</style>
+</head>
+<body>
+<svg id="bg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMax slice">
+  <defs><radialGradient id="spot" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+  <g fill="#fff" opacity=".5" id="bgstars"></g>
+  <ellipse cx="500" cy="380" rx="380" ry="300" fill="url(#spot)"/>
+</svg>
+<div id="stage">
+  <div id="mwrap"><svg id="monster" viewBox="-265 -205 530 420"></svg></div>
+  <div id="tray"></div>
+</div>
+<div class="ktop">
+  <button class="kround" id="home" title="Menu">🏠</button>
+  <div id="chip" class="hide"><span class="sp">🔊</span><span id="hint"></span></div>
+  <button class="kround" id="mute" title="Sound">🔊</button>
+</div>
+<div id="dots"></div>
+<div id="menu" class="kov">
+  <h1 class="ktitle">Monster Maker</h1>
+  <div class="ksub">Listen. Build a monster!</div>
+  <div class="kdoors" id="doors"></div>
+  <button id="zoobtn">👾 My monsters</button>
+</div>
+<div id="zoo" class="kov hide"><button class="kround" id="zclose">✖</button><h2>My monsters</h2><div id="zgrid"></div></div>
+<div id="end" class="kov hide"><div class="card"><div class="stars" id="stars"></div><div class="ksub" id="score"></div><div class="row"><button class="kbig" id="again">Again</button><button class="kbig" id="nextlv">Next</button></div></div></div>
+
+<script type="module">
+import * as kit from '../_kid/kit.js';
+import { PARTS, COUNTABLE, COLORS, LEVELS } from './lines.js';
+
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[(Math.random() * a.length) | 0];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const f1 = v => (+v).toFixed(1);
+const ROUNDS = 8, PLAIN = '#ece7f7', ZOO = 'monster-zoo-v1';
+const GAME = 'monster';
+
+/* ============ colour helpers ============ */
+function shade(hex, k) {
+  const n = parseInt(hex.slice(1), 16), ch = [n >> 16, (n >> 8) & 255, n & 255];
+  return '#' + ch.map(c => Math.round(Math.max(0, Math.min(255, k < 0 ? c * (1 + k) : c + (255 - c) * k))).toString(16).padStart(2, '0')).join('');
+}
+const colOf = m => m.color ? COLORS[m.color] : PLAIN;
+
+/* ============ drawing the monster (SVG strings) ============ */
+const SHAPES = [{ rx: 118, ry: 112, seed: 1.3 }, { rx: 98, ry: 132, seed: 2.2 }, { rx: 138, ry: 102, seed: .4 }];
+function blob(rx, ry, seed) {
+  const N = 14, p = [];
+  for (let i = 0; i < N; i++) {
+    const a = i / N * Math.PI * 2 - Math.PI / 2, w = 1 + .035 * Math.sin(a * 3 + seed) + .02 * Math.cos(a * 5 + seed * 2);
+    let y = ry * Math.sin(a) * w; if (y > 0) y *= .96;
+    p.push([rx * Math.cos(a) * w, y]);
+  }
+  let d = `M${f1(p[0][0])},${f1(p[0][1])}`;
+  for (let i = 0; i < N; i++) {
+    const p0 = p[(i - 1 + N) % N], p1 = p[i], p2 = p[(i + 1) % N], p3 = p[(i + 2) % N];
+    d += `C${f1(p1[0] + (p2[0] - p0[0]) / 6)},${f1(p1[1] + (p2[1] - p0[1]) / 6)} ${f1(p2[0] - (p3[0] - p1[0]) / 6)},${f1(p2[1] - (p3[1] - p1[1]) / 6)} ${f1(p2[0])},${f1(p2[1])}`;
+  }
+  return d + 'Z';
+}
+const edge = (g, deg, k = 1) => { const a = deg * Math.PI / 180; return [g.rx * k * Math.cos(a), g.ry * k * Math.sin(a)]; };
+const normalDeg = (g, deg) => { const a = deg * Math.PI / 180; return Math.atan2(Math.sin(a) / g.ry, Math.cos(a) / g.rx) * 180 / Math.PI; };
+const spread = (n, lo, hi) => n === 1 ? [(lo + hi) / 2] : Array.from({ length: n }, (_, i) => lo + (hi - lo) * i / (n - 1));
+const cls = (fresh, p, i) => fresh && fresh[p] && fresh[p].includes(i) ? 'pop' : '';
+const inst = (p, i, tf, inner, fresh, extra = '') => `<g data-part="${p}" data-i="${i}" transform="${tf}"><g class="${cls(fresh, p, i)}"><g class="bumpme">${extra ? `<g class="${extra}" style="animation-delay:${-i * .37}s">${inner}</g>` : inner}</g></g></g>`;
+
+function eyeLayout(n, g) {
+  const { rx, ry } = g;
+  return ({
+    1: [[0, -.36 * ry, 36]],
+    2: [[-.34 * rx, -.34 * ry, 29], [.34 * rx, -.34 * ry, 29]],
+    3: [[-.43 * rx, -.25 * ry, 24], [0, -.5 * ry, 24], [.43 * rx, -.25 * ry, 24]],
+    4: [[-.5 * rx, -.22 * ry, 21], [-.18 * rx, -.47 * ry, 21], [.18 * rx, -.47 * ry, 21], [.5 * rx, -.22 * ry, 21]],
+    5: [[-.54 * rx, -.13 * ry, 19], [-.31 * rx, -.44 * ry, 19], [0, -.62 * ry, 19], [.31 * rx, -.44 * ry, 19], [.54 * rx, -.13 * ry, 19]]
+  })[n] || [];
+}
+const IRIS = { red: '#3a8f4a', blue: '#6b3fa0', yellow: '#4a6fd6', green: '#8a4fd0', orange: '#3a78c9', purple: '#2f9c77', pink: '#4a6fd6', brown: '#3aa0a0', plain: '#6b5bd6' };
+function eyeSvg(r, iris) {
+  return `<ellipse rx="${r}" ry="${f1(r * 1.08)}" fill="#fff" stroke="#2b1d52" stroke-width="4.5"/><g class="look" data-r="${r}"><circle r="${f1(r * .52)}" fill="${iris}"/><circle r="${f1(r * .27)}" fill="#1b1433"/><circle cx="${f1(-r * .16)}" cy="${f1(-r * .2)}" r="${f1(r * .13)}" fill="#fff"/></g>`;
+}
+function hornSvg() { return `<path d="M-15,4 Q-14,-34 6,-60 Q2,-30 15,4Z" fill="#fff3d6" stroke="#b58f55" stroke-width="3.5" stroke-linejoin="round"/><path d="M-12,-14 Q0,-10 12,-16 M-9,-32 Q1,-29 9,-34" stroke="#d9bb88" stroke-width="3" fill="none"/>`; }
+function earSvg(col, dark) { return `<path d="M-22,10 Q-18,-30 0,-56 Q18,-30 22,10Z" fill="${col}" stroke="${dark}" stroke-width="4" stroke-linejoin="round"/><path d="M-11,4 Q-9,-20 0,-38 Q9,-20 11,4Z" fill="#ffb3cf"/>`; }
+function armSvg(col, dark) {
+  const d = 'M-6,0 Q38,8 64,-20';
+  return `<path d="${d}" stroke="${dark}" stroke-width="29" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${col}" stroke-width="21" stroke-linecap="round" fill="none"/>` +
+    `<g transform="translate(66,-24)"><circle cx="9" cy="-12" r="7" fill="${col}" stroke="${dark}" stroke-width="3.5"/><circle cx="16" cy="0" r="7" fill="${col}" stroke="${dark}" stroke-width="3.5"/><circle cx="9" cy="11" r="7" fill="${col}" stroke="${dark}" stroke-width="3.5"/><circle r="15" fill="${col}" stroke="${dark}" stroke-width="4"/></g>`;
+}
+function legSvg(col, dark, h) {
+  return `<rect x="-17" y="-8" width="34" height="${h + 8}" rx="15" fill="${col}" stroke="${dark}" stroke-width="4"/><ellipse cx="6" cy="${h + 4}" rx="30" ry="15" fill="${dark}"/><circle cx="-12" cy="${h - 2}" r="5" fill="${shade(dark, .3)}"/><circle cx="2" cy="${h - 5}" r="5" fill="${shade(dark, .3)}"/><circle cx="16" cy="${h - 3}" r="5" fill="${shade(dark, .3)}"/>`;
+}
+function tailSvg(col, dark) {
+  const d = 'M0,0 C50,26 92,4 104,-50';
+  return `<path d="${d}" stroke="${dark}" stroke-width="26" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${col}" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M92,-44 L104,-86 L120,-46 Z" fill="${dark}" stroke="${dark}" stroke-width="5" stroke-linejoin="round"/>`;
+}
+function wingSvg(col, dark) {
+  return `<path d="M0,6 Q46,-86 132,-62 Q116,-40 122,-16 Q98,-28 92,0 Q70,-12 58,12 Q34,-4 0,22Z" fill="${shade(col, .35)}" stroke="${dark}" stroke-width="4.5" stroke-linejoin="round"/><path d="M8,8 Q52,-40 118,-50 M10,12 Q48,-10 88,-4" stroke="${dark}" stroke-width="3" fill="none" opacity=".45"/>`;
+}
+function hairSvg(g, dark) {
+  // a tuft of five soft flames on the top of the head; origin = top of the body
+  const lite = shade(dark, .25);
+  return [-2, -1, 0, 1, 2].map(i => { const deg = -90 + i * 17, [x, y] = edge(g, deg, .96), h = 52 - Math.abs(i) * 9;
+    return `<g transform="translate(${f1(x)},${f1(y - g.ry * .0)}) rotate(${f1(normalDeg(g, deg) + 90 + i * 6)})"><path d="M-12,8 Q-16,${-h * .55} 2,${-h} Q2,${-h * .5} 14,${-h * .62} Q12,${-h * .2} 12,8Z" fill="${dark}" stroke="${shade(dark, -.35)}" stroke-width="3.5" stroke-linejoin="round"/><path d="M-5,0 Q-7,${-h * .4} 1,${-h * .7}" stroke="${lite}" stroke-width="3" fill="none" stroke-linecap="round"/></g>`; }).join('');
+}
+function mouthSvg(w, teeth, fresh) {
+  const c = w * .25, t = [];
+  spread(teeth, -.62 * w, .62 * w).slice(0, teeth).forEach((x, i) => {
+    const tt = (x + w) / (2 * w), y = 2 * tt * (1 - tt) * c;
+    t.push(inst('teeth', i, `translate(${f1(x)},${f1(y - 1)})`, `<path d="M-10,-2 L10,-2 L0,20Z" fill="#fff" stroke="#2b1d52" stroke-width="3" stroke-linejoin="round"/>`, fresh));
+  });
+  return `<path d="M${-w},0 Q0,${f1(w * 1.05)} ${w},0 Q0,${f1(c)} ${-w},0Z" fill="#5a1830" stroke="#2b1d52" stroke-width="4.5" stroke-linejoin="round"/><ellipse cx="0" cy="${f1(w * .5)}" rx="${f1(w * .36)}" ry="${f1(w * .14)}" fill="#ff7aa2"/>${t.join('')}`;
+}
+
+// m = { shape, color, parts: {eyes: 3, ...} }; fresh = {eyes: [2]} marks the instances that should pop in
+function monsterSvg(m, fresh = null) {
+  const g = SHAPES[m.shape], col = colOf(m), dark = shade(col, -.42), P = m.parts, out = { back: [], front: [] };
+  const iris = IRIS[m.color || 'plain'];
+  if (P.wings) [-38, -142].forEach((deg, i) => { const [x, y] = edge(g, deg, .75); out.back.push(inst('wings', i, `translate(${f1(x)},${f1(y)}) scale(${i ? -1 : 1},1)`, wingSvg(col, dark), fresh, 'flap')); });
+  if (P.tail) { const [x, y] = edge(g, 28, .82); out.back.push(inst('tail', 0, `translate(${f1(x)},${f1(y)})`, tailSvg(col, dark), fresh, 'wag')); }
+  if (P.ears) [-152, -28, -174, -6, -122].slice(0, P.ears).forEach((deg, i) => { const [x, y] = edge(g, deg, .9); out.back.push(inst('ears', i, `translate(${f1(x)},${f1(y)}) rotate(${f1(normalDeg(g, deg) + 90)})`, earSvg(col, dark), fresh)); });
+  if (P.arms) [168, 12, 196, -16, 142].slice(0, P.arms).forEach((deg, i) => { const [x, y] = edge(g, deg, .86), left = Math.cos(deg * Math.PI / 180) < 0; out.back.push(inst('arms', i, `translate(${f1(x)},${f1(y)}) scale(${left ? -1 : 1},1) rotate(${f1(left ? -(180 - deg) : deg)})`, armSvg(col, dark), fresh, 'wave')); });
+  if (P.legs) { const sp = P.legs > 3 ? .66 : .52, sc = P.legs > 3 ? .78 : 1; spread(P.legs, -sp * g.rx, sp * g.rx).forEach((x, i) => { const top = g.ry * Math.sqrt(Math.max(0, 1 - (x / g.rx) ** 2)) * .72, h = (g.ry + 44 - top) / sc; out.back.push(inst('legs', i, `translate(${f1(x)},${f1(top)}) scale(${sc})`, legSvg(col, dark, h), fresh)); }); }
+  const body = `<path d="${blob(g.rx, g.ry, g.seed)}" fill="${col}" stroke="${dark}" stroke-width="5"/><ellipse cx="${f1(-g.rx * .12)}" cy="${f1(g.ry * .28)}" rx="${f1(g.rx * .55)}" ry="${f1(g.ry * .5)}" fill="#fff" opacity=".18"/><ellipse cx="${f1(-g.rx * .45)}" cy="${f1(-g.ry * .55)}" rx="${f1(g.rx * .14)}" ry="${f1(g.ry * .08)}" fill="#fff" opacity=".45" transform="rotate(-30 ${f1(-g.rx * .45)} ${f1(-g.ry * .55)})"/>`;
+  if (P.spots) [[-.58, .3, .15], [.56, .36, .12], [-.26, .64, .11], [.3, .64, .14], [.72, -.02, .1]].slice(0, P.spots).forEach(([x, y, r], i) => out.front.push(inst('spots', i, `translate(${f1(x * g.rx)},${f1(y * g.ry)})`, `<circle r="${f1(r * g.rx)}" fill="${shade(col, -.2)}"/><circle cx="${f1(-r * g.rx * .3)}" cy="${f1(-r * g.rx * .3)}" r="${f1(r * g.rx * .28)}" fill="#fff" opacity=".35"/>`, fresh)));
+  if (P.hair) out.front.push(inst('hair', 0, `translate(0,${f1(-g.ry * .9)})`, `<g transform="translate(0,${f1(g.ry * .9)})">${hairSvg(g, shade(col, -.3))}</g>`, fresh));
+  if (P.horns) spread(P.horns, -90 - (P.horns - 1) * 13, -90 + (P.horns - 1) * 13).forEach((deg, i) => { const [x, y] = edge(g, deg, .93); out.front.push(inst('horns', i, `translate(${f1(x)},${f1(y)}) rotate(${f1(normalDeg(g, deg) + 90)})`, hornSvg(), fresh)); });
+  if (P.eyes) eyeLayout(P.eyes, g).forEach(([x, y, r], i) => out.front.push(inst('eyes', i, `translate(${f1(x)},${f1(y)})`, eyeSvg(r, iris), fresh, 'lid')));
+  if (P.nose) out.front.push(inst('nose', 0, `translate(0,${f1(P.eyes ? -.02 * g.ry : -.12 * g.ry)})`, `<ellipse rx="21" ry="15" fill="${dark}"/><ellipse cx="-6" cy="-5" rx="6" ry="4" fill="#fff" opacity=".5"/>`, fresh));
+  if (P.mouth || P.teeth) out.front.push(inst('mouth', 0, `translate(0,${f1(.28 * g.ry)})`, mouthSvg(g.rx * .5, P.teeth || 0, fresh), fresh));
+  const feet = g.ry + 50;
+  return `<ellipse cx="0" cy="${feet}" rx="${f1(g.rx * 1.05)}" ry="16" fill="#2b1d52" opacity=".18"/><g transform="translate(0,${feet})"><g class="breathe"><g transform="translate(0,${-feet})">${out.back.join('')}${body}${out.front.join('')}</g></g></g>`;
+}
+
+/* ---------- button icons ---------- */
+function partIcon(p, col) {
+  const dark = shade(col, -.42), g = { rx: 60, ry: 60 };
+  const icons = {
+    eyes: `<g transform="translate(-24,0)">${eyeSvg(20, '#6b5bd6')}</g><g transform="translate(24,0)">${eyeSvg(20, '#6b5bd6')}</g>`,
+    ears: `<g transform="translate(0,26)">${earSvg(col, dark)}</g>`,
+    nose: `<ellipse rx="30" ry="21" fill="${dark}"/><ellipse cx="-9" cy="-7" rx="8" ry="5" fill="#fff" opacity=".5"/>`,
+    mouth: `<g transform="translate(0,-14)">${mouthSvg(40, 0)}</g>`,
+    arms: `<g transform="translate(-40,22) scale(.8)">${armSvg(col, dark)}</g>`,
+    legs: `<g transform="translate(-4,-38) scale(.8)">${legSvg(col, dark, 76)}</g>`,
+    horns: `<g transform="translate(0,34) scale(1.1)">${hornSvg()}</g>`,
+    teeth: `<rect x="-44" y="-26" width="88" height="52" rx="22" fill="#5a1830" stroke="#2b1d52" stroke-width="4"/><g transform="translate(-16,-18) scale(1.6)"><path d="M-10,-2 L10,-2 L0,20Z" fill="#fff" stroke="#2b1d52" stroke-width="3" stroke-linejoin="round"/></g><g transform="translate(18,-18) scale(1.6)"><path d="M-10,-2 L10,-2 L0,20Z" fill="#fff" stroke="#2b1d52" stroke-width="3" stroke-linejoin="round"/></g>`,
+    spots: `<circle cx="-18" cy="-12" r="16" fill="${dark}"/><circle cx="22" cy="-4" r="12" fill="${dark}"/><circle cx="-2" cy="22" r="13" fill="${dark}"/>`,
+    tail: `<g transform="translate(-50,30) scale(.75)">${tailSvg(col, dark)}</g>`,
+    wings: `<g transform="translate(-58,24) scale(.85)">${wingSvg(col, dark)}</g>`,
+    hair: `<g transform="translate(0,70) scale(1.1)">${hairSvg(g, shade(col, -.3))}</g>`
+  };
+  return `<svg viewBox="-60 -50 120 100">${icons[p]}</svg>`;
+}
+function potIcon(c) {
+  const col = COLORS[c], dark = shade(col, -.35);
+  return `<svg viewBox="-60 -50 120 100"><path d="M-38,-18 L-32,40 Q0,50 32,40 L38,-18Z" fill="#dfe3ee" stroke="#8a90a8" stroke-width="4"/><ellipse cx="0" cy="-18" rx="38" ry="11" fill="${col}" stroke="${dark}" stroke-width="3"/><path d="M-20,-12 Q-22,10 -14,14 Q-8,6 -8,-10Z M12,-10 Q14,4 20,6 Q24,0 22,-12Z" fill="${col}"/><ellipse cx="-10" cy="-21" rx="10" ry="3" fill="#fff" opacity=".5"/></svg>`;
+}
+const okIcon = '<svg viewBox="0 0 60 60"><path d="M12,32 L25,44 L49,17" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
+
+/* ============ state ============ */
+const S = { mode: 'menu', level: 0, ri: 0, plan: [], round: null, results: [], busy: false, token: 0, m: null, toldTick: false };
+const mon = $('monster');
+const STAGE = '<ellipse cx="0" cy="196" rx="250" ry="40" fill="#8e6fe6" opacity=".5"/><ellipse cx="0" cy="190" rx="226" ry="30" fill="#fff" opacity=".25"/>';
+function draw(fresh) { mon.innerHTML = STAGE + monsterSvg(S.m, fresh); look(); }
+const say = k => kit.say(k), chain = (ks, gap = 120) => kit.sayChain(ks, gap);
+let gaze = [0, .6];
+function look() { mon.querySelectorAll('.look').forEach(el => { const r = +el.dataset.r; el.setAttribute('transform', `translate(${f1(gaze[0] * r * .34)},${f1(gaze[1] * r * .3)})`); }); }
+addEventListener('pointermove', e => { const b = mon.getBoundingClientRect(); const dx = e.clientX - (b.left + b.width / 2), dy = e.clientY - (b.top + b.height * .4), d = Math.max(160, Math.hypot(dx, dy)); gaze = [dx / d, dy / d]; look(); });
+
+function newMonster(plain) { return { shape: (Math.random() * SHAPES.length) | 0, color: plain ? null : pick(Object.keys(COLORS)), parts: {} }; }
+const has = p => !!S.m.parts[p] || (p === 'mouth' && !!S.m.parts.teeth);
+const freeParts = list => list.filter(p => !has(p));
+
+function planFor(level) {
+  if (level === 0) return Array(8).fill('part');
+  if (level === 1) return ['count', 'count', 'part', 'count', 'count', 'part', 'count', 'count'];
+  if (level === 2) return ['color', 'part', 'color', 'part', 'color', 'part', 'color', 'part'];
+  return shuffle(['count', 'count', 'count', 'color', 'color', 'part', 'part', 'part']);
+}
+function startSession(level) {
+  S.token++; Object.assign(S, { mode: 'play', level, ri: 0, plan: planFor(level), results: [], busy: false, round: null, toldTick: false, usedColors: [], m: newMonster(level === 2) });
+  $('menu').classList.add('hide'); $('end').classList.add('hide'); $('zoo').classList.add('hide'); $('chip').classList.remove('hide');
+  $('dots').innerHTML = '<i></i>'.repeat(ROUNDS); draw();
+  const pre = ['mm:hi', 'mm:count', 'mm:tick', 'mm:love', 'cheer:0', 'cheer:1', 'cheer:2', 'cheer:3', 'oops', 'done', ...[1, 2, 3, 4, 5].map(n => 'mm:num:' + n)];
+  kit.preload(pre);
+  const my = S.token; chain(['mm:hi']).then(() => { if (my === S.token) newRound(); });
+}
+function newRound() {
+  if (S.ri >= ROUNDS) return endSession();
+  const type = S.plan[S.ri], prev = S.round;
+  let R;
+  if (type === 'color') {
+    const fresh = Object.keys(COLORS).filter(c => c !== S.m.color && !S.usedColors.includes(c)), cols = fresh.length >= 4 ? fresh : Object.keys(COLORS).filter(c => c !== S.m.color);
+    const c = kit.mastery.pick(GAME, cols.map(c => 'color:' + c), prev && prev.type === 'color' ? 'color:' + prev.color : undefined).slice(6);
+    S.usedColors.push(c);
+    R = { type, color: c, choices: shuffle([c, ...shuffle(Object.keys(COLORS).filter(x => x !== c && x !== S.m.color)).slice(0, 3)]), key: 'color:' + c };
+  } else {
+    const pool = type === 'count' ? freeParts(COUNTABLE) : (S.level === 1 ? freeParts(Object.keys(PARTS).filter(p => !PARTS[p].count)) : freeParts(Object.keys(PARTS)));
+    const pp = pool.length ? pool : freeParts(Object.keys(PARTS));
+    const p = kit.mastery.pick(GAME, pp.map(p => 'part:' + p)).slice(5);
+    const others = shuffle(freeParts(Object.keys(PARTS)).filter(x => x !== p && !(p === 'teeth' && x === 'mouth') && !(p === 'mouth' && x === 'teeth'))).slice(0, 3);
+    R = { type, part: p, choices: shuffle([p, ...others]), key: 'part:' + p };
+    if (type === 'count') { R.n = +kit.mastery.pick(GAME, ['num:1', 'num:2', 'num:3', 'num:4', 'num:5'], prev && prev.n ? 'num:' + prev.n : undefined).slice(4); R.count = 0; R.numMiss = false; R.numWrong = 0; }
+  }
+  Object.assign(R, { miss: false, wrong: 0, done: false, intro: kit.mastery.isNew(GAME, R.key) });
+  S.round = R; S.busy = false;
+  const keys = R.type === 'color' ? ['mm:color:' + R.color, ...R.choices.flatMap(c => ['mm:is:' + c, 'mm:cname:' + c])] : [R.type === 'count' ? `mm:n:${R.part}:${R.n}` : 'mm:give:' + R.part, 'mm:name:' + R.part, ...R.choices.map(c => 'mm:that:' + c), ...(R.type === 'count' ? [`mm:need:${R.part}:${R.n}`] : [])];
+  kit.preload(keys);
+  $('hint').textContent = '';
+  buildTray(); markDots();
+  sayRound(true);
+}
+function sayRound(first) {
+  const R = S.round; if (!R || S.mode !== 'play') return;
+  const k = R.type === 'color' ? 'mm:color:' + R.color : R.type === 'count' ? `mm:n:${R.part}:${R.n}` : 'mm:give:' + R.part;
+  if (first && R.type === 'count' && !S.toldTick) { S.toldTick = true; chain([k, 'mm:tick'], 300); } else say(k);
+}
+function buildTray() {
+  const R = S.round, col = colOf(S.m), t = $('tray');
+  if (R.type === 'color') t.innerHTML = R.choices.map((c, i) => `<button class="pb" data-c="${c}" style="animation-delay:${i * .06}s">${potIcon(c)}<b>${c}</b></button>`).join('');
+  else t.innerHTML = R.choices.map((p, i) => `<button class="pb" data-p="${p}" style="animation-delay:${i * .06}s">${partIcon(p, S.m.color ? col : '#a78bf0')}<b>${PARTS[p].word}</b></button>`).join('');
+  t.querySelectorAll('.pb').forEach(b => b.addEventListener('click', () => b.dataset.c ? tapPot(b.dataset.c, b) : tapPart(b.dataset.p, b)));
+  if (R.intro) glowTarget();
+}
+function glowTarget() { const R = S.round; $('tray').querySelectorAll('.pb').forEach(b => b.classList.toggle('glow', (b.dataset.p || b.dataset.c) === (R.part || R.color))); }
+function showOk(on) {
+  let b = $('ok');
+  if (on && !b) { b = document.createElement('button'); b.id = 'ok'; b.title = 'Done'; b.innerHTML = okIcon; b.onclick = tapDone; $('tray').appendChild(b); }
+  if (!on && b) b.remove();
+}
+function markDots() { [...$('dots').children].forEach((d, i) => { d.className = i < S.results.length ? (S.results[i] ? 'ok' : 'no') : ''; }); }
+
+/* ---------- effects ---------- */
+function centerOf(el) { const b = el.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; }
+function monsterCenter() { const b = mon.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height * .45]; }
+function fly(fromEl, html, cb, ms = 380) {
+  const [x0, y0] = centerOf(fromEl), [x1, y1] = monsterCenter(), d = document.createElement('div');
+  d.className = 'spark'; d.style.width = '90px'; d.style.height = '90px'; d.innerHTML = html; document.body.appendChild(d);
+  const a = d.animate([{ transform: `translate(${x0 - 45}px,${y0 - 45}px) scale(1)` }, { transform: `translate(${(x0 + x1) / 2 - 45}px,${Math.min(y0, y1) - 140}px) scale(1.2)`, offset: .5 }, { transform: `translate(${x1 - 45}px,${y1 - 45}px) scale(.4)`, opacity: .2 }], { duration: quiet ? 1 : ms, easing: 'ease-in-out' });
+  a.onfinish = () => { d.remove(); cb(); };
+}
+function sparks(n = 14, chars = ['⭐', '✨', '💜', '💛']) {
+  if (quiet) return; const [x, y] = monsterCenter();
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('div'); s.className = 'spark'; s.textContent = pick(chars); document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, r = rnd(120, 260);
+    s.animate([{ transform: `translate(${x}px,${y}px) scale(.3)`, opacity: 1 }, { transform: `translate(${x + Math.cos(a) * r}px,${y + Math.sin(a) * r * .7}px) scale(1.2) rotate(${rnd(-90, 90)}deg)`, opacity: 0 }], { duration: rnd(700, 1100), easing: 'cubic-bezier(.2,.7,.4,1)' }).onfinish = () => s.remove();
+  }
+}
+function bumpPart(p, i) { const el = mon.querySelector(`[data-part="${p}"][data-i="${i}"] .bumpme`); if (!el) return; el.classList.remove('bump'); void el.getBoundingClientRect(); el.classList.add('bump'); }
+function squish() { const b = mon.querySelector('.breathe'); if (!b) return; b.classList.remove('squish'); void b.getBoundingClientRect(); b.classList.add('squish'); setTimeout(() => b.classList.remove('squish'), 520); }
+
+/* ---------- answers ---------- */
+function setPart(p, n) { S.m.parts[p] = n; if (p === 'teeth' && n && !S.m.parts.mouth) S.m.parts.mouth = 1; }
+function tapPart(p, btn) {
+  const R = S.round; kit.audio(); if (!R || S.busy || S.mode !== 'play' || R.type === 'color') return;
+  if (p !== R.part) return wrongPart(p, btn);
+  if (R.type === 'part') {
+    S.busy = true; kit.stopSpeech(); kit.sfx.whoosh();
+    fly(btn, btn.querySelector('svg').outerHTML, () => {
+      const had = has('mouth'); setPart(p, PARTS[p].def);
+      const fresh = { [p]: [...Array(PARTS[p].def).keys()] }; if (p === 'teeth' && !had) fresh.mouth = [0];
+      draw(fresh); kit.sfx.boing(); sparks(10); btn.classList.add('used');
+      win(!R.miss, ['mm:name:' + p]);
+    });
+  } else {
+    if (R.count >= 5) { btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); kit.sfx.bonk(); return; }
+    const had = has('mouth'); R.count++; setPart(p, R.count);
+    const fresh = { [p]: [R.count - 1] }; if (p === 'teeth' && !had) fresh.mouth = [0];
+    draw(fresh); kit.sfx.pop(); kit.sfx.star(R.count - 1); say('mm:num:' + R.count); showOk(true);
+  }
+}
+function wrongPart(p, btn) {
+  const R = S.round; R.miss = true; R.wrong++;
+  btn.classList.remove('shake', 'glow'); void btn.offsetWidth; btn.classList.add('shake'); kit.sfx.bonk();
+  const k = R.type === 'count' ? `mm:n:${R.part}:${R.n}` : 'mm:give:' + R.part;
+  chain(['mm:that:' + p, k], 250);
+  if (R.wrong >= 2) setTimeout(glowTarget, 460);
+}
+function tapPot(c, btn) {
+  const R = S.round; kit.audio(); if (!R || S.busy || S.mode !== 'play' || R.type !== 'color') return;
+  S.busy = true; kit.stopSpeech(); kit.sfx.whoosh();
+  const d = `<div class="blob" style="position:static;width:70px;height:70px;background:${COLORS[c]};border:5px solid ${shade(COLORS[c], -.35)}"></div>`;
+  fly(btn, d, () => {
+    S.m.color = c; draw(); squish(); kit.noise(.3, .1, 700); kit.sfx.pop(); sparks(12, ['💧', '✨', '⭐']);
+    if (c === R.color) { $('tray').querySelectorAll('.pb').forEach(b => { b.classList.remove('glow'); if (b.dataset.c === c) b.classList.add('used'); }); win(!R.miss, ['mm:cname:' + c]); }
+    else {
+      R.miss = true; R.wrong++; S.busy = false; btn.classList.add('used');
+      chain(['mm:is:' + c, 'mm:color:' + R.color], 250);
+      if (R.wrong >= 2) glowTarget();
+    }
+  });
+}
+async function tapDone() {
+  const R = S.round; kit.audio(); if (!R || S.busy || R.type !== 'count' || !R.count) return;
+  S.busy = true; kit.stopSpeech(); const my = S.token, p = R.part;
+  if (R.count === R.n) {
+    showOk(false); kit.sfx.cheer();
+    await recount(p, R.n, my); if (my !== S.token) return;
+    const first = !R.miss && !R.numMiss;
+    if (!R.intro) kit.mastery.record(GAME, 'num:' + R.n, !R.numMiss);
+    win(first, [], true);
+  } else {
+    R.numMiss = true; R.numWrong++; kit.sfx.boing(); showOk(false);
+    await chain(['mm:count']); if (my !== S.token) return;
+    await recount(p, R.count, my); if (my !== S.token) return;
+    await say(`mm:need:${p}:${R.n}`); if (my !== S.token) return;
+    await kit.sleep(250); if (my !== S.token) return;
+    S.m.parts[p] = 0; R.count = 0; draw(); kit.sfx.whoosh();
+    if (R.numWrong >= 1) $('hint').textContent = R.n;
+    S.busy = false;
+  }
+}
+async function recount(p, n, my) {
+  for (let i = 0; i < n; i++) { if (my !== S.token) return; bumpPart(p, i); kit.sfx.star(i); await say('mm:num:' + (i + 1)); await kit.sleep(90); }
+}
+async function win(first, extra, already) {
+  const R = S.round, my = S.token; R.done = true; S.busy = true;
+  if (R.intro) kit.mastery.seen(GAME, R.key); else kit.mastery.record(GAME, R.key, !R.miss);
+  S.results.push(R.intro ? true : first); markDots();
+  if (!already) kit.sfx.cheer(); sparks(16);
+  await chain([...extra, 'cheer:' + ((Math.random() * 4) | 0)], 150); if (my !== S.token) return;
+  await kit.sleep(650); if (my !== S.token) return;
+  S.ri++; newRound();
+}
+function endSession() {
+  S.mode = 'end'; S.round = null; const n = S.results.filter(Boolean).length, stars = n >= 7 ? 3 : n >= 5 ? 2 : 1, unlock = n >= 5;
+  kit.progress.finish(GAME, S.level + 1, stars, unlock); saveZoo(S.m);
+  $('tray').innerHTML = ''; $('chip').classList.add('hide'); draw();
+  const b = mon.querySelector('.breathe'); if (b) b.classList.add('dance');
+  kit.sfx.big(); kit.confetti(80); sparks(24); chain(['mm:love', 'done'], 250);
+  $('stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars); $('score').textContent = n + ' / ' + ROUNDS;
+  $('nextlv').classList.toggle('hide', !(unlock && S.level < LEVELS.length - 1)); $('end').classList.remove('hide');
+}
+
+/* ---------- the zoo: every finished monster is kept on this device ---------- */
+const readZoo = () => { try { return JSON.parse(localStorage.getItem(ZOO) || '[]'); } catch (e) { return []; } };
+function saveZoo(m) { const z = readZoo(); z.unshift({ shape: m.shape, color: m.color, parts: { ...m.parts } }); try { localStorage.setItem(ZOO, JSON.stringify(z.slice(0, 30))); } catch (e) { /* private mode */ } }
+function showZoo() {
+  const z = readZoo();
+  $('zgrid').innerHTML = z.length ? z.map((m, i) => `<div data-i="${i}"><svg viewBox="-265 -205 530 420"><g class="bob" style="animation-delay:${-i * .4}s">${monsterSvg(m)}</g></svg></div>`).join('') : '<p class="ksub">Make a monster and it lives here.</p>';
+  $('zgrid').querySelectorAll('[data-i]').forEach(d => d.onclick = () => { kit.audio(); const g = d.querySelector('.breathe'); g.classList.remove('wiggle'); void g.getBoundingClientRect(); g.classList.add('wiggle'); kit.sfx.boing(); say('mm:giggle'); });
+  $('zoo').classList.remove('hide'); $('menu').classList.add('hide');
+}
+
+/* ---------- screens ---------- */
+function buildMenu() {
+  const p = kit.progress.get(GAME);
+  $('doors').innerHTML = LEVELS.map((L, i) => { const lock = i + 1 > p.unlocked, st = p.stars[i + 1] || 0;
+    return `<button class="kdoor ${lock ? 'lock' : ''}" data-l="${i}"><div class="big">${L.icon}</div><div class="nm">${L.name}</div><div class="st">${lock ? '🔒' : '★'.repeat(st) + '☆'.repeat(3 - st)}</div></button>`; }).join('');
+  $('doors').querySelectorAll('.kdoor:not(.lock)').forEach(b => b.addEventListener('click', () => { kit.audio(); startSession(+b.dataset.l); }));
+  const n = readZoo().length; $('zoobtn').textContent = `👾 My monsters${n ? ' (' + n + ')' : ''}`;
+}
+function toMenu() {
+  S.token++; kit.stopSpeech(); S.mode = 'menu'; S.round = null; S.busy = false;
+  $('chip').classList.add('hide'); $('end').classList.add('hide'); $('zoo').classList.add('hide'); $('dots').innerHTML = ''; $('tray').innerHTML = '';
+  S.m = { shape: 0, color: 'purple', parts: { eyes: 2, horns: 2, mouth: 1, teeth: 2, arms: 2, legs: 2 } }; draw();
+  const b = mon.querySelector('.breathe'); if (b) b.classList.add('dance');
+  buildMenu(); $('menu').classList.remove('hide');
+}
+$('home').onclick = toMenu; $('chip').onclick = () => { kit.audio(); if (S.mode === 'play' && !S.busy) sayRound(false); };
+$('again').onclick = () => startSession(S.level); $('nextlv').onclick = () => startSession(Math.min(LEVELS.length - 1, S.level + 1));
+$('mute').onclick = () => { kit.setMuted(!kit.isMuted()); $('mute').textContent = kit.isMuted() ? '🔇' : '🔊'; kit.audio(); };
+$('zoobtn').onclick = () => { kit.audio(); showZoo(); }; $('zclose').onclick = () => { $('zoo').classList.add('hide'); if (S.mode === 'menu') $('menu').classList.remove('hide'); };
+mon.addEventListener('pointerdown', () => { kit.audio(); squish(); kit.sfx.boing(); if (S.mode !== 'play') say('mm:giggle'); });
+
+(function stars() { let s = ''; for (let i = 0; i < 40; i++) s += `<circle cx="${rnd(0, 1000) | 0}" cy="${rnd(0, 420) | 0}" r="${rnd(1, 3.2).toFixed(1)}"/>`; $('bgstars').innerHTML = s; })();
+
+let quiet = false;
+try { await document.fonts.load('800 60px "Baloo 2"'); } catch (e) { /* fallback font */ }
+await kit.loadVoice();
+toMenu();
+
+window.monster = {
+  S, kit, PARTS, COLORS, startSession, toMenu, tapPart, tapPot, tapDone, monsterSvg, showZoo, newMonster, buildTray,
+  btn: v => [...$('tray').querySelectorAll('.pb')].find(b => (b.dataset.p || b.dataset.c) === v),
+  quiet(v) { quiet = v; kit.setQuiet(v); }
+};
+</script>
+</body>
+</html>
