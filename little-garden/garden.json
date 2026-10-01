@@ -1,5 +1,5 @@
 {
-  "narrator": { "voice": "af_heart", "speed": 0.9 },
+  "narrator": { "voice": "af_heart+af_bella", "speed": 0.8 },
   "goal": [8, 10, 10, 12],
   "plants": [
     { "id": "carrot", "one": "carrot", "many": "carrots", "sheet": "crops_carrot.png" },
