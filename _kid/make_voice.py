@@ -3,7 +3,10 @@
 # A line is {key, say} for words, or {key, ipa: [..]} for isolated sounds ("buh"), said with a short gap.
 # Existing clips are kept; clips no game uses any more are deleted. voice/report.json holds
 # duration + brightness per clip so a broken sound shows up as a number, not just to the ear.
-# Run:  ~/Project/voice-lab/.venv/bin/python _kid/make_voice.py
+# The narrator is two Kokoro voices mixed (af_heart + af_bella) and a little slow: calm and clear.
+# A line may name its own voice ("am_puck"), or a mix ("af_heart+af_bella").
+# Run:  ~/Project/voice-lab/.venv/bin/python _kid/make_voice.py           (new lines only)
+#       ~/Project/voice-lab/.venv/bin/python _kid/make_voice.py --all     (record every line again)
 import hashlib, json, os, re, subprocess, sys, tempfile
 import numpy as np, soundfile as sf
 from kokoro_onnx import Kokoro
@@ -25,11 +28,14 @@ os.makedirs(OUT, exist_ok=True)
 manifest = {l["key"]: filename(l["key"]) for l in lines}
 rep_path = os.path.join(OUT, "report.json")
 report = json.load(open(rep_path)) if os.path.exists(rep_path) else {}
-only = set(sys.argv[1:])                      # optional: redo just these keys
-todo = [l for l in lines if (l["key"] in only) or (not only and not os.path.exists(os.path.join(OUT, manifest[l["key"]])))]
+NARRATOR, SLOW = "af_heart+af_bella", 0.8 / 0.9   # spoken lines run at 89% of the speed they ask for
+redo_all = "--all" in sys.argv
+only = set(a for a in sys.argv[1:] if a != "--all")   # optional: redo just these keys
+todo = [l for l in lines if redo_all or (l["key"] in only) or (not only and not os.path.exists(os.path.join(OUT, manifest[l["key"]])))]
 k = Kokoro(f"{LAB}/kokoro-v1.0.onnx", f"{LAB}/voices-v1.0.bin") if todo else None
+style = lambda v: np.mean([k.get_voice_style(x) for x in v.split("+")], axis=0) if "+" in v else v
 for i, l in enumerate(todo, 1):
-    voice, speed = l.get("voice", "af_heart"), l.get("speed", 0.9)
+    voice, speed = style(l.get("voice", NARRATOR)), l.get("speed", 0.9)
     if "ipa" in l:
         parts = []
         for ph in l["ipa"]:
@@ -37,7 +43,7 @@ for i, l in enumerate(todo, 1):
             parts += [trim(np.asarray(a, dtype=np.float32), sr), np.zeros(int(.28 * sr), dtype=np.float32)]
         a = np.concatenate(parts[:-1])
     else:
-        a, sr = k.create(l["say"], voice=voice, speed=speed, lang="en-us")
+        a, sr = k.create(l["say"], voice=voice, speed=speed * SLOW, lang="en-us")
         a = trim(np.asarray(a, dtype=np.float32), sr)
     a = np.clip(a * (10 ** (-19 / 20) / (np.sqrt(np.mean(a ** 2)) + 1e-9)), -.98, .98)
     spec = np.abs(np.fft.rfft(a)); freqs = np.fft.rfftfreq(len(a), 1 / sr)
