@@ -52,9 +52,11 @@ os.makedirs(OUT, exist_ok=True)
 manifest = {k: filename(k) for k in jobs}
 todo = [k for k in jobs if not os.path.exists(os.path.join(OUT, manifest[k]))]
 k = Kokoro(f"{LAB}/kokoro-v1.0.onnx", f"{LAB}/voices-v1.0.bin") if todo else None
+# a voice may be a mix of Kokoro voices, written "af_heart+af_bella"
+style = lambda v: np.mean([k.get_voice_style(x) for x in v.split("+")], axis=0) if "+" in v else v
 for i, key in enumerate(todo, 1):
     text, voice, speed = jobs[key]
-    audio, sr = k.create(text, voice=voice, speed=speed, lang="en-us")
+    audio, sr = k.create(text, voice=style(voice), speed=speed, lang="en-us")
     a = np.asarray(audio, dtype=np.float32)
     loud = np.nonzero(np.abs(a) > 2e-3)[0]
     if len(loud):
